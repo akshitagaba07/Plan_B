@@ -1,0 +1,42 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_resources/
+
+# Python caching & environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Databases
+backend/plan_b.db
+backend/plan_b.db-journal
+backend/plan_b.db-wal
+
+# Build directories
+dist/
+build/
+
+# IDE files and OS metadata
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
+.DS_Store
+
+# Local environments / tokens
+.env
+.env.local
+.env.*.local
+.gemini/
