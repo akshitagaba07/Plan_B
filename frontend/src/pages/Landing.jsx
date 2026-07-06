@@ -1,232 +1,387 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
 
 const Landing = () => {
+  const [activeRole, setActiveRole] = useState('seeker'); // 'seeker' or 'host'
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 }
+      transition: { staggerChildren: 0.1 }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { y: 24, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring", stiffness: 100 }
+      transition: { type: "spring", stiffness: 90, damping: 14 }
     }
   };
 
-  const featureCards = [
-    { title: "AI Social Discovery", desc: "Find like-minded people near you based on core interests, personality types, and hobbies.", icon: Compass, color: "bg-blue-500/10 text-blue-500" },
-    { title: "Wellness Check-Ins", desc: "Track your daily emotional states and visualize mental health trends with simple mood triggers.", icon: HeartPulse, color: "bg-emerald-500/10 text-emerald-500" },
-    { title: "AI Companion", desc: "A personal social copilot that recommends local events, nearby people, and wellness tips.", icon: Sparkles, color: "bg-amber-500/10 text-amber-500" },
-    { title: "Real-world Meetups", desc: "Create or join casual local group events like gaming, sports leagues, and cafe study circles.", icon: CalendarCheck, color: "bg-purple-500/10 text-purple-500" },
-    { title: "Gamified Icebreakers", desc: "No more awkward first messages. Let our AI analyze interests and propose witty prompts.", icon: Heart, color: "bg-rose-500/10 text-rose-500" },
-    { title: "Safety & Integrity", desc: "AI-moderated spaces, spam guards, and user controls to ensure a reliable and warm platform.", icon: ShieldCheck, color: "bg-slate-500/10 text-slate-700 dark:text-slate-300" }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-mesh dark:bg-slate-950 text-primary-900 dark:text-slate-100 overflow-x-hidden font-outfit pb-20">
-      {/* Sleek Landing Header */}
-      <header className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-20 relative">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-primary-900 to-secondary-500 flex items-center justify-center shadow-lg">
-            <span className="text-white font-extrabold text-xl">B</span>
+  const bentoCards = [
+    {
+      id: 0,
+      tag: "Discovery",
+      title: "AI Social Discovery",
+      desc: "Find like-minded people near you based on core interests, personality compatibility, and hobbies.",
+      colSpan: "md:col-span-2",
+      rowSpan: "",
+      visual: (
+        <div className="flex flex-col gap-2 bg-white/5 border border-white/10 rounded-3xl p-4 shadow-md w-full max-w-xs justify-center shrink-0">
+          <div className="flex items-center gap-3">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Priya" className="h-10 w-10 rounded-xl bg-slate-900 border border-white/10" alt="Priya" />
+            <div className="text-left">
+              <p className="text-white font-extrabold text-xs">Priya, 22</p>
+              <p className="text-slate-400 text-[10px] font-bold uppercase mt-0.5">Gaming • Coding</p>
+            </div>
           </div>
-          <div>
-            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary-900 via-secondary-500 to-accent-coral bg-clip-text text-transparent dark:from-white dark:via-secondary-400">Plan B</span>
-            <p className="text-[10px] text-primary-400 font-bold tracking-widest uppercase">Social Wellness</p>
+          <div className="w-full h-[1px] bg-white/5 my-1" />
+          <div className="flex justify-between items-center text-[10px] font-extrabold text-[#DFFE00] uppercase tracking-wider">
+            <span>Compatibility</span>
+            <span>94% MATCH</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 1,
+      tag: "Wellness",
+      title: "Wellness Check-Ins",
+      desc: "Track your daily emotional states and visualize wellness trends with simple mood triggers.",
+      colSpan: "",
+      rowSpan: "md:row-span-2",
+      visual: (
+        <div className="space-y-3 mt-6 p-4 bg-white/5 border border-white/10 rounded-3xl text-[10px] uppercase font-extrabold tracking-wider w-full">
+          <div className="flex justify-between items-center text-slate-300">
+            <span>Happy 😊</span>
+            <span className="text-[#DFFE00]">85%</span>
+          </div>
+          <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+            <div className="bg-[#DFFE00] h-full" style={{ width: '85%' }} />
+          </div>
+          <div className="flex justify-between items-center text-slate-300">
+            <span>Excited 🎉</span>
+            <span className="text-[#DFFE00]">92%</span>
+          </div>
+          <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+            <div className="bg-[#DFFE00] h-full" style={{ width: '92%' }} />
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 2,
+      tag: "Copilot",
+      title: "AI Companion",
+      desc: "A personal social copilot that recommends local events, nearby people, and wellness tips.",
+      colSpan: "",
+      rowSpan: "",
+      visual: (
+        <div className="mt-6 p-4 bg-[#DFFE00]/5 border border-[#DFFE00]/15 rounded-2xl text-xs text-[#DFFE00] font-extrabold uppercase tracking-wide text-left w-full">
+          🤖 "Found a study group nearby that fits your interest in coding!"
+        </div>
+      )
+    },
+    {
+      id: 3,
+      tag: "Meetups",
+      title: "Real-world Meetups",
+      desc: "Create or join casual local group events like gaming, sports leagues, and cafe circles.",
+      colSpan: "",
+      rowSpan: "",
+      visual: (
+        <div className="flex flex-wrap gap-1.5 mt-6 w-full">
+          {["Football", "Gaming", "Cafe"].map(t => (
+            <span key={t} className="text-[9px] bg-white/5 border border-white/10 text-slate-400 font-extrabold px-3 py-1.5 rounded-lg uppercase tracking-wider">
+              {t}
+            </span>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 4,
+      tag: "Icebreakers",
+      title: "Gamified Icebreakers",
+      desc: "No more awkward first messages. Let our AI analyze interests and propose witty prompts.",
+      colSpan: "md:col-span-2",
+      rowSpan: "",
+      visual: (
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-4 shadow-md w-full max-w-xs self-center text-left flex flex-col justify-center shrink-0">
+          <p className="text-[9px] text-[#DFFE00] font-extrabold uppercase tracking-widest">AI SUGGESTION</p>
+          <p className="text-white text-xs font-semibold mt-1">"I saw you play football. What team do you support?"</p>
+        </div>
+      )
+    },
+    {
+      id: 5,
+      tag: "Safety",
+      title: "Safety & Integrity",
+      desc: "AI-moderated spaces, spam guards, and user controls to ensure a reliable and warm platform.",
+      colSpan: "",
+      rowSpan: "",
+      visual: (
+        <div className="mt-6 flex items-center justify-center p-3.5 bg-white/5 border border-white/10 rounded-2xl w-full">
+          <span className="text-[#00D47C] font-extrabold text-[10px] uppercase tracking-widest">✓ AI VERIFIED SAFE</span>
+        </div>
+      )
+    }
+  ];
+  return (
+    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden font-outfit pb-32 relative">
+      
+      {/* Background Floating Orbs (Wero Ambient Glows) */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full bg-purple-900/15 blur-[120px] animate-aurora-slow" />
+        <div className="absolute top-[20%] right-[-15%] w-[60vw] h-[60vw] rounded-full bg-[#DFFE00]/5 blur-[150px] animate-aurora-medium" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-indigo-900/15 blur-[130px] animate-aurora-fast" />
+        <div className="bg-grid-glow" />
+      </div>
+
+      {/* Header */}
+      <header className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center z-20 relative">
+        <div className="flex items-center gap-4 group cursor-pointer">
+          <div className="h-14 w-14 rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow">
+            <span className="text-black font-black text-3xl tracking-tighter">B</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-syne font-black text-3xl tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5">Plan B</span>
+            <p className="text-xs text-[#DFFE00] font-black tracking-[0.2em] uppercase mt-0.5 transition-transform duration-300 group-hover:translate-x-1">Social Wellness</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
-          <Link to="/login" className="font-semibold text-sm hover:text-secondary-500 transition-colors duration-200">
-            Login
+        <div className="flex items-center gap-6">
+          <Link to="/login" className="font-semibold text-sm text-slate-300 hover:text-white transition-colors duration-200">
+            LOG IN
           </Link>
-          <Link to="/signup" className="bg-gradient-to-r from-primary-900 to-primary-800 dark:from-white dark:to-slate-100 text-white dark:text-primary-950 font-bold px-5 py-2.5 rounded-xl shadow-md active:scale-95 text-sm transition-all duration-200">
-            Get Started
+          <Link to="/signup" className="btn-primary text-xs tracking-wider font-extrabold py-2 px-5 rounded-xl uppercase">
+            GET STARTED
           </Link>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-16 md:pt-24 flex flex-col md:flex-row items-center justify-between gap-12 relative">
+      <section className="max-w-7xl mx-auto px-6 pt-12 md:pt-24 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
         <motion.div 
-          className="flex-1 text-left space-y-6 max-w-xl z-10"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          className="flex-1 text-left space-y-8 max-w-2xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex items-center gap-2 bg-secondary-100/60 dark:bg-slate-900 border border-secondary-200/50 dark:border-slate-800 rounded-full px-4 py-1.5 text-secondary-600 dark:text-secondary-400 text-xs font-bold shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 animate-spin" style={{ animationDuration: '3s' }} />
-            <span>AI-Powered Real Connection</span>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-full px-4.5 py-1.5 text-[#DFFE00] text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>AI-POWERED REAL CONNECTION</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-            Find your people. <br />
-            <span className="bg-gradient-to-r from-secondary-500 via-accent-coral to-rose-500 bg-clip-text text-transparent">
-              Build connections.
-            </span>
-          </h2>
+          {/* Heading */}
+          <h1 className="text-5xl md:text-7xl lg:text-[80px] font-syne font-extrabold leading-[0.95] uppercase tracking-tighter text-white">
+            FIND YOUR <span className="text-neon-glow text-[#DFFE00]">CIRCLE.</span> <br />
+            BUILD YOUR <span className="text-flashy-gradient">PEOPLE.</span>
+          </h1>
 
-          <p className="text-primary-500 dark:text-slate-400 text-base md:text-lg font-medium leading-relaxed">
-            An AI-powered social discovery and wellness platform that helps people overcome loneliness and connect through shared interests, personality, and real-world experiences.
+          {/* Subtitle */}
+          <p className="text-slate-400 text-base md:text-lg font-medium leading-relaxed max-w-lg">
+            Combat isolation and find real-world wellness circles. Plan B matches you based on your vibes, location, interests, and emotional daily check-ins.
           </p>
 
+          {/* Gatekeeper / Path Selector (Wero-style Choice) */}
+          <div className="glass-card p-2 rounded-2xl flex max-w-md border-white/5">
+            <button 
+              onClick={() => setActiveRole('seeker')}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs font-extrabold uppercase transition-all duration-300 flex items-center justify-center gap-2 ${
+                activeRole === 'seeker' 
+                  ? 'bg-white text-black shadow-md' 
+                  : 'bg-transparent text-slate-400 hover:text-white'
+              }`}
+            >
+              <Compass className="h-4 w-4" />
+              I want to discover
+            </button>
+            <button 
+              onClick={() => setActiveRole('host')}
+              className={`flex-1 py-3 px-4 rounded-xl text-xs font-extrabold uppercase transition-all duration-300 flex items-center justify-center gap-2 ${
+                activeRole === 'host' 
+                  ? 'bg-[#DFFE00] text-black shadow-md shadow-[#DFFE00]/15' 
+                  : 'bg-transparent text-slate-400 hover:text-white'
+              }`}
+            >
+              <PlusCircle className="h-4 w-4" />
+              I want to host
+            </button>
+          </div>
+
+          {/* Conditional Guidance text based on Role Selector */}
+          <motion.div 
+            key={activeRole}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-xs text-slate-400 font-semibold flex items-center gap-2"
+          >
+            <CheckCircle2 className="h-4 w-4 text-[#DFFE00]" />
+            <span>
+              {activeRole === 'seeker' 
+                ? "Gain access to 200+ active communities, daily match cards, and direct AI icebreakers."
+                : "Host events, coordinate check-ins, build group channels, and grow your local network."}
+            </span>
+          </motion.div>
+
           <div className="flex flex-wrap gap-4 pt-2">
-            <Link to="/signup" className="btn-primary flex items-center gap-2 py-3.5 px-7 text-base group">
-              <span>Start For Free</span>
-              <ArrowRight className="h-5 w-5 stroke-[2.5px] group-hover:translate-x-1 transition-transform duration-200" />
+            <Link to="/signup" className="btn-primary flex items-center gap-2.5 py-4 px-8 text-sm group tracking-wider uppercase">
+              <span>START DISCOVERING</span>
+              <ArrowRight className="h-4.5 w-4.5 stroke-[2.5px] group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
-            <Link to="/login" className="btn-secondary py-3.5 px-7 text-base">
-              Explore Events
+            <Link to="/login" className="btn-secondary py-4 px-8 text-sm tracking-wider uppercase">
+              EXPLORE EVENTS
             </Link>
           </div>
         </motion.div>
 
         {/* Hero Interactive Floating Visuals */}
         <motion.div 
-          className="flex-1 relative w-full h-[380px] md:h-[450px] flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="flex-1 relative w-full h-[400px] md:h-[480px] flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* Main card */}
-          <div className="glass-card w-[290px] h-[360px] p-6 relative flex flex-col justify-between shadow-2xl animate-float z-10 border-white/30 dark:border-slate-800">
+          {/* Central matching card */}
+          <div className="glass-card w-[310px] h-[380px] p-6 relative flex flex-col justify-between shadow-2xl animate-float border-white/10">
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
                 <img 
                   src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rohan" 
                   alt="Rohan" 
-                  className="h-12 w-12 rounded-xl bg-secondary-100 border-2 border-white object-cover"
+                  className="h-12 w-12 rounded-xl bg-slate-900 border-2 border-white/20 object-cover"
                 />
                 <div>
-                  <h4 className="font-bold text-sm">Rohan, 23</h4>
-                  <p className="text-[10px] text-primary-400 font-semibold flex items-center gap-0.5">
-                    <Compass className="h-3 w-3" /> San Francisco
+                  <h4 className="font-bold text-sm text-white">Rohan, 23</h4>
+                  <p className="text-[10px] text-slate-400 font-bold flex items-center gap-0.5 mt-0.5">
+                    <Compass className="h-3 w-3 text-[#DFFE00]" /> San Francisco
                   </p>
                 </div>
               </div>
-              <span className="bg-emerald-500/10 text-emerald-500 font-extrabold text-[10px] py-1 px-2.5 rounded-full border border-emerald-500/20">
-                92% Match
+              <span className="bg-[#DFFE00] text-black font-extrabold text-[10px] py-1 px-3 rounded-full border border-[#DFFE00]/20 tracking-wider">
+                92% MATCH
               </span>
             </div>
 
             <div className="my-4">
-              <p className="text-xs text-primary-500 dark:text-slate-400 leading-relaxed font-semibold italic">
-                "Up for a coding session or outdoor soccer match this weekend!"
+              <p className="text-xs text-slate-300 leading-relaxed font-semibold italic">
+                "Always up for a Fifa session, programming, or casual weekend football matches!"
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="flex flex-wrap gap-1.5">
                 {["Gaming", "Coding", "Football"].map(tag => (
-                  <span key={tag} className="text-[10px] bg-primary-100 dark:bg-slate-800/80 text-primary-600 dark:text-slate-300 font-bold py-0.5 px-2 rounded-lg border border-primary-200/50 dark:border-slate-800">
+                  <span key={tag} className="text-[9px] bg-white/5 text-slate-300 font-extrabold py-1 px-2.5 rounded-lg border border-white/10 uppercase tracking-wider">
                     {tag}
                   </span>
                 ))}
               </div>
               
-              <div className="p-3 bg-secondary-50/50 dark:bg-slate-950/40 border border-secondary-200/30 rounded-xl">
-                <p className="text-[9px] text-primary-400 uppercase font-bold tracking-widest">AI Icebreaker</p>
-                <p className="text-xs font-semibold text-secondary-600 dark:text-secondary-400 mt-0.5">
-                  "I saw you're into soccer. What team do you support?"
+              <div className="p-3 bg-black/40 border border-white/5 rounded-xl">
+                <p className="text-[9px] text-[#DFFE00] uppercase font-extrabold tracking-widest">AI Icebreaker</p>
+                <p className="text-xs font-semibold text-slate-300 mt-1">
+                  "I saw you play football. What team do you support?"
                 </p>
               </div>
             </div>
+
+            {/* Glowing active dots */}
+            <div className="absolute top-1/2 -left-3 h-6 w-6 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/30 flex items-center justify-center">
+              <div className="h-2 w-2 rounded-full bg-[#DFFE00] animate-ping" />
+            </div>
           </div>
 
-          {/* Secondary mini card (floating) */}
-          <div className="absolute top-4 left-4 glass-card p-4 flex items-center gap-3 animate-float-delayed shadow-xl z-20 border-white/30 dark:border-slate-800">
-            <div className="h-8 w-8 rounded-full bg-accent-coral/10 flex items-center justify-center text-accent-coral">
-              <HeartPulse className="h-4 w-4 stroke-[2.5px]" />
+          {/* Floating mini wellness card */}
+          <div className="absolute top-8 left-4 glass-card p-4 flex items-center gap-3 animate-float-delayed shadow-xl z-20 border-white/10">
+            <div className="h-8 w-8 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
+              <HeartPulse className="h-4 w-4 stroke-[2px]" />
             </div>
             <div>
-              <p className="text-[10px] text-primary-400 font-bold">DAILY WELLNESS CHECK</p>
-              <p className="text-xs font-extrabold">Logged: Happy 😊</p>
+              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">DAILY CHECK</p>
+              <p className="text-xs font-extrabold text-white">Logged: Energetic ⚡</p>
             </div>
           </div>
 
-          {/* Third mini card (floating) */}
-          <div className="absolute bottom-6 right-4 glass-card p-4 flex items-center gap-3 animate-float shadow-xl z-20 border-white/30 dark:border-slate-800" style={{ animationDelay: '3.5s' }}>
-            <div className="h-8 w-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
+          {/* Floating mini assistant card */}
+          <div className="absolute bottom-10 right-4 glass-card p-4 flex items-center gap-3 animate-float shadow-xl z-20 border-white/10" style={{ animationDelay: '3.5s' }}>
+            <div className="h-8 w-8 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
               <Sparkles className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-[10px] text-primary-400 font-bold">AI ASSISTANT</p>
-              <p className="text-xs font-semibold max-w-[150px] line-clamp-1">"Found 3 coffee events..."</p>
+              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">AI SOCIAL PILOT</p>
+              <p className="text-xs font-semibold text-white max-w-[150px] line-clamp-1">"Found 3 local gaming clubs"</p>
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* Statistics Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="glass-card grid grid-cols-2 md:grid-cols-4 gap-8 p-10 text-center relative border-white/30 dark:border-slate-800">
+      {/* Statistics Grid */}
+      <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <div className="glass-card grid grid-cols-2 md:grid-cols-4 gap-8 p-12 text-center border-white/5 bg-black/30">
           <div>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-secondary-500 to-blue-600 bg-clip-text text-transparent">12,000+</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider mt-2">Active Users</p>
+            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-[#DFFE00]">12,000+</h3>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Active Users</p>
           </div>
           <div>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-accent-coral to-rose-500 bg-clip-text text-transparent">48,000+</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider mt-2">Sparks Connected</p>
+            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-white">48,000+</h3>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Sparks Connected</p>
           </div>
           <div>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-secondary-500 to-emerald-500 bg-clip-text text-transparent">1,200+</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider mt-2">Local Events Hosted</p>
+            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-[#DFFE00]">1,200+</h3>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Events Hosted</p>
           </div>
           <div>
-            <h3 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-primary-950 to-primary-800 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">82%</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs md:text-sm font-bold uppercase tracking-wider mt-2">Loneliness Reduction</p>
+            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-white">82%</h3>
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Isolation Drop</p>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center max-w-xl mx-auto space-y-4 mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Platform Core Features</h2>
-          <p className="text-primary-400 dark:text-slate-400 font-semibold text-sm md:text-base">
-            Plan B integrates mental health support, hobby circles, and localized matchmaking vectors into a premium community suite.
+      {/* Features List Section */}
+      <section id="features" className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-20">
+          <h2 className="text-3xl md:text-5xl font-syne font-extrabold uppercase tracking-tight text-white">Core Capabilities</h2>
+          <p className="text-slate-400 font-semibold text-sm md:text-base">
+            Plan B maps wellness checks, match filters, and direct group feeds into a unified social engine.
           </p>
         </div>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {featureCards.map((feat, index) => {
-            const Icon = feat.icon;
-            return (
-              <motion.div 
-                key={feat.title}
-                className="glass-card glass-card-hover p-8 text-left border-white/20 dark:border-slate-800/40 relative overflow-hidden"
-                variants={itemVariants}
-              >
-                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-6 shadow-sm ${feat.color}`}>
-                  <Icon className="h-6 w-6 stroke-[2.2px]" />
-                </div>
-                <h3 className="font-extrabold text-lg mb-2">{feat.title}</h3>
-                <p className="text-primary-400 dark:text-slate-400 text-sm font-medium leading-relaxed">{feat.desc}</p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+        {/* Premium Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {bentoCards.map((card) => (
+            <div 
+              key={card.id}
+              className={`glass-card p-8 border-white/5 bg-black/45 flex flex-col md:flex-row justify-between gap-6 ${card.colSpan} ${card.rowSpan} hover:scale-[1.05] hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(223,254,0,0.18)] hover:border-[#DFFE00]/30 hover:z-20 transition-all duration-300 ease-out cursor-pointer relative overflow-hidden`}
+            >
+              <div className="text-left space-y-3 max-w-md">
+                <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-wider">
+                  {card.tag}
+                </span>
+                <h3 className="font-syne font-black text-2xl uppercase tracking-tighter text-flashy-outline">{card.title}</h3>
+                <p className="text-slate-400 text-sm font-semibold leading-relaxed">
+                  {card.desc}
+                </p>
+              </div>
+              {card.visual}
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="max-w-7xl mx-auto px-6 py-20 text-center">
-        <div className="max-w-xl mx-auto space-y-4 mb-16">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Real People. Real Connection.</h2>
-          <p className="text-primary-400 dark:text-slate-400 font-semibold text-sm">Here is how Plan B is combating isolation in cities worldwide.</p>
+      {/* Testimonials */}
+      <section className="max-w-7xl mx-auto px-6 py-20 text-center relative z-10">
+        <div className="max-w-xl mx-auto space-y-4 mb-20">
+          <h2 className="text-3xl md:text-5xl font-syne font-extrabold uppercase tracking-tight">Community Feedback</h2>
+          <p className="text-slate-400 font-semibold text-sm">Real stories from our urban circles.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -235,13 +390,13 @@ const Landing = () => {
             { quote: "I love the Mood Check-in system. Looking at my stats helped me recognize stress triggers, and the AI Companion recommended the perfect yoga events.", author: "Elena R.", occupation: "Content Lead", pic: "https://api.dicebear.com/7.x/adventurer/svg?seed=Elena" },
             { quote: "The AI icebreakers make matching so easy. I found my current study circle here. Cannot recommend Plan B enough!", author: "Karan S.", occupation: "Data Scientist", pic: "https://api.dicebear.com/7.x/adventurer/svg?seed=Karan" }
           ].map((test, index) => (
-            <div key={index} className="glass-card p-8 flex flex-col justify-between text-left border-white/30 dark:border-slate-800">
-              <p className="text-primary-500 dark:text-slate-300 text-sm leading-relaxed italic font-medium">"{test.quote}"</p>
-              <div className="flex items-center gap-4 mt-6 pt-4 border-t border-primary-100/50 dark:border-slate-800/40">
-                <img src={test.pic} alt={test.author} className="h-10 w-10 rounded-xl bg-secondary-50 border object-cover" />
+            <div key={index} className="glass-card p-8 flex flex-col justify-between text-left border-white/5">
+              <p className="text-slate-300 text-sm leading-relaxed italic font-semibold">"{test.quote}"</p>
+              <div className="flex items-center gap-4 mt-8 pt-4 border-t border-white/5">
+                <img src={test.pic} alt={test.author} className="h-10 w-10 rounded-xl bg-slate-900 border object-cover" />
                 <div>
-                  <h5 className="font-extrabold text-sm">{test.author}</h5>
-                  <p className="text-[10px] text-primary-400 font-bold">{test.occupation}</p>
+                  <h5 className="font-extrabold text-sm text-white">{test.author}</h5>
+                  <p className="text-[9px] text-[#DFFE00] font-extrabold uppercase tracking-wider">{test.occupation}</p>
                 </div>
               </div>
             </div>
@@ -250,17 +405,46 @@ const Landing = () => {
       </section>
 
       {/* CTA Footer */}
-      <section className="max-w-7xl mx-auto px-6 py-8 text-center">
-        <div className="glass-card bg-gradient-to-tr from-primary-900 to-slate-800 dark:from-slate-900 dark:to-slate-950 p-12 rounded-[40px] text-white border-none flex flex-col items-center justify-center space-y-6">
-          <h2 className="text-3xl md:text-5xl font-extrabold leading-tight">Ready to find your circle?</h2>
+      <section className="max-w-7xl mx-auto px-6 py-12 text-center relative z-10">
+        <div className="glass-card border-none bg-gradient-to-tr from-wero-dark-900 to-wero-dark-800 p-16 rounded-[40px] text-white flex flex-col items-center justify-center space-y-8 relative overflow-hidden border border-white/5">
+          <h2 className="text-4xl md:text-6xl font-syne font-extrabold uppercase tracking-tight max-w-xl leading-none">
+            Ready to find your <span className="text-[#DFFE00]">circle?</span>
+          </h2>
           <p className="text-slate-300 max-w-lg font-medium text-sm md:text-base leading-relaxed">
-            Create your account today, complete your profile details, check in your mood, and let our recommendation engine find your matches.
+            Create your account today, complete your profile details, check in your daily mood, and let our recommendation engine find your connections.
           </p>
-          <Link to="/signup" className="bg-white text-primary-950 hover:bg-slate-100 font-extrabold py-3.5 px-8 rounded-2xl shadow-xl active:scale-95 transition-all duration-200 inline-block text-sm">
-            Get Started Now
+          <Link to="/signup" className="btn-primary text-sm font-extrabold py-4 px-10 rounded-2xl shadow-xl uppercase tracking-wider">
+            GET STARTED NOW
           </Link>
         </div>
       </section>
+
+      {/* Floating Bottom Navigation Bar (Wero-Inspired) */}
+      <nav className="fixed bottom-6 left-0 right-0 z-50 px-6 pointer-events-none">
+        <div className="backdrop-blur-xl bg-black/45 border border-white/10 rounded-full py-3.5 px-8 flex items-center justify-between gap-6 md:gap-12 shadow-2xl max-w-2xl mx-auto pointer-events-auto">
+          {/* Logo Dot */}
+          <div className="flex items-center gap-2">
+            <div className="h-5.5 w-5.5 rounded bg-[#DFFE00] flex items-center justify-center">
+              <span className="text-black font-black text-xs tracking-tighter">B</span>
+            </div>
+            <span className="font-syne font-extrabold text-xs tracking-wider uppercase text-white hidden sm:inline">Plan B</span>
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-4 md:gap-6 text-[10px] font-extrabold tracking-wider uppercase text-slate-300">
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <Link to="/discover" className="hover:text-white transition-colors">Discover</Link>
+            <Link to="/community" className="hover:text-white transition-colors">Communities</Link>
+            <Link to="/wellness" className="hover:text-white transition-colors">Wellness</Link>
+          </div>
+
+          {/* CTA inside Bar */}
+          <Link to="/signup" className="btn-primary text-[10px] tracking-wider font-extrabold py-2 px-4 rounded-xl uppercase">
+            SIGN UP
+          </Link>
+        </div>
+      </nav>
+
     </div>
   );
 };

@@ -23,7 +23,6 @@ const Login = () => {
     setLoading(true);
     try {
       await login(email, password);
-      // Trigger confetti on successful login
       confetti({
         particleCount: 80,
         spread: 60,
@@ -41,7 +40,6 @@ const Login = () => {
     setError('');
     setLoading(true);
     try {
-      // Simulate Google OAuth response
       const randomId = Math.floor(Math.random() * 1000);
       const mockEmail = `google_user_${randomId}@gmail.com`;
       const mockName = `Explorer_${randomId}`;
@@ -54,7 +52,7 @@ const Login = () => {
         spread: 80,
         origin: { y: 0.8 }
       });
-      navigate('/profile'); // Redirect new Google logins to profile onboarding
+      navigate('/profile');
     } catch (err) {
       setError('Google Sign-in failed. Please try again.');
     } finally {
@@ -63,30 +61,36 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-mesh dark:bg-slate-950 flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden font-outfit">
+    <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden font-outfit text-white">
+      {/* Background Floating Orbs */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-900/10 blur-[120px] animate-aurora-slow" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/5 blur-[130px] animate-aurora-medium" />
+      </div>
+
       {/* Back to landing */}
-      <Link to="/" className="absolute top-6 left-6 flex items-center gap-2 font-bold text-sm text-primary-500 hover:text-primary-800 dark:text-slate-400 dark:hover:text-white transition-colors duration-200">
-        ← Back Home
+      <Link to="/" className="absolute top-6 left-6 flex items-center gap-2 font-bold text-xs uppercase tracking-wider text-slate-400 hover:text-white transition-colors duration-200 z-10">
+        ← BACK HOME
       </Link>
 
       <motion.div 
-        className="w-full max-w-md glass-card p-8 md:p-10 border-white/30 dark:border-slate-800"
+        className="w-full max-w-md glass-card p-8 md:p-10 border-white/5 relative z-10 bg-black/45"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
         {/* Header Logo */}
         <div className="text-center space-y-2 mb-8">
-          <div className="mx-auto h-12 w-12 rounded-2xl bg-gradient-to-tr from-primary-900 to-secondary-500 flex items-center justify-center shadow-lg mb-4">
-            <span className="text-white font-extrabold text-2xl">B</span>
+          <div className="mx-auto h-12 w-12 rounded-xl bg-[#DFFE00] flex items-center justify-center shadow-lg shadow-[#DFFE00]/10 mb-4">
+            <span className="text-black font-extrabold text-2xl tracking-tighter">B</span>
           </div>
-          <h2 className="text-2xl font-extrabold tracking-tight">Welcome Back</h2>
-          <p className="text-primary-400 dark:text-slate-400 font-semibold text-xs uppercase tracking-widest">Connect with your community</p>
+          <h2 className="text-2xl md:text-3xl font-syne font-extrabold uppercase tracking-tight text-white">Welcome <span className="text-neon-glow text-[#DFFE00]">Back</span></h2>
+          <p className="text-[#DFFE00] font-extrabold text-[10px] uppercase tracking-widest mt-1">Connect with your community</p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm font-semibold rounded-2xl flex items-center gap-3">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-semibold rounded-2xl flex items-center gap-3">
             <ShieldAlert className="h-5 w-5 shrink-0" />
             <span>{error}</span>
           </div>
@@ -94,9 +98,9 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1 text-left">
-            <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400 pl-1">Email Address</label>
+            <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-3.5 h-5 w-5 text-primary-400 dark:text-slate-500 stroke-[1.8px]" />
+              <Mail className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 stroke-[1.8px]" />
               <input 
                 type="email" 
                 placeholder="you@example.com"
@@ -109,11 +113,11 @@ const Login = () => {
 
           <div className="space-y-1 text-left">
             <div className="flex justify-between items-center pl-1">
-              <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Password</label>
-              <Link to="/forgot-password" className="text-xs font-bold text-secondary-500 hover:underline">Forgot?</Link>
+              <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Password</label>
+              <Link to="/forgot-password" className="text-xs font-bold text-[#DFFE00] hover:underline uppercase tracking-wide">Forgot?</Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-4 top-3.5 h-5 w-5 text-primary-400 dark:text-slate-500 stroke-[1.8px]" />
+              <Lock className="absolute left-4 top-3.5 h-5 w-5 text-slate-500 stroke-[1.8px]" />
               <input 
                 type="password" 
                 placeholder="••••••••"
@@ -127,21 +131,21 @@ const Login = () => {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full btn-primary py-3.5 mt-2 flex items-center justify-center disabled:opacity-50"
+            className="w-full btn-primary py-3.5 mt-4 flex items-center justify-center disabled:opacity-50 tracking-wider uppercase"
           >
             {loading ? 'Entering Vibe...' : 'Sign In'}
           </button>
         </form>
 
         <div className="relative my-6 text-center">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-primary-200/50 dark:border-slate-800"></div></div>
-          <span className="relative bg-white dark:bg-slate-900 px-3 text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-500">Or continue with</span>
+          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
+          <span className="relative bg-slate-950 px-3 text-[9px] font-extrabold uppercase tracking-widest text-slate-500">Or continue with</span>
         </div>
 
         <button 
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full btn-secondary py-3.5 flex items-center justify-center gap-3"
+          className="w-full btn-secondary py-3.5 flex items-center justify-center gap-3 tracking-wider uppercase text-xs font-bold"
         >
           <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" width="24" height="24">
             <g transform="matrix(1, 0, 0, 1, 0, 0)">
@@ -151,11 +155,11 @@ const Login = () => {
               <path d="M12,5.2c1.4,0 2.66,0.48 3.65,1.43l2.74,-2.74C16.73,2.33 14.57,1.48 12,1.48c-3.63,0 -6.83,4.04 -8.5,7.18l3.49,2.67c0.71,-2.12 2.68,-3.69 5.01,-3.69z" fill="#EA4335" />
             </g>
           </svg>
-          <span className="font-semibold text-sm">Google Account</span>
+          <span>Google Account</span>
         </button>
 
-        <p className="text-center text-xs font-semibold text-primary-400 dark:text-slate-400 mt-8">
-          Don't have an account? <Link to="/signup" className="text-secondary-500 hover:underline font-bold">Sign up</Link>
+        <p className="text-center text-xs font-semibold text-slate-400 mt-8 uppercase tracking-wider">
+          Don't have an account? <Link to="/signup" className="text-[#DFFE00] hover:underline font-bold">Sign up</Link>
         </p>
       </motion.div>
     </div>

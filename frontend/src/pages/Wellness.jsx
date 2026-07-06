@@ -6,7 +6,7 @@ import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { 
-  Sparkles, CheckCircle, Heart, Calendar, Activity, AlertCircle, Compass, Smile 
+  Sparkles, CheckCircle, Smile 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -21,12 +21,12 @@ const WellnessPage = () => {
   const [successMsg, setSuccessMsg] = useState('');
 
   const moodOptions = [
-    { emoji: '😊', label: 'Happy', color: 'border-blue-200 hover:bg-blue-50 text-blue-500 bg-blue-500/5' },
-    { emoji: '😐', label: 'Okay', color: 'border-slate-200 hover:bg-slate-50 text-slate-500 bg-slate-500/5' },
-    { emoji: '😔', label: 'Lonely', color: 'border-red-200 hover:bg-red-50 text-red-500 bg-red-500/5' },
-    { emoji: '😰', label: 'Stressed', color: 'border-amber-200 hover:bg-amber-50 text-amber-500 bg-amber-500/5' },
-    { emoji: '😴', label: 'Tired', color: 'border-orange-200 hover:bg-orange-50 text-orange-500 bg-orange-500/5' },
-    { emoji: '🎉', label: 'Excited', color: 'border-emerald-200 hover:bg-emerald-50 text-emerald-500 bg-emerald-500/5' }
+    { emoji: '😊', label: 'Happy', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
+    { emoji: '😐', label: 'Okay', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
+    { emoji: '😔', label: 'Lonely', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
+    { emoji: '😰', label: 'Stressed', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
+    { emoji: '😴', label: 'Tired', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
+    { emoji: '🎉', label: 'Excited', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' }
   ];
 
   const loadWellnessData = async () => {
@@ -62,7 +62,6 @@ const WellnessPage = () => {
       setNote('');
       setTimeout(() => setSuccessMsg(''), 2500);
       
-      // Reload chart metrics
       await loadWellnessData();
     } catch (err) {
       console.error("Failed to log mood check-in:", err);
@@ -72,14 +71,12 @@ const WellnessPage = () => {
     }
   };
 
-  // Compile distribution charts dataset
   const barChartData = Object.entries(moodDistribution).map(([name, count]) => ({
     name,
     count,
-    fill: name === 'Happy' ? '#60A5FA' : name === 'Excited' ? '#34D399' : name === 'Okay' ? '#94A3B8' : name === 'Lonely' ? '#F87171' : '#F59E0B'
+    fill: name === 'Happy' ? '#DFFE00' : name === 'Excited' ? '#DFFE00' : name === 'Okay' ? 'rgba(255, 255, 255, 0.4)' : name === 'Lonely' ? '#ef4444' : '#f59e0b'
   }));
 
-  // Resolve custom mood triggers for Coping Self-Care Tips
   const getCopingAdvice = () => {
     const latestMood = moodHistory[moodHistory.length - 1]?.mood || 'Okay';
     switch (latestMood) {
@@ -125,13 +122,13 @@ const WellnessPage = () => {
   const advice = getCopingAdvice();
 
   return (
-    <div className="space-y-6 pb-24 font-outfit text-left relative">
+    <div className="space-y-6 pb-24 font-outfit text-left text-white relative">
       
       {/* Toast Alert */}
       <AnimatePresence>
         {successMsg && (
           <motion.div 
-            className="fixed top-6 right-6 bg-emerald-500 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-50 border border-emerald-400"
+            className="fixed top-6 right-6 bg-[#DFFE00] text-black font-extrabold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-50 border border-[#DFFE00]"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
@@ -145,14 +142,13 @@ const WellnessPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Mood Check-In Widget */}
-        <div className="glass-card p-6 border-white/20 dark:border-slate-800/40 lg:col-span-2 space-y-4">
-          <div className="pb-3 border-b border-primary-100/50 dark:border-slate-800/40">
-            <h3 className="font-extrabold text-base uppercase tracking-wider">Mood Check-In</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold mt-0.5">How are you feeling today, {user.profile?.name}?</p>
+        <div className="glass-card p-6 border-white/5 bg-black/45 lg:col-span-2 space-y-4">
+          <div className="pb-3 border-b border-white/5">
+            <h3 className="font-syne font-extrabold text-sm uppercase tracking-wider text-white">Mood Check-In</h3>
+            <p className="text-slate-400 text-xs font-semibold mt-0.5">How are you feeling today, {user.profile?.name}?</p>
           </div>
 
           <form onSubmit={handleMoodSubmit} className="space-y-4">
-            {/* Mood selector grid */}
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
               {moodOptions.map((opt) => {
                 const isSelected = mood === opt.label;
@@ -163,20 +159,19 @@ const WellnessPage = () => {
                     onClick={() => setMood(opt.label)}
                     className={`flex flex-col items-center p-3 rounded-2xl border text-center transition-all ${
                       isSelected
-                        ? 'bg-gradient-to-tr from-primary-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-primary-950 border-transparent shadow-sm scale-105'
-                        : `bg-white/40 dark:bg-slate-900/40 dark:border-slate-800/80 hover:scale-[1.02] ${opt.color}`
+                        ? 'bg-[#DFFE00] text-black border-transparent shadow-sm shadow-[#DFFE00]/10 font-bold scale-105'
+                        : `${opt.color} hover:scale-[1.02]`
                     }`}
                   >
                     <span className="text-2xl mb-1">{opt.emoji}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider">{opt.label}</span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider">{opt.label}</span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Note input */}
             <div className="space-y-1">
-              <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400 pl-1">Optional Mood Note</label>
+              <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Optional Mood Note</label>
               <textarea 
                 rows="2"
                 placeholder="What is making you feel this way? (e.g. lots of coding tasks, beautiful sunny day, missing friends...)"
@@ -190,7 +185,7 @@ const WellnessPage = () => {
               <button 
                 type="submit" 
                 disabled={saveLoading}
-                className="btn-accent py-2.5 px-6 text-xs flex items-center gap-1.5 font-bold"
+                className="btn-accent py-2.5 px-6 text-xs flex items-center gap-1.5 font-extrabold uppercase tracking-wider"
               >
                 <Smile className="h-4 w-4" />
                 <span>{saveLoading ? 'Logging...' : 'Submit Vibe'}</span>
@@ -200,21 +195,21 @@ const WellnessPage = () => {
         </div>
 
         {/* AI Suggested self care guidelines */}
-        <div className="glass-card p-6 border-white/20 dark:border-slate-800/40 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-primary-100/50 dark:border-slate-800/40 text-amber-500">
-            <Sparkles className="h-5 w-5 fill-amber-500/10 animate-pulse" />
-            <h3 className="font-extrabold text-sm uppercase tracking-wider text-primary-900 dark:text-white">AI Self-Care Guide</h3>
+        <div className="glass-card p-6 border-white/5 bg-black/45 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-white/5 text-[#DFFE00]">
+            <Sparkles className="h-5 w-5 fill-[#DFFE00]/10 animate-pulse" />
+            <h3 className="font-syne font-extrabold text-sm uppercase tracking-wider text-white">AI Self-Care Guide</h3>
           </div>
 
           <div className="space-y-3 text-xs leading-relaxed font-semibold">
-            <p className="text-primary-800 dark:text-slate-200">
-              Focus strategy: <span className="text-secondary-500 font-extrabold">{advice.title}</span>
+            <p className="text-slate-200">
+              Focus strategy: <span className="text-[#DFFE00] font-extrabold uppercase tracking-wider">{advice.title}</span>
             </p>
             
-            <ul className="space-y-2 text-primary-500 dark:text-slate-400 pl-1">
+            <ul className="space-y-2 text-slate-400 pl-1">
               {advice.tips.map((tip, i) => (
                 <li key={i} className="flex gap-2 items-start">
-                  <span className="text-accent-coral shrink-0">•</span>
+                  <span className="text-[#DFFE00] shrink-0">•</span>
                   <span>{tip}</span>
                 </li>
               ))}
@@ -227,31 +222,32 @@ const WellnessPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Mood history line chart */}
-        <div className="glass-card p-6 border-white/20 dark:border-slate-800/40 text-left">
+        <div className="glass-card p-6 border-white/5 bg-black/45 text-left">
           <div className="mb-6">
-            <h3 className="font-extrabold text-base uppercase tracking-wider">Vibe Over Time</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold mt-0.5">Line map rendering emotional check-in history</p>
+            <h3 className="font-syne font-extrabold text-sm uppercase tracking-wider text-white">Vibe Over Time</h3>
+            <p className="text-slate-400 text-xs font-semibold mt-0.5">Line map rendering emotional check-in history</p>
           </div>
 
           <div className="h-[220px] w-full">
             {loading ? (
-              <div className="h-full w-full bg-primary-100/50 animate-pulse rounded-2xl" />
+              <div className="h-full w-full bg-white/5 border border-white/10 animate-pulse rounded-2xl" />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={moodHistory} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" className="dark:stroke-slate-800/60" />
-                  <XAxis dataKey="date" stroke="#94A3B8" fontSize={10} fontWeight="bold" tickLine={false} />
-                  <YAxis domain={[0, 100]} stroke="#94A3B8" fontSize={10} fontWeight="bold" tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="date" stroke="rgba(255,255,255,0.3)" fontSize={10} fontWeight="bold" tickLine={false} />
+                  <YAxis domain={[0, 100]} stroke="rgba(255,255,255,0.3)" fontSize={10} fontWeight="bold" tickLine={false} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.85)', border: 'none', borderRadius: '16px', fontSize: '11px' }}
-                    itemStyle={{ color: '#0F172A' }}
+                    contentStyle={{ backgroundColor: '#0A0224', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontSize: '11px' }}
+                    itemStyle={{ color: '#FFFFFF' }}
+                    labelStyle={{ color: '#DFFE00', fontWeight: 'bold' }}
                   />
                   <Line 
                     type="monotone" 
                     dataKey="score" 
-                    stroke="#FF6B6B" 
+                    stroke="#DFFE00" 
                     strokeWidth={2.5} 
-                    dot={{ r: 4, strokeWidth: 1, fill: '#FF6B6B' }} 
+                    dot={{ r: 4, strokeWidth: 1, stroke: '#0A0224', fill: '#DFFE00' }} 
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -260,26 +256,27 @@ const WellnessPage = () => {
         </div>
 
         {/* Mood distribution bar chart */}
-        <div className="glass-card p-6 border-white/20 dark:border-slate-800/40 text-left">
+        <div className="glass-card p-6 border-white/5 bg-black/45 text-left">
           <div className="mb-6">
-            <h3 className="font-extrabold text-base uppercase tracking-wider">Vibe Distribution</h3>
-            <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold mt-0.5">Aggregated log quantities per emotional state</p>
+            <h3 className="font-syne font-extrabold text-sm uppercase tracking-wider text-white">Vibe Distribution</h3>
+            <p className="text-slate-400 text-xs font-semibold mt-0.5">Aggregated log quantities per emotional state</p>
           </div>
 
           <div className="h-[220px] w-full">
             {loading ? (
-              <div className="h-full w-full bg-primary-100/50 animate-pulse rounded-2xl" />
+              <div className="h-full w-full bg-white/5 border border-white/10 animate-pulse rounded-2xl" />
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barChartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" className="dark:stroke-slate-800/60" />
-                  <XAxis dataKey="name" stroke="#94A3B8" fontSize={10} fontWeight="bold" tickLine={false} />
-                  <YAxis stroke="#94A3B8" fontSize={10} fontWeight="bold" tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                  <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" fontSize={10} fontWeight="bold" tickLine={false} />
+                  <YAxis stroke="rgba(255,255,255,0.3)" fontSize={10} fontWeight="bold" tickLine={false} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.85)', border: 'none', borderRadius: '16px', fontSize: '11px' }}
-                    itemStyle={{ color: '#0F172A' }}
+                    contentStyle={{ backgroundColor: '#0A0224', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', fontSize: '11px' }}
+                    itemStyle={{ color: '#FFFFFF' }}
+                    labelStyle={{ color: '#DFFE00', fontWeight: 'bold' }}
                   />
-                  <Bar dataKey="count" fill="#60A5FA" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="count" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}

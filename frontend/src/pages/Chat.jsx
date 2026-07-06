@@ -1,22 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useChat } from '../context/ChatContext';
 import { useAuth } from '../context/AuthContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
-  Send, Users, MessageSquare, AlertCircle, Compass, ShieldAlert, BadgeInfo 
+  Send, MessageSquare 
 } from 'lucide-react';
 
 const ChatPage = () => {
   const { user } = useAuth();
   const { 
     contacts, activeContactId, messages, loadingContacts, loadingMessages,
-    selectContact, sendMessage, setActiveContactId
+    selectContact, sendMessage
   } = useChat();
 
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom when message log loads/updates
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -35,19 +34,19 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="glass-card flex border-white/20 dark:border-slate-800/40 h-[calc(100vh-140px)] min-h-[480px] overflow-hidden font-outfit text-left">
+    <div className="glass-card flex border-white/5 bg-black/45 h-[calc(100vh-140px)] min-h-[480px] overflow-hidden font-outfit text-left text-white">
       
       {/* Left Contacts Bar */}
-      <div className="w-full md:w-80 border-r border-primary-200/40 dark:border-slate-800 shrink-0 flex flex-col h-full bg-white/30 dark:bg-slate-900/10">
-        <div className="p-4 border-b border-primary-200/40 dark:border-slate-800">
-          <h3 className="font-extrabold text-sm uppercase tracking-wider pl-1">Chats</h3>
+      <div className="w-full md:w-80 border-r border-white/5 shrink-0 flex flex-col h-full bg-black/30">
+        <div className="p-4 border-b border-white/5">
+          <h3 className="font-syne font-extrabold text-xs uppercase tracking-wider text-slate-500 pl-1">Chats</h3>
         </div>
 
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {loadingContacts ? (
             <div className="space-y-2 p-2">
               {[1, 2, 3].map(n => (
-                <div key={n} className="h-14 w-full bg-primary-100 dark:bg-slate-800/60 rounded-xl animate-pulse" />
+                <div key={n} className="h-14 w-full bg-white/5 border border-white/10 rounded-xl animate-pulse" />
               ))}
             </div>
           ) : contacts.length > 0 ? (
@@ -59,25 +58,25 @@ const ChatPage = () => {
                   onClick={() => selectContact(contact.user_id)}
                   className={`w-full flex items-center gap-3 p-3 rounded-2xl transition-all ${
                     isActive 
-                      ? 'bg-gradient-to-r from-primary-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-primary-950 shadow-sm'
-                      : 'hover:bg-primary-100/50 dark:hover:bg-slate-800/40 text-primary-900 dark:text-slate-100'
+                      ? 'bg-[#DFFE00] text-black shadow-sm shadow-[#DFFE00]/10'
+                      : 'hover:bg-white/5 text-slate-300'
                   }`}
                 >
                   <img 
                     src={contact.profile_pic || `https://api.dicebear.com/7.x/adventurer/svg?seed=${contact.name}`} 
                     alt={contact.name} 
-                    className="h-11 w-11 rounded-xl object-cover bg-slate-100 shrink-0 border"
+                    className={`h-11 w-11 rounded-xl object-cover bg-slate-900 shrink-0 border ${isActive ? 'border-black/15' : 'border-white/10'}`}
                   />
                   <div className="flex-1 min-w-0 text-left">
                     <div className="flex justify-between items-baseline">
                       <h4 className="font-extrabold text-xs leading-tight line-clamp-1">{contact.name}</h4>
                       {contact.last_message_time && (
-                        <span className={`text-[8px] font-semibold shrink-0 ${isActive ? 'text-primary-200 dark:text-primary-500' : 'text-primary-400'}`}>
+                        <span className={`text-[8px] font-bold shrink-0 uppercase tracking-wider ${isActive ? 'text-black/80' : 'text-slate-500'}`}>
                           {new Date(contact.last_message_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       )}
                     </div>
-                    <p className={`text-[10px] font-semibold truncate mt-1 ${isActive ? 'text-primary-100 dark:text-primary-700' : 'text-primary-400'}`}>
+                    <p className={`text-[10px] font-semibold truncate mt-1 ${isActive ? 'text-black/70' : 'text-slate-400'}`}>
                       {contact.last_message}
                     </p>
                   </div>
@@ -86,9 +85,9 @@ const ChatPage = () => {
             })
           ) : (
             <div className="text-center py-10 px-4 space-y-3">
-              <MessageSquare className="h-8 w-8 text-primary-300 dark:text-slate-700 mx-auto" />
-              <p className="text-[10px] text-primary-400 dark:text-slate-400 font-bold uppercase tracking-wider">No conversations</p>
-              <p className="text-[10px] text-primary-400 leading-relaxed font-semibold">
+              <MessageSquare className="h-8 w-8 text-slate-600 mx-auto" />
+              <p className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">No conversations</p>
+              <p className="text-[10px] text-slate-400 leading-relaxed font-semibold">
                 Go to Discovery to swipe on candidates and build active connections.
               </p>
             </div>
@@ -97,20 +96,20 @@ const ChatPage = () => {
       </div>
 
       {/* Right Chat Conversations Area */}
-      <div className="flex-1 min-w-0 flex flex-col h-full bg-white/20 dark:bg-slate-950/10">
+      <div className="flex-1 min-w-0 flex flex-col h-full bg-black/10">
         {activeContact ? (
           <>
             {/* Active Contact Header */}
-            <div className="p-4 border-b border-primary-200/40 dark:border-slate-800 flex justify-between items-center bg-white/40 dark:bg-slate-900/20 shrink-0">
+            <div className="p-4 border-b border-white/5 flex justify-between items-center bg-black/40 shrink-0">
               <div className="flex items-center gap-3">
                 <img 
                   src={activeContact.profile_pic || `https://api.dicebear.com/7.x/adventurer/svg?seed=${activeContact.name}`} 
                   alt={activeContact.name} 
-                  className="h-10 w-10 rounded-xl object-cover bg-slate-100 border"
+                  className="h-10 w-10 rounded-xl object-cover bg-slate-900 border border-white/10"
                 />
                 <div className="text-left">
-                  <h4 className="font-extrabold text-sm">{activeContact.name}</h4>
-                  <span className="text-[9px] text-emerald-500 font-extrabold flex items-center gap-0.5">
+                  <h4 className="font-extrabold text-sm text-white">{activeContact.name}</h4>
+                  <span className="text-[9px] text-[#DFFE00] font-extrabold uppercase tracking-wider flex items-center gap-1 mt-0.5">
                     ● connected
                   </span>
                 </div>
@@ -121,8 +120,8 @@ const ChatPage = () => {
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {loadingMessages ? (
                 <div className="space-y-4 py-8">
-                  <div className="h-8 w-32 bg-primary-100 dark:bg-slate-800 rounded-2xl animate-pulse" />
-                  <div className="h-8 w-44 bg-primary-100 dark:bg-slate-800 rounded-2xl animate-pulse ml-auto" />
+                  <div className="h-8 w-32 bg-white/5 border border-white/10 rounded-2xl animate-pulse" />
+                  <div className="h-8 w-44 bg-white/5 border border-white/10 rounded-2xl animate-pulse ml-auto" />
                 </div>
               ) : (
                 messages.map((msg) => {
@@ -135,12 +134,12 @@ const ChatPage = () => {
                       <div 
                         className={`max-w-[70%] rounded-2xl px-4 py-2.5 text-xs font-semibold shadow-sm leading-relaxed ${
                           isMe 
-                            ? 'bg-gradient-to-tr from-secondary-500 to-sky-400 text-white rounded-br-none' 
-                            : 'bg-white dark:bg-slate-900 border border-primary-100/50 dark:border-slate-800/80 text-primary-850 dark:text-slate-200 rounded-bl-none'
+                            ? 'bg-[#DFFE00] text-black rounded-br-none font-bold' 
+                            : 'bg-white/5 border border-white/5 text-slate-200 rounded-bl-none'
                         }`}
                       >
                         <p>{msg.message}</p>
-                        <span className={`block text-[8px] mt-1 text-right ${isMe ? 'text-white/80' : 'text-primary-400 dark:text-slate-500'}`}>
+                        <span className={`block text-[8px] mt-1.5 text-right font-bold uppercase tracking-wider ${isMe ? 'text-black/60' : 'text-slate-500'}`}>
                           {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -152,7 +151,7 @@ const ChatPage = () => {
             </div>
 
             {/* Input Send Bar */}
-            <form onSubmit={handleSend} className="p-4 border-t border-primary-200/40 dark:border-slate-800 shrink-0 bg-white/40 dark:bg-slate-900/20 flex gap-2">
+            <form onSubmit={handleSend} className="p-4 border-t border-white/5 shrink-0 bg-black/40 flex gap-2">
               <input 
                 type="text" 
                 placeholder="Type a message..."
@@ -172,11 +171,11 @@ const ChatPage = () => {
         ) : (
           // Empty Vibe selector
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-4">
-            <div className="h-16 w-16 rounded-full bg-secondary-100/60 dark:bg-slate-900 flex items-center justify-center text-secondary-500">
+            <div className="h-16 w-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#DFFE00]">
               <MessageSquare className="h-8 w-8 stroke-[2px]" />
             </div>
-            <h4 className="font-extrabold text-base">Select a conversation</h4>
-            <p className="text-xs text-primary-400 dark:text-slate-400 font-semibold max-w-xs leading-relaxed">
+            <h4 className="font-syne font-extrabold text-base text-white uppercase tracking-tight">Select a conversation</h4>
+            <p className="text-xs text-slate-400 font-semibold max-w-xs leading-relaxed">
               Choose a connection from the left menu panel or swipe right inside discover matches to establish new chats.
             </p>
           </div>

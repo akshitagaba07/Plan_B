@@ -35,7 +35,6 @@ const ProfilePage = () => {
     'Coffee', 'Coding', 'Photography', 'Food', 'Art'
   ];
 
-  // Pre-fill profile fields if they exist
   useEffect(() => {
     if (user?.profile) {
       const p = user.profile;
@@ -72,7 +71,6 @@ const ProfilePage = () => {
       async (position) => {
         const { latitude, longitude } = position.coords;
         try {
-          // Attempt to reverse geocode using free API, or default to mock SF
           let detectedCity = "San Francisco";
           try {
             const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
@@ -96,7 +94,6 @@ const ProfilePage = () => {
       },
       (error) => {
         console.error("Geolocation error:", error);
-        // Fallback to simple simulated location
         setTimeout(async () => {
           await profileAPI.detectLocation(37.7749, -122.4194, "San Francisco");
           setCity("San Francisco");
@@ -174,13 +171,13 @@ const ProfilePage = () => {
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 pb-24 relative font-outfit">
+    <div className="max-w-3xl mx-auto px-4 py-8 pb-24 relative font-outfit text-white">
       
       {/* Top Banner Message */}
       <AnimatePresence>
         {successMsg && (
           <motion.div 
-            className="fixed top-6 right-6 bg-emerald-500 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-50 border border-emerald-400"
+            className="fixed top-6 right-6 bg-[#DFFE00] text-black font-extrabold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 z-50 border border-[#DFFE00]"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
@@ -193,9 +190,9 @@ const ProfilePage = () => {
 
       {/* Profile Onboarding Header */}
       <div className="text-center space-y-2 mb-10">
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">Setup Your Profile</h2>
-        <p className="text-primary-400 dark:text-slate-400 font-semibold text-xs md:text-sm">
-          Let's tailor Plan B to locate compatible buddies and suggest custom social suggestions.
+        <h2 className="text-2xl md:text-3xl font-syne font-extrabold uppercase tracking-tight text-white">Setup Your Profile</h2>
+        <p className="text-slate-400 font-semibold text-xs md:text-sm">
+          Let's tailor Plan B to locate compatible buddies and suggest custom social options.
         </p>
 
         {/* Step Progress Indicators */}
@@ -205,23 +202,23 @@ const ProfilePage = () => {
               <div 
                 className={`h-8 w-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ${
                   step === s 
-                    ? 'bg-gradient-to-tr from-primary-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-primary-950 scale-110 shadow-md' 
+                    ? 'bg-[#DFFE00] text-black scale-110 shadow-lg shadow-[#DFFE00]/15' 
                     : step > s 
                       ? 'bg-emerald-500 text-white' 
-                      : 'bg-primary-200 dark:bg-slate-800 text-primary-400 dark:text-slate-500'
+                      : 'bg-white/10 text-slate-500'
                 }`}
               >
                 {step > s ? '✓' : s}
               </div>
               {s < 3 && (
-                <div className={`h-1 flex-1 mx-2 rounded-full transition-colors duration-300 ${step > s ? 'bg-emerald-500' : 'bg-primary-200 dark:bg-slate-800'}`} />
+                <div className={`h-1 flex-1 mx-2 rounded-full transition-colors duration-300 ${step > s ? 'bg-emerald-500' : 'bg-white/10'}`} />
               )}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="glass-card p-8 border-white/30 dark:border-slate-800">
+      <div className="glass-card p-8 border-white/5 bg-black/45">
         
         <form onSubmit={handleSave} className="space-y-6">
           <AnimatePresence mode="wait">
@@ -236,14 +233,14 @@ const ProfilePage = () => {
                 transition={{ duration: 0.2 }}
                 className="space-y-4"
               >
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-primary-100/50 dark:border-slate-800/40">
-                  <User className="h-5 w-5 text-secondary-500 stroke-[2px]" />
-                  <h3 className="font-extrabold text-base uppercase tracking-wider">Step 1: The Basics</h3>
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+                  <User className="h-5 w-5 text-[#DFFE00] stroke-[2px]" />
+                  <h3 className="font-syne font-extrabold text-base uppercase tracking-wider text-white">Step 1: The Basics</h3>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Full Name</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Full Name</label>
                     <input 
                       type="text" 
                       placeholder="e.g. John Doe"
@@ -256,7 +253,7 @@ const ProfilePage = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1 text-left">
-                      <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Age</label>
+                      <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Age</label>
                       <input 
                         type="number" 
                         min="16" 
@@ -268,11 +265,11 @@ const ProfilePage = () => {
                       />
                     </div>
                     <div className="space-y-1 text-left">
-                      <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Gender</label>
+                      <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Gender</label>
                       <select 
                         value={gender}
                         onChange={(e) => setGender(e.target.value)}
-                        className="glass-input bg-transparent"
+                        className="glass-input bg-slate-900"
                       >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -283,7 +280,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Occupation</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Occupation</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Designer, Manager"
@@ -294,7 +291,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">University</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">University</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Stanford University"
@@ -306,7 +303,7 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="space-y-1 text-left">
-                  <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">About Me (Bio)</label>
+                  <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">About Me (Bio)</label>
                   <textarea 
                     rows="3"
                     placeholder="Tell people a little bit about yourself, what you are looking for, or something interesting you've done lately..."
@@ -328,15 +325,15 @@ const ProfilePage = () => {
                 transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-3 mb-2 pb-4 border-b border-primary-100/50 dark:border-slate-800/40">
-                  <Tag className="h-5 w-5 text-secondary-500 stroke-[2px]" />
-                  <h3 className="font-extrabold text-base uppercase tracking-wider">Step 2: Interests & Hobbies</h3>
+                <div className="flex items-center gap-3 mb-2 pb-4 border-b border-white/5">
+                  <Tag className="h-5 w-5 text-[#DFFE00] stroke-[2px]" />
+                  <h3 className="font-syne font-extrabold text-base uppercase tracking-wider text-white">Step 2: Interests & Hobbies</h3>
                 </div>
 
                 <div className="space-y-3 text-left">
                   <div className="flex justify-between items-end">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Core Interests</label>
-                    <span className="text-[10px] text-primary-400 font-bold">Select all that apply</span>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Core Interests</label>
+                    <span className="text-[10px] text-slate-500 font-extrabold">Select all that apply</span>
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
@@ -349,8 +346,8 @@ const ProfilePage = () => {
                           onClick={() => toggleInterest(interest)}
                           className={`text-xs font-bold px-4 py-2.5 rounded-xl border transition-all duration-150 ${
                             selected 
-                              ? 'bg-gradient-to-r from-primary-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-primary-950 border-transparent shadow-sm' 
-                              : 'bg-white/40 dark:bg-slate-900/40 border-primary-200/50 dark:border-slate-800/80 text-primary-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-900'
+                              ? 'bg-[#DFFE00] text-black border-transparent shadow-sm' 
+                              : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
                           }`}
                         >
                           {interest}
@@ -362,7 +359,7 @@ const ProfilePage = () => {
 
                 <div className="space-y-4 pt-2">
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Hobbies (separated by commas)</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Hobbies (separated by commas)</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Fifa, Trekking, Baking, Photography"
@@ -373,7 +370,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Favorite Activities (separated by commas)</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Favorite Activities (separated by commas)</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Watch movies, play soccer, hit the gym, museum tours"
@@ -384,7 +381,7 @@ const ProfilePage = () => {
                   </div>
 
                   <div className="space-y-1 text-left">
-                    <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400">Languages You Speak (separated by commas)</label>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Languages You Speak (separated by commas)</label>
                     <input 
                       type="text" 
                       placeholder="e.g. English, Spanish, Hindi, French"
@@ -407,21 +404,21 @@ const ProfilePage = () => {
                 transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-primary-100/50 dark:border-slate-800/40">
-                  <Compass className="h-5 w-5 text-secondary-500 stroke-[2px]" />
-                  <h3 className="font-extrabold text-base uppercase tracking-wider">Step 3: Verification & Media</h3>
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+                  <Compass className="h-5 w-5 text-[#DFFE00] stroke-[2px]" />
+                  <h3 className="font-syne font-extrabold text-base uppercase tracking-wider text-white">Step 3: Verification & Media</h3>
                 </div>
 
                 {/* Profile Picture */}
-                <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white/40 dark:bg-slate-900/40 border border-primary-200/30 dark:border-slate-800 rounded-3xl">
+                <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-3xl">
                   <div className="relative group shrink-0">
                     <img 
                       src={user?.profile?.profile_pic || "https://api.dicebear.com/7.x/adventurer/svg?seed=Default"} 
                       alt="Avatar Preview" 
-                      className="h-28 w-28 rounded-2xl bg-secondary-50 border border-primary-200 dark:border-slate-700 object-cover shadow-md"
+                      className="h-28 w-28 rounded-2xl bg-slate-900 border border-white/10 object-cover shadow-md"
                     />
                     {photoLoading && (
-                      <div className="absolute inset-0 bg-primary-950/40 rounded-2xl flex items-center justify-center text-white text-xs font-bold">
+                      <div className="absolute inset-0 bg-black/70 rounded-2xl flex items-center justify-center text-white text-xs font-bold">
                         Loading...
                       </div>
                     )}
@@ -429,12 +426,12 @@ const ProfilePage = () => {
                   
                   <div className="text-center sm:text-left space-y-3">
                     <h4 className="font-extrabold text-sm md:text-base">Upload Profile Picture</h4>
-                    <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold max-w-xs leading-relaxed">
+                    <p className="text-slate-400 text-xs font-semibold max-w-xs leading-relaxed">
                       Choose a clear photograph of yourself to help others identify you when meeting in person.
                     </p>
                     
-                    <label className="btn-secondary py-2.5 px-5 text-xs inline-flex items-center gap-2 cursor-pointer active:scale-95 transition-transform duration-200">
-                      <Camera className="h-4 w-4" />
+                    <label className="btn-secondary py-2.5 px-5 text-xs inline-flex items-center gap-2 cursor-pointer active:scale-95 transition-transform duration-200 uppercase font-bold">
+                      <Camera className="h-4 w-4 text-[#DFFE00]" />
                       <span>{photoLoading ? 'Uploading...' : 'Choose File'}</span>
                       <input 
                         type="file" 
@@ -448,8 +445,8 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Geolocation Detection */}
-                <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white/40 dark:bg-slate-900/40 border border-primary-200/30 dark:border-slate-800 rounded-3xl">
-                  <div className="h-16 w-16 rounded-2xl bg-secondary-100 dark:bg-slate-800 text-secondary-500 flex items-center justify-center shrink-0 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-3xl">
+                  <div className="h-16 w-16 rounded-2xl bg-slate-900 border border-white/10 text-[#DFFE00] flex items-center justify-center shrink-0 shadow-sm">
                     <MapPin className="h-8 w-8 stroke-[2px]" />
                   </div>
 
@@ -457,7 +454,7 @@ const ProfilePage = () => {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
                         <h4 className="font-extrabold text-sm md:text-base">Local City & Geolocation</h4>
-                        <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold mt-0.5">
+                        <p className="text-slate-400 text-xs font-semibold mt-0.5">
                           Share location coordinates to compute compatibility and distance between buddies.
                         </p>
                       </div>
@@ -466,16 +463,16 @@ const ProfilePage = () => {
                         type="button"
                         onClick={handleLocationDetection}
                         disabled={locationLoading}
-                        className="btn-secondary py-2.5 px-5 text-xs flex items-center gap-2 shrink-0 justify-center"
+                        className="btn-secondary py-2.5 px-5 text-xs flex items-center gap-2 shrink-0 justify-center uppercase font-bold"
                       >
                         {locationLoading ? (
                           <>
-                            <div className="animate-spin h-3.5 w-3.5 border-2 border-primary-500 border-t-transparent rounded-full" />
+                            <div className="animate-spin h-3.5 w-3.5 border-2 border-[#DFFE00] border-t-transparent rounded-full" />
                             <span>Locating...</span>
                           </>
                         ) : (
                           <>
-                            <Compass className="h-4 w-4" />
+                            <Compass className="h-4 w-4 text-[#DFFE00]" />
                             <span>Detect Location</span>
                           </>
                         )}
@@ -483,7 +480,7 @@ const ProfilePage = () => {
                     </div>
 
                     <div className="space-y-1 pt-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400 pl-1">Primary City</label>
+                      <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Primary City</label>
                       <input 
                         type="text" 
                         placeholder="e.g. San Francisco, California"
@@ -501,12 +498,12 @@ const ProfilePage = () => {
           </AnimatePresence>
 
           {/* Form Action Controls */}
-          <div className="flex justify-between items-center pt-6 border-t border-primary-100/50 dark:border-slate-800/40">
+          <div className="flex justify-between items-center pt-6 border-t border-white/5">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={prevStep}
-                className="btn-secondary py-3 px-6 text-sm"
+                className="btn-secondary py-3 px-6 text-sm uppercase font-bold"
               >
                 Back
               </button>
@@ -518,7 +515,7 @@ const ProfilePage = () => {
               <button
                 type="button"
                 onClick={nextStep}
-                className="btn-primary py-3 px-6 text-sm flex items-center gap-2"
+                className="btn-primary py-3 px-6 text-sm flex items-center gap-2 uppercase tracking-wide"
               >
                 <span>Continue</span>
                 <Sparkles className="h-4 w-4" />
@@ -527,7 +524,7 @@ const ProfilePage = () => {
               <button
                 type="submit"
                 disabled={saveLoading}
-                className="btn-accent py-3.5 px-8 text-sm flex items-center gap-2"
+                className="btn-accent py-3.5 px-8 text-sm flex items-center gap-2 uppercase tracking-wider font-extrabold"
               >
                 <span>{saveLoading ? 'Saving...' : 'Finish Setup'}</span>
                 <CheckCircle className="h-4 w-4" />
