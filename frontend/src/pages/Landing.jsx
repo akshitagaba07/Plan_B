@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
 
 const Landing = () => {
   const [activeRole, setActiveRole] = useState('seeker'); // 'seeker' or 'host'
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -135,38 +144,50 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden font-outfit pb-32 relative">
       
-      {/* Background Floating Orbs (Wero Ambient Glows) */}
+      {/* Background Floating Orbs (Saarthi/Wero Ambient Glows) */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full bg-purple-900/15 blur-[120px] animate-aurora-slow" />
         <div className="absolute top-[20%] right-[-15%] w-[60vw] h-[60vw] rounded-full bg-[#DFFE00]/5 blur-[150px] animate-aurora-medium" />
         <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-indigo-900/15 blur-[130px] animate-aurora-fast" />
+        {/* Centered Indigo Spotlight (Saarthi Techgen Style) */}
+        <div className="absolute top-[5%] left-[50%] -translate-x-1/2 w-[75vw] h-[40vw] rounded-full bg-indigo-600/10 blur-[130px] pointer-events-none" />
         <div className="bg-grid-glow" />
       </div>
 
-      {/* Header */}
-      <header className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center z-20 relative">
-        <div className="flex items-center gap-4 group cursor-pointer">
-          <div className="h-14 w-14 rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow">
-            <span className="text-black font-black text-3xl tracking-tighter">B</span>
+      {/* Header (Sticky Navigation Top Bar inspired by Saarthi Techgen) */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md bg-black/70 border-b border-white/5 py-4 shadow-xl' : 'bg-transparent py-6 border-b border-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-4 group cursor-pointer">
+            <div className={`rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow ${isScrolled ? 'h-11 w-11' : 'h-14 w-14'}`}>
+              <span className={`text-black font-black tracking-tighter transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>B</span>
+            </div>
+            <div className="flex flex-col text-left">
+              <span className={`font-syne font-black tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>Plan B</span>
+              <p className={`text-[9px] text-[#DFFE00] font-black tracking-[0.2em] uppercase mt-0.5 transition-all duration-300 group-hover:translate-x-1 ${isScrolled ? 'opacity-0 h-0 scale-y-0 overflow-hidden mt-0' : 'opacity-100'}`}>Social Wellness</p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-syne font-black text-3xl tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5">Plan B</span>
-            <p className="text-xs text-[#DFFE00] font-black tracking-[0.2em] uppercase mt-0.5 transition-transform duration-300 group-hover:translate-x-1">Social Wellness</p>
+
+          {/* Centered Navigation Links */}
+          <nav className="hidden md:flex items-center gap-8 text-[11px] font-extrabold tracking-widest uppercase text-slate-400">
+            <a href="#features" className="hover:text-white transition-colors duration-200">Features</a>
+            <Link to="/discover" className="hover:text-white transition-colors duration-200">Discover</Link>
+            <Link to="/community" className="hover:text-white transition-colors duration-200">Communities</Link>
+            <Link to="/wellness" className="hover:text-white transition-colors duration-200">Wellness</Link>
+          </nav>
+          
+          <div className="flex items-center gap-6">
+            <Link to="/login" className="font-semibold text-xs tracking-wider text-slate-300 hover:text-white transition-colors duration-200 uppercase">
+              LOG IN
+            </Link>
+            <Link to="/signup" className="bg-[#DFFE00] hover:bg-[#DFFE00]/90 text-black font-extrabold text-xs tracking-wider py-2.5 px-6 rounded-full transition-all duration-300 uppercase shadow-lg shadow-[#DFFE00]/10">
+              GET STARTED
+            </Link>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-6">
-          <Link to="/login" className="font-semibold text-sm text-slate-300 hover:text-white transition-colors duration-200">
-            LOG IN
-          </Link>
-          <Link to="/signup" className="btn-primary text-xs tracking-wider font-extrabold py-2 px-5 rounded-xl uppercase">
-            GET STARTED
-          </Link>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-12 md:pt-24 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
+      <section className="max-w-7xl mx-auto px-6 pt-36 md:pt-48 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
         <motion.div 
           className="flex-1 text-left space-y-8 max-w-2xl"
           initial={{ opacity: 0, y: 30 }}
