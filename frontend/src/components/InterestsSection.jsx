@@ -7,7 +7,7 @@ const cardsData = [
     emoji: "🏀",
     title: "Sports Partner",
     desc: "Find teammates for football, badminton, cricket, basketball, tennis or any sport nearby.",
-    gradient: "from-[#83f582] to-[#7af7f7]", // Wero-style Green to Cyan
+    gradient: "from-[#83f582] to-[#7af7f7]", // Wero Green to Cyan
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Sports Ball (Basketball/Soccer hybrid) */}
@@ -26,7 +26,7 @@ const cardsData = [
     emoji: "💪",
     title: "Workout Buddy",
     desc: "Stay consistent by finding someone to train, run, cycle or hit the gym with.",
-    gradient: "from-[#fd97fd] to-[#fdad70]", // Wero-style Pink to Orange
+    gradient: "from-[#fd97fd] to-[#fdad70]", // Wero Pink to Orange
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Kettlebell */}
@@ -43,7 +43,7 @@ const cardsData = [
     emoji: "☕",
     title: "Explore the City",
     desc: "Visit cafés, restaurants, bowling alleys, malls and hidden gems with like-minded people.",
-    gradient: "from-[#fff48d] to-[#fdad70]", // Wero-style Yellow to Orange
+    gradient: "from-[#fff48d] to-[#fdad70]", // Wero Yellow to Orange
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Coffee Mug */}
@@ -59,7 +59,7 @@ const cardsData = [
     emoji: "🎬",
     title: "Entertainment",
     desc: "Watch movies, attend concerts, gaming events, stand-up shows or festivals together.",
-    gradient: "from-[#7af7f7] to-[#fd97fd]", // Wero-style Cyan to Pink
+    gradient: "from-[#7af7f7] to-[#fd97fd]", // Wero Cyan to Pink
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Cinema Ticket */}
@@ -77,7 +77,7 @@ const cardsData = [
     emoji: "📚",
     title: "Study Together",
     desc: "Find coding partners, project teammates, accountability partners or study groups.",
-    gradient: "from-[#83f582] to-[#fff48d]", // Wero-style Green to Yellow
+    gradient: "from-[#83f582] to-[#fff48d]", // Wero Green to Yellow
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Open Book */}
@@ -93,7 +93,7 @@ const cardsData = [
     emoji: "🧳",
     title: "Travel Companion",
     desc: "Plan weekend trips, treks and adventures with verified people sharing your destination.",
-    gradient: "from-[#fdad70] to-[#fd74fd]", // Wero-style Orange to Purple
+    gradient: "from-[#fdad70] to-[#fd74fd]", // Wero Orange to Purple
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Suitcase / Luggage */}
@@ -112,7 +112,7 @@ const cardsData = [
     emoji: "🎨",
     title: "Learn Something New",
     desc: "Meet people interested in photography, dancing, cooking, art, music and many other hobbies.",
-    gradient: "from-[#7af7f7] to-[#83f582]", // Wero-style Cyan to Green
+    gradient: "from-[#7af7f7] to-[#83f582]", // Wero Cyan to Green
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Art Palette */}
@@ -131,7 +131,7 @@ const cardsData = [
     emoji: "🤝",
     title: "Just Need Company",
     desc: "Sometimes all you need is someone to grab coffee, go for a walk or simply enjoy good conversations.",
-    gradient: "from-[#fd97fd] to-[#fff48d]", // Wero-style Pink to Yellow
+    gradient: "from-[#fd97fd] to-[#fff48d]", // Wero Pink to Yellow
     illustration: (
       <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Two Chat Bubbles */}
@@ -190,78 +190,71 @@ const InterestsSection = () => {
         </div>
 
         {/* Timeline Path Container */}
-        <div className="relative w-full max-w-5xl mx-auto">
-          {/* Vertical Path Line (Wero style) */}
-          <div className="absolute left-1/2 top-4 bottom-4 w-[2px] bg-white/10 -translate-x-1/2 hidden lg:block" />
+        <div className="relative w-full max-w-4xl mx-auto pl-12 lg:pl-28">
+          {/* Vertical Path Line on the Left (Wero style) */}
+          <div className="absolute left-6 lg:left-12 top-4 bottom-4 w-[3px] bg-white/10" />
 
           {/* Cards Stack */}
-          <div className="space-y-12 lg:space-y-20">
+          <div className="relative">
             {cardsData.map((card, idx) => {
               const isEven = idx % 2 === 0;
 
               return (
                 <div 
                   key={idx}
-                  className="relative flex flex-col lg:flex-row items-center w-full"
+                  className={`relative w-full ${idx > 0 ? 'mt-[-25px] lg:mt-[-45px]' : ''}`}
+                  style={{ zIndex: (idx + 1) * 10 }}
                 >
-                  {/* Center Number Badge */}
-                  <div className="absolute left-1/2 -translate-x-1/2 h-10 w-10 rounded-full border-2 border-white/10 bg-black text-[#DFFE00] font-black text-sm flex items-center justify-center z-10 hidden lg:flex shadow-lg shadow-black">
+                  {/* Left-Aligned Number Badge on the line */}
+                  <div className="absolute left-[-42px] lg:left-[-76px] top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border-[3px] border-black bg-white text-black font-black text-sm flex items-center justify-center z-20 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     {idx + 1}
                   </div>
 
-                  {/* Alternating Left/Right Timeline Slots */}
-                  <div className={`w-full lg:w-[46%] ${isEven ? 'lg:mr-auto' : 'lg:ml-auto'}`}>
-                    <motion.div 
-                      initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ type: 'spring', stiffness: 60, damping: 15 }}
+                  <motion.div 
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ type: 'spring', stiffness: 60, damping: 15 }}
+                  >
+                    <div
+                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
                     >
-                      <div
-                        className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
-                      >
-                        {/* Left Side: Large Vector Illustration */}
-                        <div className="w-full md:w-[35%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                          {card.illustration}
+                      {/* Left Side: Large Vector Illustration */}
+                      <div className="w-full md:w-[35%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                        {card.illustration}
+                      </div>
+
+                      {/* Right Side: Copy & Actions */}
+                      <div className="w-full md:w-[65%] flex flex-col justify-between h-full min-h-[160px] text-left">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
+                              {card.title}
+                            </h3>
+                            <span className="text-xl select-none" role="img" aria-hidden="true">
+                              {card.emoji}
+                            </span>
+                          </div>
+                          <p className="text-slate-800 text-xs font-bold leading-relaxed">
+                            {card.desc}
+                          </p>
                         </div>
 
-                        {/* Right Side: Copy & Actions */}
-                        <div className="w-full md:w-[65%] flex flex-col justify-between h-full min-h-[160px] text-left">
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
-                                {card.title}
-                              </h3>
-                              <div className="flex items-center gap-2">
-                                <span className="lg:hidden h-6 w-6 rounded-full border border-black bg-white text-black font-black text-xs flex items-center justify-center">
-                                  {idx + 1}
-                                </span>
-                                <span className="text-xl select-none" role="img" aria-hidden="true">
-                                  {card.emoji}
-                                </span>
-                              </div>
-                            </div>
-                            <p className="text-slate-800 text-xs font-bold leading-relaxed">
-                              {card.desc}
-                            </p>
-                          </div>
-
-                          {/* Action Footer */}
-                          <div className="flex items-center justify-between pt-5 mt-auto border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
-                            <span className="text-[10px] font-black uppercase tracking-wider text-black">
-                              Find Sparks
-                            </span>
-                            <div className="h-7 w-7 rounded-full border border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
-                              <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
-                            </div>
+                        {/* Action Footer */}
+                        <div className="flex items-center justify-between pt-5 mt-auto border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-black">
+                            Find Sparks
+                          </span>
+                          <div className="h-7 w-7 rounded-full border border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
+                            <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
                           </div>
                         </div>
                       </div>
-                    </motion.div>
-                  </div>
+                    </div>
+                  </motion.div>
                 </div>
               );
             })}
