@@ -144,14 +144,48 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden font-outfit pb-32 relative">
       
-      {/* Background Floating Orbs (Saarthi/Wero Ambient Glows) */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[55vw] h-[55vw] rounded-full bg-purple-900/15 blur-[120px] animate-aurora-slow" />
-        <div className="absolute top-[20%] right-[-15%] w-[60vw] h-[60vw] rounded-full bg-[#DFFE00]/5 blur-[150px] animate-aurora-medium" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-indigo-900/15 blur-[130px] animate-aurora-fast" />
-        {/* Centered Indigo Spotlight (Saarthi Techgen Style) */}
-        <div className="absolute top-[5%] left-[50%] -translate-x-1/2 w-[75vw] h-[40vw] rounded-full bg-indigo-600/10 blur-[130px] pointer-events-none" />
-        <div className="bg-grid-glow" />
+      {/* Background Floating Video & Grid Overlay (Saarthi Techgen Inspired) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        {/* Ambient Video Background */}
+        <video 
+          autoPlay 
+          muted 
+          loop 
+          playsInline 
+          aria-hidden="true" 
+          className="w-full h-full object-cover object-center opacity-70"
+        >
+          <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bg-hero-0BnFGdr81Ifnj3WbBZoNt1KE4D5DMT.mp4" type="video/mp4" />
+        </video>
+
+        {/* Ambient gradients to blend video and text */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85 z-[1]" />
+
+        {/* Structural Grid Lines Overlay */}
+        <div className="absolute inset-0 z-[2] overflow-hidden opacity-25">
+          {/* Horizontal Lines */}
+          <div className="absolute h-px bg-white/10 top-[12.5%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[25%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[37.5%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[50%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[62.5%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[75%] left-0 right-0" />
+          <div className="absolute h-px bg-white/10 top-[87.5%] left-0 right-0" />
+          
+          {/* Vertical Lines */}
+          <div className="absolute w-px bg-white/10 left-[8.33%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[16.66%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[25%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[33.33%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[41.66%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[50%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[58.33%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[66.66%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[75%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
+          <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
+        </div>
       </div>
 
       {/* Header (Sticky Navigation Top Bar inspired by Saarthi Techgen) */}
