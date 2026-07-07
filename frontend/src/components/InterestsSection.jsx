@@ -9,7 +9,7 @@ const cardsData = [
     desc: "Find teammates for football, badminton, cricket, or stay consistent by finding a workout buddy for running, cycling, or gym sessions.",
     gradient: "from-[#83f582] to-[#7af7f7]", // Wero Green to Cyan
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 md:w-32 md:h-32 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Dumbbell behind */}
         <rect x="25" y="72" width="70" height="8" rx="2" stroke="black" strokeWidth="3.5" fill="black" />
         <rect x="20" y="62" width="12" height="28" rx="3" stroke="black" strokeWidth="3.5" fill="#fd74fd" />
@@ -34,7 +34,7 @@ const cardsData = [
     desc: "Visit cafés, restaurants, hidden gems, or grab a coffee, go for a walk, and enjoy good conversations with like-minded people.",
     gradient: "from-[#fff48d] to-[#fdad70]", // Wero Yellow to Orange
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 md:w-32 md:h-32 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Coffee Mug */}
         <rect x="25" y="50" width="54" height="52" rx="12" stroke="black" strokeWidth="3.5" fill="white" />
         <path d="M79 62c11 0 16 5 16 13s-5 13-16 13" stroke="black" strokeWidth="3.5" fill="none" />
@@ -54,7 +54,7 @@ const cardsData = [
     desc: "Watch movies, attend concerts, gaming events, stand-up shows, festivals, or plan weekend trips and adventures together.",
     gradient: "from-[#7af7f7] to-[#fd97fd]", // Wero Cyan to Pink
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 md:w-32 md:h-32 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Suitcase Base */}
         <rect x="25" y="45" width="55" height="60" rx="10" stroke="black" strokeWidth="3.5" fill="white" />
         <path d="M42 45V30h20v15" stroke="black" strokeWidth="3.5" fill="none" />
@@ -75,7 +75,7 @@ const cardsData = [
     desc: "Find coding partners, project teammates, study groups, or meet people interested in photography, music, art, and new skills.",
     gradient: "from-[#fdad70] to-[#fd74fd]", // Wero Orange to Purple
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 md:w-32 md:h-32 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Open Book */}
         <path d="M15 85V35c15 0 25-10 45-10v50c-20 0-30 10-45 10z" stroke="black" strokeWidth="3.5" fill="white" />
         <path d="M105 85V35c-15 0-25-10-45-10v50c20 0 30 10 45 10z" stroke="black" strokeWidth="3.5" fill="white" />
@@ -131,7 +131,7 @@ const InterestsSection = () => {
               return (
                 <div 
                   key={idx}
-                  className={`sticky w-full ${idx > 0 ? 'mt-[-40px] lg:mt-[-60px]' : ''}`}
+                  className={`sticky w-full ${idx > 0 ? 'mt-[-25px] lg:mt-[-40px]' : ''}`}
                   style={{ 
                     top: `${stickyTopOffset}px`, 
                     zIndex: (idx + 1) * 10 
@@ -149,34 +149,34 @@ const InterestsSection = () => {
                     transition={{ type: 'spring', stiffness: 60, damping: 15 }}
                   >
                     <div
-                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-10 md:p-12 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-10 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
+                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
                       role="button"
                       tabIndex={0}
                       aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
                     >
                       {/* Left Side: Large Vector Illustration */}
-                      <div className="w-full md:w-[35%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-full md:w-[30%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
                         {card.illustration}
                       </div>
 
                       {/* Right Side: Copy & Actions */}
-                      <div className="w-full md:w-[65%] flex flex-col justify-between h-full min-h-[180px] text-left">
-                        <div className="space-y-4">
+                      <div className="w-full md:w-[70%] flex flex-col justify-between h-full min-h-[130px] text-left">
+                        <div className="space-y-3">
                           <div className="flex items-center justify-between">
-                            <h3 className="font-syne font-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-tighter text-black leading-tight">
+                            <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
                               {card.title}
                             </h3>
-                            <span className="text-3xl select-none" role="img" aria-hidden="true">
+                            <span className="text-2xl select-none" role="img" aria-hidden="true">
                               {card.emoji}
                             </span>
                           </div>
-                          <p className="text-slate-800 text-sm md:text-base font-bold leading-relaxed">
+                          <p className="text-slate-800 text-xs md:text-sm font-bold leading-relaxed">
                             {card.desc}
                           </p>
                         </div>
 
                         {/* Action Footer */}
-                        <div className="flex items-center justify-between pt-6 mt-6 border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
+                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
                           <span className="text-xs font-black uppercase tracking-wider text-black">
                             Find Sparks
                           </span>
