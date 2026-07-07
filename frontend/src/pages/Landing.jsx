@@ -148,8 +148,20 @@ const Landing = () => {
       {/* Premium High-Definition Dynamic Background (Infinite Fluid Mesh & Grid Overlay) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#000000]">
         
+        {/* Background Video (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.22] mix-blend-screen z-0"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/background-video.webm" type="video/webm" />
+        </video>
+
         {/* Infinite Fluid Mesh Gradient Flow */}
-        <div className="absolute inset-0 filter blur-[130px] opacity-50">
+        <div className="absolute inset-0 filter blur-[130px] opacity-50 z-[1]">
           {/* Neon Purple/Indigo Blob */}
           <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/35 animate-float-slow" />
           
