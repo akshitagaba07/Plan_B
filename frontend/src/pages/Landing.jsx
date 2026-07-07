@@ -387,28 +387,6 @@ const Landing = () => {
         </motion.div>
       </section>
 
-      {/* Statistics Grid */}
-      <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-        <div className="glass-card grid grid-cols-2 md:grid-cols-4 gap-8 p-12 text-center border-white/5 bg-black/30">
-          <div>
-            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-[#DFFE00]">12,000+</h3>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Active Users</p>
-          </div>
-          <div>
-            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-white">48,000+</h3>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Sparks Connected</p>
-          </div>
-          <div>
-            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-[#DFFE00]">1,200+</h3>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Events Hosted</p>
-          </div>
-          <div>
-            <h3 className="text-4xl md:text-5xl font-syne font-extrabold text-white">82%</h3>
-            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Isolation Drop</p>
-          </div>
-        </div>
-      </section>
-
       {/* Features List Section */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-12 relative z-10">
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-20">
