@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
+import InterestsSection from '../components/InterestsSection';
 
 const Landing = () => {
   const [activeRole, setActiveRole] = useState('seeker'); // 'seeker' or 'host'
@@ -386,6 +387,9 @@ const Landing = () => {
           </div>
         </motion.div>
       </section>
+
+      {/* Interests Section */}
+      <InterestsSection />
 
       {/* Features List Section */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-12 relative z-10">
