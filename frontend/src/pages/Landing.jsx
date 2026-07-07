@@ -148,20 +148,20 @@ const Landing = () => {
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#000000]">
         
         {/* Infinite Fluid Mesh Gradient Flow */}
-        <div className="absolute inset-0 filter blur-[120px] opacity-40 mix-blend-screen">
+        <div className="absolute inset-0 filter blur-[130px] opacity-50">
           {/* Neon Purple/Indigo Blob */}
-          <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/30 animate-float-slow" />
+          <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/35 animate-float-slow" />
           
           {/* Lime Green Ambient Glow */}
-          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/15 animate-float-medium" />
+          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/20 animate-float-medium" />
           
           {/* Deep Royal Blue/Teal Blob */}
-          <div className="absolute bottom-[-10%] left-[15%] w-[55vw] h-[55vw] rounded-full bg-blue-600/25 animate-float-fast" />
+          <div className="absolute bottom-[-10%] left-[15%] w-[55vw] h-[55vw] rounded-full bg-blue-600/30 animate-float-fast" />
         </div>
 
         {/* Ambient Spotlight Gradients to Blend Layout */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(168,85,247,0.08),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(223,254,0,0.04),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(168,85,247,0.1),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(223,254,0,0.06),transparent_50%)]" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-[1]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85 z-[1]" />
 
@@ -188,15 +188,6 @@ const Landing = () => {
           <div className="absolute w-px bg-white/10 left-[75%] top-0 bottom-0" />
           <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
           <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
-        </div>
-
-        {/* Glowing Organic Connection Tree (Saarthi Inspired, Vibe Aligned) */}
-        <div className="absolute right-[-10%] top-[8%] w-[65vw] h-[80vh] opacity-25 md:opacity-35 z-[2] mix-blend-screen animate-float pointer-events-none">
-          <img 
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tree-uAia6REvB137CQyHFCf0za3O6h2zKO.png" 
-            alt="Glowing Wellness Connection Tree" 
-            className="w-full h-full object-contain object-right-top filter hue-rotate-[130deg] brightness-[1.4] saturate-[1.4] drop-shadow-[0_0_40px_rgba(223,254,0,0.35)]" 
-          />
         </div>
       </div>
 
