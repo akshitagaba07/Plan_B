@@ -181,7 +181,7 @@
   text-shadow: 0 0 10px rgba(223, 254, 0, 0.1);
 }
 
-/* Fluid Ambient Blob Keyframes */
+/* Fluid Ambient Blob Keyframes & Classes */
 @keyframes float-slow {
   0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
   50% { transform: translate(60px, -50px) scale(1.15) rotate(180deg); }
@@ -198,5 +198,17 @@
   0% { transform: translate(0px, 0px) scale(0.9) rotate(0deg); }
   50% { transform: translate(40px, 30px) scale(1.1) rotate(90deg); }
   100% { transform: translate(0px, 0px) scale(0.9) rotate(180deg); }
+}
+
+.animate-float-slow {
+  animation: float-slow 25s ease-in-out infinite alternate;
+}
+
+.animate-float-medium {
+  animation: float-medium 18s ease-in-out infinite alternate;
+}
+
+.animate-float-fast {
+  animation: float-fast 15s ease-in-out infinite alternate;
 }
 

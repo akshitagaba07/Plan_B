@@ -150,13 +150,13 @@ const Landing = () => {
         {/* Infinite Fluid Mesh Gradient Flow */}
         <div className="absolute inset-0 filter blur-[120px] opacity-40 mix-blend-screen">
           {/* Neon Purple/Indigo Blob */}
-          <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/30 animate-[float-slow_25s_infinite_alternate]" />
+          <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/30 animate-float-slow" />
           
           {/* Lime Green Ambient Glow */}
-          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/15 animate-[float-medium_18s_infinite_alternate]" />
+          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/15 animate-float-medium" />
           
           {/* Deep Royal Blue/Teal Blob */}
-          <div className="absolute bottom-[-10%] left-[15%] w-[55vw] h-[55vw] rounded-full bg-blue-600/25 animate-[float-fast_15s_infinite_alternate]" />
+          <div className="absolute bottom-[-10%] left-[15%] w-[55vw] h-[55vw] rounded-full bg-blue-600/25 animate-float-fast" />
         </div>
 
         {/* Ambient Spotlight Gradients to Blend Layout */}
@@ -188,6 +188,15 @@ const Landing = () => {
           <div className="absolute w-px bg-white/10 left-[75%] top-0 bottom-0" />
           <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
           <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
+        </div>
+
+        {/* Glowing Organic Connection Tree (Saarthi Inspired, Vibe Aligned) */}
+        <div className="absolute right-[-10%] top-[8%] w-[65vw] h-[80vh] opacity-25 md:opacity-35 z-[2] mix-blend-screen animate-float pointer-events-none">
+          <img 
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tree-uAia6REvB137CQyHFCf0za3O6h2zKO.png" 
+            alt="Glowing Wellness Connection Tree" 
+            className="w-full h-full object-contain object-right-top filter hue-rotate-[130deg] brightness-[1.4] saturate-[1.4] drop-shadow-[0_0_40px_rgba(223,254,0,0.35)]" 
+          />
         </div>
       </div>
 
