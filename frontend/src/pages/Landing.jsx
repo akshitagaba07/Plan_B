@@ -144,21 +144,24 @@ const Landing = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden font-outfit pb-32 relative">
       
-      {/* Background Floating Video & Grid Overlay (Saarthi Techgen Inspired) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        {/* Ambient Video Background */}
-        <video 
-          autoPlay 
-          muted 
-          loop 
-          playsInline 
-          aria-hidden="true" 
-          className="w-full h-full object-cover object-center opacity-70"
-        >
-          <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/bg-hero-0BnFGdr81Ifnj3WbBZoNt1KE4D5DMT.mp4" type="video/mp4" />
-        </video>
+      {/* Premium High-Definition Dynamic Background (Infinite Fluid Mesh & Grid Overlay) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#000000]">
+        
+        {/* Infinite Fluid Mesh Gradient Flow */}
+        <div className="absolute inset-0 filter blur-[120px] opacity-40 mix-blend-screen">
+          {/* Neon Purple/Indigo Blob */}
+          <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-600/30 animate-[float-slow_25s_infinite_alternate]" />
+          
+          {/* Lime Green Ambient Glow */}
+          <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#DFFE00]/15 animate-[float-medium_18s_infinite_alternate]" />
+          
+          {/* Deep Royal Blue/Teal Blob */}
+          <div className="absolute bottom-[-10%] left-[15%] w-[55vw] h-[55vw] rounded-full bg-blue-600/25 animate-[float-fast_15s_infinite_alternate]" />
+        </div>
 
-        {/* Ambient gradients to blend video and text */}
+        {/* Ambient Spotlight Gradients to Blend Layout */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(168,85,247,0.08),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(223,254,0,0.04),transparent_50%)]" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-[1]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85 z-[1]" />
 
