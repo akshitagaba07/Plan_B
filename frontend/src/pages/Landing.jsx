@@ -189,6 +189,15 @@ const Landing = () => {
           <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
           <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
         </div>
+
+        {/* Glowing Organic Connection Tree (Saarthi Inspired, Vibe Aligned) */}
+        <div className="absolute right-[-10%] top-[8%] w-[65vw] h-[80vh] opacity-25 md:opacity-35 z-[2] mix-blend-screen animate-float pointer-events-none">
+          <img 
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tree-uAia6REvB137CQyHFCf0za3O6h2zKO.png" 
+            alt="Glowing Wellness Connection Tree" 
+            className="w-full h-full object-contain object-right-top filter hue-rotate-[130deg] brightness-[1.4] saturate-[1.4] drop-shadow-[0_0_40px_rgba(223,254,0,0.35)]" 
+          />
+        </div>
       </div>
 
       {/* Header (Sticky Navigation Top Bar inspired by Saarthi Techgen) */}
@@ -231,11 +240,7 @@ const Landing = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-full px-4.5 py-1.5 text-[#DFFE00] text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>AI-POWERED REAL CONNECTION</span>
-          </div>
+
 
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-[80px] font-syne font-extrabold leading-[0.95] uppercase tracking-tighter text-white">
