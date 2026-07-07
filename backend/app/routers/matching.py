@@ -83,7 +83,8 @@ def get_matches(
             "languages": profile.languages,
             "profile_pic": profile.profile_pic,
             "latitude": profile.latitude,
-            "longitude": profile.longitude
+            "longitude": profile.longitude,
+            "active_goal": profile.active_goal
         }
         
         matches.append({

@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const [bio, setBio] = useState('');
   const [occupation, setOccupation] = useState('');
   const [university, setUniversity] = useState('');
+  const [activeGoal, setActiveGoal] = useState('');
   
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [hobbiesInput, setHobbiesInput] = useState('');
@@ -45,6 +46,7 @@ const ProfilePage = () => {
       setBio(p.bio || '');
       setOccupation(p.occupation || '');
       setUniversity(p.university || '');
+      setActiveGoal(p.active_goal || '');
       setSelectedInterests(p.interests || []);
       setHobbiesInput((p.hobbies || []).join(', '));
       setActivitiesInput((p.favorite_activities || []).join(', '));
@@ -141,6 +143,7 @@ const ProfilePage = () => {
       bio,
       occupation,
       university,
+      active_goal: activeGoal,
       interests: selectedInterests,
       hobbies,
       favorite_activities,
@@ -300,6 +303,17 @@ const ProfilePage = () => {
                       className="glass-input"
                     />
                   </div>
+                </div>
+
+                <div className="space-y-1 text-left">
+                  <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Current Active Goal / Activity Vibe</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Cafe study, Fifa night, Museum stroll, Workout"
+                    value={activeGoal}
+                    onChange={(e) => setActiveGoal(e.target.value)}
+                    className="glass-input"
+                  />
                 </div>
 
                 <div className="space-y-1 text-left">

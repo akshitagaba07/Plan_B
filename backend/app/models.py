@@ -33,6 +33,7 @@ class Profile(Base):
     bio = Column(Text, nullable=True)
     occupation = Column(String, nullable=True)
     university = Column(String, nullable=True)
+    active_goal = Column(String, nullable=True, default="")
     
     # Store list data as JSON strings in SQLite
     interests_json = Column(Text, default="[]")

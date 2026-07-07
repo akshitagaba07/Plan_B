@@ -44,6 +44,7 @@ class ProfileBase(BaseModel):
     profile_pic: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    active_goal: Optional[str] = None
 
 class ProfileCreate(ProfileBase):
     pass
@@ -63,6 +64,7 @@ class ProfileUpdate(BaseModel):
     profile_pic: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    active_goal: Optional[str] = None
 
 class ProfileResponse(ProfileBase):
     user_id: int

@@ -66,10 +66,14 @@ def seed_database():
         
         # 1. Create Mock Users and Profiles
         seed_users = [
-            {"email": "rohan@planb.com", "name": "Rohan", "age": 23, "gender": "Male", "city": "San Francisco", "bio": "Gaming, coding, and casual football matches. Always up for a Fifa session or outdoor sports!", "occupation": "Software Engineer", "university": "UC Berkeley", "interests": ["Gaming", "Coding", "Football"], "hobbies": ["Fifa", "Trekking"], "acts": ["Play Football", "Watch Movies"], "languages": ["English", "Hindi"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Rohan", "lat": 37.7749, "lon": -122.4194},
-            {"email": "priya@planb.com", "name": "Priya", "age": 22, "gender": "Female", "city": "San Francisco", "bio": "Art enthusiast, coffee lover, and acoustic music player. Let's discover local cafes and art galleries!", "occupation": "Graphic Designer", "university": "Stanford", "interests": ["Art", "Coffee", "Music"], "hobbies": ["Painting", "Guitar"], "acts": ["Cafe hopping", "Museum visits"], "languages": ["English", "Spanish"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Priya", "lat": 37.7833, "lon": -122.4167},
-            {"email": "sarah@planb.com", "name": "Sarah", "age": 24, "gender": "Female", "city": "San Francisco", "bio": "Books devourer, anime binger, and amateur photography fan. Always down for anime watch parties!", "occupation": "Content Writer", "university": "SFSU", "interests": ["Books", "Anime", "Photography"], "hobbies": ["Reading", "Drawing"], "acts": ["Anime Night", "Photo Walk"], "languages": ["English", "Japanese"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Sarah", "lat": 37.7699, "lon": -122.4468},
-            {"email": "alex@planb.com", "name": "Alex", "age": 25, "gender": "Male", "city": "San Francisco", "bio": "Fitness nut, travel addict, and amateur cricket bowler. Let's hit the gym or plan a quick weekend hike!", "occupation": "Personal Trainer", "university": "USF", "interests": ["Gym", "Travel", "Cricket"], "hobbies": ["Powerlifting", "Hiking"], "acts": ["Workout Session", "Weekend Trip"], "languages": ["English", "German"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Alex", "lat": 37.7599, "lon": -122.4368}
+            {"email": "emily@planb.com", "name": "Emily", "age": 23, "gender": "Female", "city": "San Francisco", "bio": "Software engineer at a startup. Always code-cafe hopping or studying in library basements. Looking for a study buddy!", "occupation": "Software Engineer", "university": "UC Berkeley", "interests": ["Coding", "Coffee", "Books"], "hobbies": ["Baking", "Chess"], "acts": ["Cafe study", "Coding sprint"], "languages": ["English", "Mandarin"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Emily", "lat": 37.7858, "lon": -122.4012, "active_goal": "Cafe study"},
+            {"email": "marcus@planb.com", "name": "Marcus", "age": 24, "gender": "Male", "city": "San Francisco", "bio": "Calisthenics addict and personal trainer. Let's hit the gym, run along the Embarcadero, or go trekking!", "occupation": "Fitness Trainer", "university": "USF", "interests": ["Gym", "Football", "Travel"], "hobbies": ["Hiking", "Powerlifting"], "acts": ["Workout", "Running session"], "languages": ["English", "Spanish"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Marcus", "lat": 37.7651, "lon": -122.4211, "active_goal": "Workout"},
+            {"email": "chen@planb.com", "name": "Chen", "age": 22, "gender": "Male", "city": "San Francisco", "bio": "Avid football fan and recreational midfield player. Looking to play a quick casual turf match this week!", "occupation": "Student", "university": "Stanford", "interests": ["Football", "Cricket", "Gaming"], "hobbies": ["Fifa", "Running"], "acts": ["Turf Football", "Fifa Match"], "languages": ["English", "Hindi"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Chen", "lat": 37.7599, "lon": -122.4368, "active_goal": "Play Football"},
+            {"email": "chloe@planb.com", "name": "Chloe", "age": 23, "gender": "Female", "city": "San Francisco", "bio": "Graphic designer and modern art fan. Looking for a gallery companion to check out the SFMOMA exhibits this weekend!", "occupation": "Designer", "university": "SFSU", "interests": ["Art", "Coffee", "Photography"], "hobbies": ["Painting", "Museums"], "acts": ["Museum stroll", "Photo walk"], "languages": ["English", "French"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Chloe", "lat": 37.7812, "lon": -122.4187, "active_goal": "Museum stroll"},
+            {"email": "sofia@planb.com", "name": "Sofia", "age": 25, "gender": "Female", "city": "San Francisco", "bio": "Freelance writer and book reviewer. Let's grab iced matchas and read at Dolores Park or search for vintage books.", "occupation": "Writer", "university": "UCSF", "interests": ["Books", "Coffee", "Anime"], "hobbies": ["Novels", "Sketching"], "acts": ["Park reading", "Bookstore crawl"], "languages": ["English", "Italian"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Sofia", "lat": 37.7739, "lon": -122.4312, "active_goal": "Park reading"},
+            {"email": "jamal@planb.com", "name": "Jamal", "age": 24, "gender": "Male", "city": "San Francisco", "bio": "PC builder and competitive gamer. Looking for local players to team up for Valorant custom lobbies or Fifa nights.", "occupation": "Data Analyst", "university": "UC Berkeley", "interests": ["Gaming", "Coding", "Music"], "hobbies": ["Esports", "Keyboard building"], "acts": ["Fifa night", "Valorant lobby"], "languages": ["English", "Arabic"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Jamal", "lat": 37.7791, "lon": -122.4412, "active_goal": "Fifa night"},
+            {"email": "david@planb.com", "name": "David", "age": 26, "gender": "Male", "city": "San Francisco", "bio": "Street photography enthusiast. Always roaming downtown SF with a film camera. Looking for photo walk partners!", "occupation": "Photographer", "university": "Stanford", "interests": ["Photography", "Travel", "Art"], "hobbies": ["Film scan", "Cycling"], "acts": ["Photo walk", "Cycle tour"], "languages": ["English", "German"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=David", "lat": 37.7689, "lon": -122.4091, "active_goal": "Photo walk"},
+            {"email": "jessica@planb.com", "name": "Jessica", "age": 22, "gender": "Female", "city": "San Francisco", "bio": "Culinary student and foodie. Exploring SF's best bakeries and hidden noodle spots. Join me for food crawls!", "occupation": "Culinary Student", "university": "SFSU", "interests": ["Food", "Coffee", "Music"], "hobbies": ["Cooking", "Guitar"], "acts": ["Food crawl", "Cafe hopping"], "languages": ["English", "Korean"], "pic": "https://api.dicebear.com/7.x/adventurer/svg?seed=Jessica", "lat": 37.7891, "lon": -122.4121, "active_goal": "Food crawl"}
         ]
 
         created_users = []
@@ -90,7 +94,8 @@ def seed_database():
                 university=u["university"],
                 profile_pic=u["pic"],
                 latitude=u["lat"],
-                longitude=u["lon"]
+                longitude=u["lon"],
+                active_goal=u["active_goal"]
             )
             new_profile.interests = u["interests"]
             new_profile.hobbies = u["hobbies"]
@@ -144,12 +149,12 @@ def seed_database():
 
         comment1 = CommunityComment(
             post_id=new_post.id,
-            author_id=created_users[2].id, # Sarah
+            author_id=created_users[4].id, # Sofia
             content="I'm totally in! Add me, I usually play Sage."
         )
         comment2 = CommunityComment(
             post_id=new_post.id,
-            author_id=created_users[1].id, # Priya
+            author_id=created_users[1].id, # Marcus
             content="I can join too, though I'm a bit rusty. Warned you!"
         )
         db.add(comment1)
@@ -158,9 +163,9 @@ def seed_database():
 
         # 4. Create Events
         seed_events = [
-            {"title": "Weekend Co-Op Fifa Session", "desc": "Casual evening playing FIFA. Snacks provided! Max 8 players.", "date": (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d"), "time": "18:00", "loc": "Rohan's Lounge, San Francisco", "cat": "Gaming", "host": created_users[0].id},
-            {"title": "Outdoor Football Scrimmage", "desc": "Casual 5v5 game. All skill levels welcome. Bring shin guards if you have them.", "date": (datetime.date.today() + datetime.timedelta(days=4)).strftime("%Y-%m-%d"), "time": "16:00", "loc": "Golden Gate Park Turf, SF", "cat": "Football", "host": created_users[0].id},
-            {"title": "Coffee & Art Gallery Stroll", "desc": "Starting at Blue Bottle Coffee for lattes, then visiting the nearby SFMOMA. Let's hang!", "date": (datetime.date.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d"), "time": "10:30", "loc": "Blue Bottle Cafe, Downtown SF", "cat": "Cafe", "host": created_users[1].id}
+            {"title": "Co-Working & Coding Session", "desc": "Grab a coffee and work on side projects or study together. Wifi and power outlets available!", "date": (datetime.date.today() + datetime.timedelta(days=2)).strftime("%Y-%m-%d"), "time": "14:00", "loc": "Hatch Cafe, San Francisco", "cat": "Study", "host": created_users[0].id},
+            {"title": "Outdoor Football Scrimmage", "desc": "Casual 5v5 game on the turf. All skill levels welcome, just bring your soccer cleats!", "date": (datetime.date.today() + datetime.timedelta(days=4)).strftime("%Y-%m-%d"), "time": "16:00", "loc": "Golden Gate Park Turf, SF", "cat": "Football", "host": created_users[2].id},
+            {"title": "Coffee & SFMOMA Art Gallery Stroll", "desc": "Starting at Blue Bottle Coffee for lattes, then visiting the nearby SFMOMA gallery exhibits.", "date": (datetime.date.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d"), "time": "10:30", "loc": "Blue Bottle Cafe, Downtown SF", "cat": "Cafe", "host": created_users[3].id}
         ]
 
         for e in seed_events:

@@ -87,6 +87,15 @@ def calculate_compatibility(p1: Profile, p2: Profile, mood1: str = None, mood2: 
     else:
         score += 12.0 # Neutral placeholder if mood not logged today
 
+    # 5. Active Goal / Surrounding Activity Matching (20 points max)
+    if getattr(p1, "active_goal", None) and getattr(p2, "active_goal", None):
+        g1 = p1.active_goal.lower()
+        g2 = p2.active_goal.lower()
+        if g1 == g2:
+            score += 20.0
+        elif g1 in g2 or g2 in g1 or any(word in g2 for word in g1.split() if len(word) > 3):
+            score += 15.0
+
     # Keep within limits and round
     final_score = min(max(round(score, 0), 10.0), 99.0)
     return final_score, mutual_interests, distance

@@ -104,6 +104,11 @@ const Matches = () => {
                       <p className="text-[10px] text-slate-400 font-extrabold uppercase mt-1 tracking-wider">
                         {match.profile.occupation || 'Hobby seeker'}
                       </p>
+                      {match.profile.active_goal && (
+                        <span className="inline-flex items-center gap-1 mt-1 bg-rose-500/10 dark:bg-rose-500/20 text-rose-500 text-[9px] font-extrabold px-1.5 py-0.5 rounded-md border border-rose-500/20">
+                          🎯 Seeking: {match.profile.active_goal}
+                        </span>
+                      )}
                     </div>
                   </div>
 

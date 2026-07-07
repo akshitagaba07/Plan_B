@@ -140,6 +140,11 @@ const Discover = () => {
                   <div>
                     <h3 className="font-extrabold text-base md:text-lg text-white">{currentMatch.profile.name}, {currentMatch.profile.age}</h3>
                     <p className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mt-0.5">{currentMatch.profile.occupation || 'Hobby Seeker'}</p>
+                    {currentMatch.profile.active_goal && (
+                      <span className="inline-flex items-center gap-1 mt-1.5 bg-rose-500/10 dark:bg-rose-500/20 text-rose-500 text-[10px] font-extrabold px-2 py-0.5 rounded-lg border border-rose-500/20">
+                        🎯 Seeking: {currentMatch.profile.active_goal}
+                      </span>
+                    )}
                   </div>
                 </div>
 

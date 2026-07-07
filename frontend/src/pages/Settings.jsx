@@ -14,6 +14,7 @@ const SettingsPage = () => {
   const [city, setCity] = useState('');
   const [university, setUniversity] = useState('');
   const [occupation, setOccupation] = useState('');
+  const [activeGoal, setActiveGoal] = useState('');
   
   const [blockedUsers, setBlockedUsers] = useState([]);
   const [loadingSafety, setLoadingSafety] = useState(true);
@@ -37,6 +38,7 @@ const SettingsPage = () => {
       setCity(user.profile.city || '');
       setUniversity(user.profile.university || '');
       setOccupation(user.profile.occupation || '');
+      setActiveGoal(user.profile.active_goal || '');
     }
     loadBlockedMatches();
   }, [user]);
@@ -48,7 +50,8 @@ const SettingsPage = () => {
       await updateProfile({
         city,
         university,
-        occupation
+        occupation,
+        active_goal: activeGoal
       });
       setSuccessMsg("Settings updated successfully!");
       setTimeout(() => setSuccessMsg(''), 2500);
@@ -115,7 +118,7 @@ const SettingsPage = () => {
           </div>
 
           <form onSubmit={handleProfileSave} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 pl-1">Primary City</label>
                 <input 
@@ -144,6 +147,17 @@ const SettingsPage = () => {
                   value={occupation}
                   onChange={(e) => setOccupation(e.target.value)}
                   className="glass-input text-xs"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-primary-400 dark:text-slate-400 pl-1">Active Social Goal</label>
+                <input 
+                  type="text" 
+                  value={activeGoal}
+                  onChange={(e) => setActiveGoal(e.target.value)}
+                  className="glass-input text-xs"
+                  placeholder="e.g. Cafe study, Fifa night"
                 />
               </div>
             </div>

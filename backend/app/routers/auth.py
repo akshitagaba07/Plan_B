@@ -98,7 +98,8 @@ def get_me(current_user: User = Depends(get_current_user), db: Session = Depends
             "languages": profile.languages,
             "profile_pic": profile.profile_pic,
             "latitude": profile.latitude,
-            "longitude": profile.longitude
+            "longitude": profile.longitude,
+            "active_goal": profile.active_goal
         } if profile else None
     }
 

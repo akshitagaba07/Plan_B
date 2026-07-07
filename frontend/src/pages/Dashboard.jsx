@@ -11,11 +11,40 @@ import {
 import { motion } from 'framer-motion';
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [moodHistory, setMoodHistory] = useState([]);
   const [moodDistribution, setMoodDistribution] = useState({});
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [activeGoal, setActiveGoal] = useState(user?.profile?.active_goal || '');
+  const [customGoal, setCustomGoal] = useState('');
+  const [isUpdatingGoal, setIsUpdatingGoal] = useState(false);
+  const [goalMessage, setGoalMessage] = useState('');
+
+  // Sync active goal state with user context profile
+  useEffect(() => {
+    if (user?.profile) {
+      setActiveGoal(user.profile.active_goal || '');
+    }
+  }, [user]);
+
+  const handleUpdateGoal = async (newGoal) => {
+    try {
+      setIsUpdatingGoal(true);
+      await updateProfile({ active_goal: newGoal });
+      setActiveGoal(newGoal);
+      setGoalMessage("Social goal updated! Recalculating sparks...");
+      // Re-load recommended matches to get updated scores based on new goal
+      const matchesRes = await matchesAPI.getMatches();
+      setMatches(matchesRes.data.slice(0, 3));
+      setTimeout(() => setGoalMessage(''), 3000);
+    } catch (err) {
+      console.error("Failed to update goal:", err);
+    } finally {
+      setIsUpdatingGoal(false);
+    }
+  };
 
   // Standard metrics
   const stats = [
@@ -124,6 +153,97 @@ const Dashboard = () => {
             <span className="text-[10px] text-[#DFFE00] font-extrabold">▲ +4% vs last week</span>
           </div>
         </div>
+      </div>
+
+      {/* Active Goal / Status Widget */}
+      <div className="glass-card p-6 border-white/30 dark:border-slate-800 bg-gradient-to-r from-secondary-500/5 to-primary-900/5 text-left space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h3 className="font-extrabold text-base uppercase tracking-wider flex items-center gap-2">
+              <span className="text-secondary-500">🎯</span> Your Active Social Goal
+            </h3>
+            <p className="text-primary-400 dark:text-slate-400 text-xs font-semibold">
+              Set your target activity today to instantly discover buddies nearby with matching intentions.
+            </p>
+          </div>
+          
+          <div className="shrink-0 flex items-center gap-2">
+            <span className="text-xs text-primary-400 font-bold uppercase">Current:</span>
+            <span className={`text-xs font-extrabold px-3 py-1.5 rounded-xl border ${
+              activeGoal 
+                ? 'bg-gradient-to-r from-secondary-400 to-blue-500 text-white border-transparent shadow-sm' 
+                : 'bg-primary-100 dark:bg-slate-800 text-primary-400 dark:text-slate-500 border-primary-200/50 dark:border-slate-800/80'
+            }`}>
+              {activeGoal || 'No active goal'}
+            </span>
+          </div>
+        </div>
+
+        {/* Success toast inside card */}
+        {goalMessage && (
+          <div className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-3 py-2 rounded-xl border border-emerald-500/20 animate-pulse">
+            {goalMessage}
+          </div>
+        )}
+
+        {/* Quick action options */}
+        <div className="space-y-3">
+          <p className="text-[10px] text-primary-400 font-extrabold uppercase tracking-widest pl-0.5">Quick Select Vibe</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "Cafe study",
+              "Workout",
+              "Play Football",
+              "Museum stroll",
+              "Park reading",
+              "Fifa night",
+              "Photo walk",
+              "Food crawl"
+            ].map((g) => (
+              <button
+                key={g}
+                type="button"
+                disabled={isUpdatingGoal}
+                onClick={() => handleUpdateGoal(g)}
+                className={`text-xs font-bold px-3.5 py-2 rounded-xl border transition-all duration-150 ${
+                  activeGoal.toLowerCase() === g.toLowerCase()
+                    ? 'bg-gradient-to-r from-primary-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-primary-950 border-transparent shadow-sm'
+                    : 'bg-white/40 dark:bg-slate-900/40 border-primary-200/50 dark:border-slate-800/80 text-primary-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-900'
+                }`}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Custom Input */}
+        <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (customGoal.trim()) {
+              handleUpdateGoal(customGoal.trim());
+              setCustomGoal('');
+            }
+          }}
+          className="flex items-center gap-3 max-w-md pt-2"
+        >
+          <input 
+            type="text" 
+            placeholder="Or type a custom goal (e.g. Vintage shopping, Boardgames)..."
+            value={customGoal}
+            onChange={(e) => setCustomGoal(e.target.value)}
+            className="glass-input text-xs py-2.5"
+            disabled={isUpdatingGoal}
+          />
+          <button 
+            type="submit"
+            disabled={isUpdatingGoal || !customGoal.trim()}
+            className="btn-primary py-2.5 px-5 text-xs font-bold shrink-0"
+          >
+            Update
+          </button>
+        </form>
       </div>
 
       {/* Grid of stats */}
