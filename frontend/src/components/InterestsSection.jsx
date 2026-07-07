@@ -1,81 +1,150 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Dumbbell, 
-  Flame, 
-  Coffee, 
-  Film, 
-  BookOpen, 
-  Compass, 
-  Palette, 
-  Users, 
-  ArrowRight 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const cardsData = [
   {
-    icon: Dumbbell,
     emoji: "🏀",
     title: "Sports Partner",
     desc: "Find teammates for football, badminton, cricket, basketball, tennis or any sport nearby.",
-    color: "from-emerald-500/20 to-teal-500/5",
-    accentGlow: "rgba(16,185,129,0.15)"
+    gradient: "from-[#83f582] to-[#7af7f7]", // Wero-style Green to Cyan
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Sports Ball (Basketball/Soccer hybrid) */}
+        <circle cx="60" cy="60" r="42" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M30 30C45 45 45 75 30 90" stroke="black" strokeWidth="3" />
+        <path d="M90 30C75 45 75 75 90 90" stroke="black" strokeWidth="3" />
+        <line x1="60" y1="18" x2="60" y2="102" stroke="black" strokeWidth="3" />
+        <line x1="18" y1="60" x2="102" y2="60" stroke="black" strokeWidth="3" />
+        {/* Whistle */}
+        <rect x="75" y="70" width="25" height="15" rx="4" stroke="black" strokeWidth="3" fill="#fd74fd" transform="rotate(-15 75 70)" />
+        <path d="M95 72h10v6h-10z" stroke="black" strokeWidth="3" fill="black" transform="rotate(-15 75 70)" />
+      </svg>
+    )
   },
   {
-    icon: Flame,
     emoji: "💪",
     title: "Workout Buddy",
     desc: "Stay consistent by finding someone to train, run, cycle or hit the gym with.",
-    color: "from-orange-500/20 to-red-500/5",
-    accentGlow: "rgba(249,115,22,0.15)"
+    gradient: "from-[#fd97fd] to-[#fdad70]", // Wero-style Pink to Orange
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Kettlebell */}
+        <path d="M35 60h50v35a10 10 0 01-10 10H45a10 10 0 01-10-10V60z" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M45 60V40a15 15 0 0130 0v20" stroke="black" strokeWidth="3" fill="none" />
+        {/* Dumbbell */}
+        <rect x="25" y="75" width="70" height="8" rx="2" stroke="black" strokeWidth="3" fill="black" />
+        <rect x="20" y="65" width="12" height="28" rx="3" stroke="black" strokeWidth="3" fill="#83f582" />
+        <rect x="88" y="65" width="12" height="28" rx="3" stroke="black" strokeWidth="3" fill="#83f582" />
+      </svg>
+    )
   },
   {
-    icon: Coffee,
     emoji: "☕",
     title: "Explore the City",
     desc: "Visit cafés, restaurants, bowling alleys, malls and hidden gems with like-minded people.",
-    color: "from-amber-600/20 to-yellow-600/5",
-    accentGlow: "rgba(217,119,6,0.15)"
+    gradient: "from-[#fff48d] to-[#fdad70]", // Wero-style Yellow to Orange
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Coffee Mug */}
+        <rect x="30" y="45" width="50" height="50" rx="10" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M80 55c10 0 15 5 15 12s-5 12-15 12" stroke="black" strokeWidth="3" fill="none" />
+        {/* Location Pin */}
+        <path d="M80 20c-10 0-18 8-18 18 0 12 18 27 18 27s18-15 18-27c0-10-8-18-18-18z" stroke="black" strokeWidth="3" fill="#7af7f7" />
+        <circle cx="80" cy="38" r="6" stroke="black" strokeWidth="3" fill="white" />
+      </svg>
+    )
   },
   {
-    icon: Film,
     emoji: "🎬",
     title: "Entertainment",
     desc: "Watch movies, attend concerts, gaming events, stand-up shows or festivals together.",
-    color: "from-pink-500/20 to-rose-500/5",
-    accentGlow: "rgba(236,72,153,0.15)"
+    gradient: "from-[#7af7f7] to-[#fd97fd]", // Wero-style Cyan to Pink
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Cinema Ticket */}
+        <rect x="25" y="40" width="70" height="42" rx="4" stroke="black" strokeWidth="3" fill="white" />
+        <circle cx="25" cy="61" r="8" stroke="black" strokeWidth="3" fill="#fdad70" />
+        <circle cx="95" cy="61" r="8" stroke="black" strokeWidth="3" fill="#fdad70" />
+        <line x1="45" y1="40" x2="45" y2="82" stroke="black" strokeWidth="3" strokeDasharray="4 4" />
+        {/* Movie Clapperboard */}
+        <rect x="40" y="62" width="45" height="35" rx="4" stroke="black" strokeWidth="3" fill="#83f582" />
+        <rect x="37" y="52" width="51" height="10" stroke="black" strokeWidth="3" fill="black" transform="rotate(-10 37 52)" />
+      </svg>
+    )
   },
   {
-    icon: BookOpen,
     emoji: "📚",
     title: "Study Together",
     desc: "Find coding partners, project teammates, accountability partners or study groups.",
-    color: "from-blue-500/20 to-indigo-500/5",
-    accentGlow: "rgba(59,130,246,0.15)"
+    gradient: "from-[#83f582] to-[#fff48d]", // Wero-style Green to Yellow
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Open Book */}
+        <path d="M15 85V35c15 0 25-10 45-10v50c-20 0-30 10-45 10z" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M105 85V35c-15 0-25-10-45-10v50c20 0 30 10 45 10z" stroke="black" strokeWidth="3" fill="white" />
+        {/* Lightbulb */}
+        <path d="M60 20c-12 0-20 8-20 18 0 8 5 13 8 16v8h24v-8c3-3 8-8 8-16 0-10-8-18-20-18z" stroke="black" strokeWidth="3" fill="#7af7f7" />
+        <rect x="52" y="62" width="16" height="5" stroke="black" strokeWidth="3" fill="black" />
+      </svg>
+    )
   },
   {
-    icon: Compass,
     emoji: "🧳",
     title: "Travel Companion",
     desc: "Plan weekend trips, treks and adventures with verified people sharing your destination.",
-    color: "from-cyan-500/20 to-sky-500/5",
-    accentGlow: "rgba(6,182,212,0.15)"
+    gradient: "from-[#fdad70] to-[#fd74fd]", // Wero-style Orange to Purple
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Suitcase / Luggage */}
+        <rect x="35" y="45" width="50" height="55" rx="8" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M50 45V30h20v15" stroke="black" strokeWidth="3" fill="none" />
+        <rect x="42" y="55" width="8" height="35" rx="2" stroke="black" strokeWidth="3" fill="#83f582" />
+        <rect x="70" y="55" width="8" height="35" rx="2" stroke="black" strokeWidth="3" fill="#83f582" />
+        {/* Compass */}
+        <circle cx="85" cy="40" r="18" stroke="black" strokeWidth="3" fill="#7af7f7" />
+        <path d="M85 30l4 10h-8z" stroke="black" strokeWidth="3" fill="black" />
+        <path d="M85 50l4-10h-8z" stroke="black" strokeWidth="3" fill="white" />
+      </svg>
+    )
   },
   {
-    icon: Palette,
     emoji: "🎨",
     title: "Learn Something New",
     desc: "Meet people interested in photography, dancing, cooking, art, music and many other hobbies.",
-    color: "from-purple-500/20 to-fuchsia-500/5",
-    accentGlow: "rgba(168,85,247,0.15)"
+    gradient: "from-[#7af7f7] to-[#83f582]", // Wero-style Cyan to Green
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Art Palette */}
+        <path d="M30 80c-15-15 0-55 35-55s40 10 40 35-15 35-35 35c-10 0-15-5-20-5s-10 5-20 0z" stroke="black" strokeWidth="3" fill="white" />
+        <circle cx="45" cy="42" r="5" stroke="black" strokeWidth="3" fill="#fd74fd" />
+        <circle cx="65" cy="38" r="5" stroke="black" strokeWidth="3" fill="#fdad70" />
+        <circle cx="82" cy="50" r="5" stroke="black" strokeWidth="3" fill="#fff48d" />
+        <circle cx="50" cy="72" r="6" stroke="black" strokeWidth="3" fill="black" /> {/* Thumb hole */}
+        {/* Paintbrush */}
+        <line x1="20" y1="100" x2="70" y2="50" stroke="black" strokeWidth="4" strokeLinecap="round" />
+        <path d="M15 105c-3-3 2-12 5-15s12-2 15 5c0 0-17 13-20 10z" stroke="black" strokeWidth="3" fill="#fdad70" />
+      </svg>
+    )
   },
   {
-    icon: Users,
     emoji: "🤝",
     title: "Just Need Company",
     desc: "Sometimes all you need is someone to grab coffee, go for a walk or simply enjoy good conversations.",
-    color: "from-slate-500/20 to-slate-700/5",
-    accentGlow: "rgba(100,116,139,0.15)"
+    gradient: "from-[#fd97fd] to-[#fff48d]", // Wero-style Pink to Yellow
+    illustration: (
+      <svg viewBox="0 0 120 120" className="w-28 h-28 md:w-36 md:h-36 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Two Chat Bubbles */}
+        <rect x="25" y="35" width="50" height="35" rx="8" stroke="black" strokeWidth="3" fill="white" />
+        <path d="M35 70l-8 8v-8" stroke="black" strokeWidth="3" fill="white" />
+        
+        <rect x="52" y="55" width="48" height="32" rx="8" stroke="black" strokeWidth="3" fill="#7af7f7" />
+        <path d="M85 87l8 8v-8" stroke="black" strokeWidth="3" fill="#7af7f7" />
+        {/* Smiles inside bubbles */}
+        <path d="M40 52c5 4 15 4 20 0" stroke="black" strokeWidth="3" strokeLinecap="round" />
+        <path d="M68 70c4 3 12 3 16 0" stroke="black" strokeWidth="3" strokeLinecap="round" />
+      </svg>
+    )
   }
 ];
 
@@ -128,7 +197,6 @@ const InterestsSection = () => {
           {/* Cards Stack */}
           <div className="space-y-12 lg:space-y-20">
             {cardsData.map((card, idx) => {
-              const IconComponent = card.icon;
               const isEven = idx % 2 === 0;
 
               return (
@@ -141,111 +209,59 @@ const InterestsSection = () => {
                     {idx + 1}
                   </div>
 
-                  {/* Even Card (Left Side on Desktop) */}
-                  {isEven ? (
+                  {/* Alternating Left/Right Timeline Slots */}
+                  <div className={`w-full lg:w-[46%] ${isEven ? 'lg:mr-auto' : 'lg:ml-auto'}`}>
                     <motion.div 
-                      className="w-full lg:w-[45%] lg:mr-auto"
-                      initial={{ opacity: 0, x: -30 }}
+                      initial={{ opacity: 0, x: isEven ? -40 : 40 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true, margin: "-100px" }}
                       transition={{ type: 'spring', stiffness: 60, damping: 15 }}
                     >
                       <div
-                        className="glass-card group p-8 border-2 border-white/10 bg-black/45 rounded-[24px] flex flex-col justify-between min-h-[220px] transition-all duration-300 -rotate-[1.2deg] hover:-rotate-0 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(223,254,0,0.1)] hover:border-[#DFFE00]/30 cursor-pointer relative overflow-hidden text-left"
+                        className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
                         role="button"
                         tabIndex={0}
                         aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
                       >
-                        <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-                        
-                        <div className="space-y-5 relative z-10">
-                          <div className="flex items-center justify-between">
-                            <div className="h-11 w-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white transition-all duration-300 group-hover:scale-110 group-hover:border-[#DFFE00]/40 group-hover:bg-[#DFFE00]/5">
-                              <IconComponent className="h-5 w-5 text-slate-300 group-hover:text-[#DFFE00] transition-colors duration-300" />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="lg:hidden h-6 w-6 rounded-full border border-white/20 bg-black text-[#DFFE00] font-black text-xs flex items-center justify-center">
-                                {idx + 1}
-                              </span>
-                              <span className="text-xl select-none" role="img" aria-hidden="true">
-                                {card.emoji}
-                              </span>
-                            </div>
-                          </div>
+                        {/* Left Side: Large Vector Illustration */}
+                        <div className="w-full md:w-[35%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                          {card.illustration}
+                        </div>
 
-                          <div className="space-y-2">
-                            <h3 className="font-syne font-black text-lg uppercase tracking-tight text-white group-hover:text-[#DFFE00] transition-colors duration-300">
-                              {card.title}
-                            </h3>
-                            <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                        {/* Right Side: Copy & Actions */}
+                        <div className="w-full md:w-[65%] flex flex-col justify-between h-full min-h-[160px] text-left">
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
+                                {card.title}
+                              </h3>
+                              <div className="flex items-center gap-2">
+                                <span className="lg:hidden h-6 w-6 rounded-full border border-black bg-white text-black font-black text-xs flex items-center justify-center">
+                                  {idx + 1}
+                                </span>
+                                <span className="text-xl select-none" role="img" aria-hidden="true">
+                                  {card.emoji}
+                                </span>
+                              </div>
+                            </div>
+                            <p className="text-slate-800 text-xs font-bold leading-relaxed">
                               {card.desc}
                             </p>
                           </div>
-                        </div>
 
-                        <div className="flex items-center justify-between pt-6 mt-auto border-t border-white/5 group-hover:border-[#DFFE00]/20 transition-colors duration-300 relative z-10">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 group-hover:text-[#DFFE00] transition-colors duration-300">
-                            Find Sparks
-                          </span>
-                          <div className="h-6 w-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 group-hover:text-black group-hover:bg-[#DFFE00] group-hover:border-transparent transition-all duration-300">
-                            <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
+                          {/* Action Footer */}
+                          <div className="flex items-center justify-between pt-5 mt-auto border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-black">
+                              Find Sparks
+                            </span>
+                            <div className="h-7 w-7 rounded-full border border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
+                              <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </motion.div>
-                  ) : (
-                    /* Odd Card (Right Side on Desktop) */
-                    <motion.div 
-                      className="w-full lg:w-[45%] lg:ml-auto"
-                      initial={{ opacity: 0, x: 30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ type: 'spring', stiffness: 60, damping: 15 }}
-                    >
-                      <div
-                        className="glass-card group p-8 border-2 border-white/10 bg-black/45 rounded-[24px] flex flex-col justify-between min-h-[220px] transition-all duration-300 rotate-[1.2deg] hover:rotate-0 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(223,254,0,0.1)] hover:border-[#DFFE00]/30 cursor-pointer relative overflow-hidden text-left"
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
-                      >
-                        <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-                        
-                        <div className="space-y-5 relative z-10">
-                          <div className="flex items-center justify-between">
-                            <div className="h-11 w-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white transition-all duration-300 group-hover:scale-110 group-hover:border-[#DFFE00]/40 group-hover:bg-[#DFFE00]/5">
-                              <IconComponent className="h-5 w-5 text-slate-300 group-hover:text-[#DFFE00] transition-colors duration-300" />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="lg:hidden h-6 w-6 rounded-full border border-white/20 bg-black text-[#DFFE00] font-black text-xs flex items-center justify-center">
-                                {idx + 1}
-                              </span>
-                              <span className="text-xl select-none" role="img" aria-hidden="true">
-                                {card.emoji}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2">
-                            <h3 className="font-syne font-black text-lg uppercase tracking-tight text-white group-hover:text-[#DFFE00] transition-colors duration-300">
-                              {card.title}
-                            </h3>
-                            <p className="text-slate-400 text-xs font-semibold leading-relaxed">
-                              {card.desc}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-6 mt-auto border-t border-white/5 group-hover:border-[#DFFE00]/20 transition-colors duration-300 relative z-10">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 group-hover:text-[#DFFE00] transition-colors duration-300">
-                            Find Sparks
-                          </span>
-                          <div className="h-6 w-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 group-hover:text-black group-hover:bg-[#DFFE00] group-hover:border-transparent transition-all duration-300">
-                            <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
+                  </div>
                 </div>
               );
             })}
