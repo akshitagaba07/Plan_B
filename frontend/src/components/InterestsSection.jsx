@@ -4,145 +4,88 @@ import { ArrowRight } from 'lucide-react';
 
 const cardsData = [
   {
-    emoji: "🏀",
-    title: "Sports Partner",
-    desc: "Find teammates for football, badminton, cricket, basketball, tennis or any sport nearby.",
+    emoji: "👟",
+    title: "Sports & Fitness",
+    desc: "Find teammates for football, badminton, cricket, or stay consistent by finding a workout buddy for running, cycling, or gym sessions.",
     gradient: "from-[#83f582] to-[#7af7f7]", // Wero Green to Cyan
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Dumbbell behind */}
+        <rect x="25" y="72" width="70" height="8" rx="2" stroke="black" strokeWidth="3.5" fill="black" />
+        <rect x="20" y="62" width="12" height="28" rx="3" stroke="black" strokeWidth="3.5" fill="#fd74fd" />
+        <rect x="88" y="62" width="12" height="28" rx="3" stroke="black" strokeWidth="3.5" fill="#fd74fd" />
+        
         {/* Sports Ball (Basketball/Soccer hybrid) */}
-        <circle cx="60" cy="60" r="42" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M30 30C45 45 45 75 30 90" stroke="black" strokeWidth="3.5" />
-        <path d="M90 30C75 45 75 75 90 90" stroke="black" strokeWidth="3.5" />
-        <line x1="60" y1="18" x2="60" y2="102" stroke="black" strokeWidth="3.5" />
-        <line x1="18" y1="60" x2="102" y2="60" stroke="black" strokeWidth="3.5" />
-        {/* Whistle */}
-        <rect x="75" y="70" width="25" height="15" rx="4" stroke="black" strokeWidth="3" fill="#fd74fd" transform="rotate(-15 75 70)" />
-        <path d="M95 72h10v6h-10z" stroke="black" strokeWidth="3" fill="black" transform="rotate(-15 75 70)" />
-      </svg>
-    )
-  },
-  {
-    emoji: "💪",
-    title: "Workout Buddy",
-    desc: "Stay consistent by finding someone to train, run, cycle or hit the gym with.",
-    gradient: "from-[#fd97fd] to-[#fdad70]", // Wero Pink to Orange
-    illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Kettlebell */}
-        <path d="M35 60h50v35a10 10 0 01-10 10H45a10 10 0 01-10-10V60z" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M45 60V40a15 15 0 0130 0v20" stroke="black" strokeWidth="3.5" fill="none" />
-        {/* Dumbbell */}
-        <rect x="25" y="75" width="70" height="8" rx="2" stroke="black" strokeWidth="3.5" fill="black" />
-        <rect x="20" y="65" width="12" height="28" rx="3" stroke="black" strokeWidth="3.5" fill="#83f582" />
-        <rect x="88" y="65" width="12" height="28" rx="3" stroke="black" strokeWidth="3.5" fill="#83f582" />
+        <circle cx="60" cy="50" r="36" stroke="black" strokeWidth="3.5" fill="white" />
+        <path d="M34 24C47 37 47 63 34 76" stroke="black" strokeWidth="3.5" />
+        <path d="M86 24C73 37 73 63 86 76" stroke="black" strokeWidth="3.5" />
+        <line x1="60" y1="14" x2="60" y2="86" stroke="black" strokeWidth="3.5" />
+        <line x1="24" y1="50" x2="96" y2="50" stroke="black" strokeWidth="3.5" />
+        
+        {/* Whistle on top */}
+        <rect x="75" y="65" width="22" height="14" rx="4" stroke="black" strokeWidth="3" fill="#fff48d" transform="rotate(-15 75 65)" />
+        <path d="M92 67h8v5h-8z" stroke="black" strokeWidth="3" fill="black" transform="rotate(-15 75 65)" />
       </svg>
     )
   },
   {
     emoji: "☕",
-    title: "Explore the City",
-    desc: "Visit cafés, restaurants, bowling alleys, malls and hidden gems with like-minded people.",
+    title: "Social & Hangouts",
+    desc: "Visit cafés, restaurants, hidden gems, or grab a coffee, go for a walk, and enjoy good conversations with like-minded people.",
     gradient: "from-[#fff48d] to-[#fdad70]", // Wero Yellow to Orange
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Coffee Mug */}
-        <rect x="30" y="45" width="50" height="50" rx="10" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M80 55c10 0 15 5 15 12s-5 12-15 12" stroke="black" strokeWidth="3.5" fill="none" />
-        {/* Location Pin */}
-        <path d="M80 20c-10 0-18 8-18 18 0 12 18 27 18 27s18-15 18-27c0-10-8-18-18-18z" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
-        <circle cx="80" cy="38" r="6" stroke="black" strokeWidth="3.5" fill="white" />
+        <rect x="25" y="50" width="54" height="52" rx="12" stroke="black" strokeWidth="3.5" fill="white" />
+        <path d="M79 62c11 0 16 5 16 13s-5 13-16 13" stroke="black" strokeWidth="3.5" fill="none" />
+        {/* Steam lines */}
+        <path d="M38 38c2-4-2-8 0-12M52 38c2-4-2-8 0-12" stroke="black" strokeWidth="3" strokeLinecap="round" />
+
+        {/* Chat bubble overlay */}
+        <rect x="55" y="25" width="48" height="34" rx="8" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
+        <path d="M85 59l8 8v-8" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
+        <path d="M67 42c4 3 12 3 16 0" stroke="black" strokeWidth="3" strokeLinecap="round" />
       </svg>
     )
   },
   {
-    emoji: "🎬",
-    title: "Entertainment",
-    desc: "Watch movies, attend concerts, gaming events, stand-up shows or festivals together.",
+    emoji: "✈️",
+    title: "Entertainment & Travel",
+    desc: "Watch movies, attend concerts, gaming events, stand-up shows, festivals, or plan weekend trips and adventures together.",
     gradient: "from-[#7af7f7] to-[#fd97fd]", // Wero Cyan to Pink
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Cinema Ticket */}
-        <rect x="25" y="40" width="70" height="42" rx="4" stroke="black" strokeWidth="3.5" fill="white" />
-        <circle cx="25" cy="61" r="8" stroke="black" strokeWidth="3.5" fill="#fdad70" />
-        <circle cx="95" cy="61" r="8" stroke="black" strokeWidth="3.5" fill="#fdad70" />
-        <line x1="45" y1="40" x2="45" y2="82" stroke="black" strokeWidth="3.5" strokeDasharray="4 4" />
-        {/* Movie Clapperboard */}
-        <rect x="40" y="62" width="45" height="35" rx="4" stroke="black" strokeWidth="3.5" fill="#83f582" />
-        <rect x="37" y="52" width="51" height="10" stroke="black" strokeWidth="3.5" fill="black" transform="rotate(-10 37 52)" />
-      </svg>
-    )
-  },
-  {
-    emoji: "📚",
-    title: "Study Together",
-    desc: "Find coding partners, project teammates, accountability partners or study groups.",
-    gradient: "from-[#83f582] to-[#fff48d]", // Wero Green to Yellow
-    illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Open Book */}
-        <path d="M15 85V35c15 0 25-10 45-10v50c-20 0-30 10-45 10z" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M105 85V35c-15 0-25-10-45-10v50c20 0 30 10 45 10z" stroke="black" strokeWidth="3.5" fill="white" />
-        {/* Lightbulb */}
-        <path d="M60 20c-12 0-20 8-20 18 0 8 5 13 8 16v8h24v-8c3-3 8-8 8-16 0-10-8-18-20-18z" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
-        <rect x="52" y="62" width="16" height="5" stroke="black" strokeWidth="3.5" fill="black" />
-      </svg>
-    )
-  },
-  {
-    emoji: "🧳",
-    title: "Travel Companion",
-    desc: "Plan weekend trips, treks and adventures with verified people sharing your destination.",
-    gradient: "from-[#fdad70] to-[#fd74fd]", // Wero Orange to Purple
-    illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Suitcase / Luggage */}
-        <rect x="35" y="45" width="50" height="55" rx="8" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M50 45V30h20v15" stroke="black" strokeWidth="3.5" fill="none" />
-        <rect x="42" y="55" width="8" height="35" rx="2" stroke="black" strokeWidth="3.5" fill="#83f582" />
-        <rect x="70" y="55" width="8" height="35" rx="2" stroke="black" strokeWidth="3.5" fill="#83f582" />
-        {/* Compass */}
-        <circle cx="85" cy="40" r="18" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
-        <path d="M85 30l4 10h-8z" stroke="black" strokeWidth="3.5" fill="black" />
-        <path d="M85 50l4-10h-8z" stroke="black" strokeWidth="3.5" fill="white" />
+      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Suitcase Base */}
+        <rect x="25" y="45" width="55" height="60" rx="10" stroke="black" strokeWidth="3.5" fill="white" />
+        <path d="M42 45V30h20v15" stroke="black" strokeWidth="3.5" fill="none" />
+        
+        {/* Movie Clapperboard overlay */}
+        <rect x="45" y="55" width="50" height="38" rx="4" stroke="black" strokeWidth="3.5" fill="#83f582" />
+        <rect x="42" y="45" width="56" height="10" stroke="black" strokeWidth="3.5" fill="black" transform="rotate(-12 42 45)" />
+
+        {/* Ticket on top */}
+        <rect x="70" y="80" width="34" height="20" rx="3" stroke="black" strokeWidth="3" fill="#fff48d" transform="rotate(15 70 80)" />
+        <circle cx="70" cy="90" r="3" stroke="black" strokeWidth="3" fill="#fff48d" />
       </svg>
     )
   },
   {
     emoji: "🎨",
-    title: "Learn Something New",
-    desc: "Meet people interested in photography, dancing, cooking, art, music and many other hobbies.",
-    gradient: "from-[#7af7f7] to-[#83f582]", // Wero Cyan to Green
+    title: "Study & Hobbies",
+    desc: "Find coding partners, project teammates, study groups, or meet people interested in photography, music, art, and new skills.",
+    gradient: "from-[#fdad70] to-[#fd74fd]", // Wero Orange to Purple
     illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Art Palette */}
-        <path d="M30 80c-15-15 0-55 35-55s40 10 40 35-15 35-35 35c-10 0-15-5-20-5s-10 5-20 0z" stroke="black" strokeWidth="3.5" fill="white" />
-        <circle cx="45" cy="42" r="5" stroke="black" strokeWidth="3.5" fill="#fd74fd" />
-        <circle cx="65" cy="38" r="5" stroke="black" strokeWidth="3.5" fill="#fdad70" />
-        <circle cx="82" cy="50" r="5" stroke="black" strokeWidth="3.5" fill="#fff48d" />
-        <circle cx="50" cy="72" r="6" stroke="black" strokeWidth="3.5" fill="black" /> {/* Thumb hole */}
-        {/* Paintbrush */}
-        <line x1="20" y1="100" x2="70" y2="50" stroke="black" strokeWidth="4.5" strokeLinecap="round" />
-        <path d="M15 105c-3-3 2-12 5-15s12-2 15 5c0 0-17 13-20 10z" stroke="black" strokeWidth="3.5" fill="#fdad70" />
-      </svg>
-    )
-  },
-  {
-    emoji: "🤝",
-    title: "Just Need Company",
-    desc: "Sometimes all you need is someone to grab coffee, go for a walk or simply enjoy good conversations.",
-    gradient: "from-[#fd97fd] to-[#fff48d]", // Wero Pink to Yellow
-    illustration: (
-      <svg viewBox="0 0 120 120" className="w-32 h-32 md:w-40 md:h-40 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Two Chat Bubbles */}
-        <rect x="25" y="35" width="50" height="35" rx="8" stroke="black" strokeWidth="3.5" fill="white" />
-        <path d="M35 70l-8 8v-8" stroke="black" strokeWidth="3.5" fill="white" />
+      <svg viewBox="0 0 120 120" className="w-36 h-36 md:w-44 md:h-44 select-none pointer-events-none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Open Book */}
+        <path d="M15 85V35c15 0 25-10 45-10v50c-20 0-30 10-45 10z" stroke="black" strokeWidth="3.5" fill="white" />
+        <path d="M105 85V35c-15 0-25-10-45-10v50c20 0 30 10 45 10z" stroke="black" strokeWidth="3.5" fill="white" />
         
-        <rect x="52" y="55" width="48" height="32" rx="8" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
-        <path d="M85 87l8 8v-8" stroke="black" strokeWidth="3.5" fill="#7af7f7" />
-        {/* Smiles inside bubbles */}
-        <path d="M40 52c5 4 15 4 20 0" stroke="black" strokeWidth="3.5" strokeLinecap="round" />
-        <path d="M68 70c4 3 12 3 16 0" stroke="black" strokeWidth="3.5" strokeLinecap="round" />
+        {/* Art Palette overlay */}
+        <path d="M60 40c-15-15 0-45 25-45s30 8 30 28-10 28-25 28c-8 0-12-4-15-4s-8 4-15 0z" stroke="black" strokeWidth="3" fill="#7af7f7" transform="scale(0.8) translate(20, 40)" />
+        
+        {/* Lightbulb rising in middle */}
+        <path d="M60 30c-10 0-16 6-16 15 0 6 4 10 6 12v6h20v-6c2-2 6-6 6-12 0-9-6-15-16-15z" stroke="black" strokeWidth="3.5" fill="#fff48d" />
+        <rect x="53" y="63" width="14" height="4" stroke="black" strokeWidth="3.5" fill="black" />
       </svg>
     )
   }
@@ -183,12 +126,12 @@ const InterestsSection = () => {
             {cardsData.map((card, idx) => {
               const isEven = idx % 2 === 0;
               // Calculate progressive sticky top coordinates so the cards stack neatly and overlap
-              const stickyTopOffset = 130 + idx * 16;
+              const stickyTopOffset = 130 + idx * 32;
 
               return (
                 <div 
                   key={idx}
-                  className={`sticky w-full ${idx > 0 ? 'mt-[-35px] lg:mt-[-55px]' : ''}`}
+                  className={`sticky w-full ${idx > 0 ? 'mt-[-40px] lg:mt-[-60px]' : ''}`}
                   style={{ 
                     top: `${stickyTopOffset}px`, 
                     zIndex: (idx + 1) * 10 
@@ -206,7 +149,7 @@ const InterestsSection = () => {
                     transition={{ type: 'spring', stiffness: 60, damping: 15 }}
                   >
                     <div
-                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-8 md:p-10 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-10 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
+                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-10 md:p-12 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-10 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
                       role="button"
                       tabIndex={0}
                       aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
@@ -220,14 +163,14 @@ const InterestsSection = () => {
                       <div className="w-full md:w-[65%] flex flex-col justify-between h-full min-h-[180px] text-left">
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
-                            <h3 className="font-syne font-black text-2xl md:text-3xl uppercase tracking-tighter text-black leading-tight">
+                            <h3 className="font-syne font-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-tighter text-black leading-tight">
                               {card.title}
                             </h3>
-                            <span className="text-2xl select-none" role="img" aria-hidden="true">
+                            <span className="text-3xl select-none" role="img" aria-hidden="true">
                               {card.emoji}
                             </span>
                           </div>
-                          <p className="text-slate-800 text-sm font-bold leading-relaxed">
+                          <p className="text-slate-800 text-sm md:text-base font-bold leading-relaxed">
                             {card.desc}
                           </p>
                         </div>
