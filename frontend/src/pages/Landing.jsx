@@ -160,6 +160,18 @@ const Landing = () => {
           <source src="/background-video.webm" type="video/webm" />
         </video>
 
+        {/* Second Background Video (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[100vh] left-0 w-full h-[100vh] object-cover opacity-[0.22] mix-blend-screen z-0"
+        >
+          <source src="/background-video-2.mp4" type="video/mp4" />
+          <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+
         {/* Infinite Fluid Mesh Gradient Flow */}
         <div className="absolute inset-0 filter blur-[130px] opacity-50 z-[1]">
           {/* Neon Purple/Indigo Blob */}
