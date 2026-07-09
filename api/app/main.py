@@ -37,8 +37,13 @@ app.add_middleware(
 )
 
 # Mount static folder for profile picture storage
-os.makedirs("static/profile_pics", exist_ok=True)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+if os.getenv("VERCEL"):
+    os.makedirs("/tmp/static/profile_pics", exist_ok=True)
+    app.mount("/static", StaticFiles(directory="/tmp/static"), name="static")
+else:
+    os.makedirs("static/profile_pics", exist_ok=True)
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # Include Routers
 app.include_router(auth.router)
