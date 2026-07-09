@@ -154,7 +154,7 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.22] mix-blend-screen z-0"
+          className="absolute top-0 left-0 w-full h-[100vh] object-cover opacity-[0.22] mix-blend-screen z-0"
         >
           <source src="/background-video.mp4" type="video/mp4" />
           <source src="/background-video.webm" type="video/webm" />
