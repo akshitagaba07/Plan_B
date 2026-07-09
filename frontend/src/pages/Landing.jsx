@@ -154,7 +154,7 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute top-0 left-0 w-full h-[100vh] object-cover opacity-[0.37] mix-blend-screen z-0"
+          className="absolute top-0 left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video.mp4" type="video/mp4" />
           <source src="/background-video.webm" type="video/webm" />
@@ -166,7 +166,7 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute top-[100vh] left-0 w-full h-[100vh] object-cover opacity-[0.37] mix-blend-screen z-0"
+          className="absolute top-[100vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video-2.mp4" type="video/mp4" />
           <source src="/background-video-2.webm" type="video/webm" />
@@ -178,7 +178,7 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute top-[200vh] left-0 w-full h-[100vh] object-cover opacity-[0.37] mix-blend-screen z-0"
+          className="absolute top-[200vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video.mp4" type="video/mp4" />
           <source src="/background-video.webm" type="video/webm" />
@@ -190,7 +190,7 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute top-[300vh] left-0 w-full h-[100vh] object-cover opacity-[0.37] mix-blend-screen z-0"
+          className="absolute top-[300vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video-2.mp4" type="video/mp4" />
           <source src="/background-video-2.webm" type="video/webm" />
@@ -202,14 +202,14 @@ const Landing = () => {
           loop 
           muted 
           playsInline 
-          className="absolute top-[400vh] left-0 w-full h-[100vh] object-cover opacity-[0.37] mix-blend-screen z-0"
+          className="absolute top-[400vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video.mp4" type="video/mp4" />
           <source src="/background-video.webm" type="video/webm" />
         </video>
 
         {/* Frosted Glass Overlay Pane (Blurs background videos for glassmorphic effect) */}
-        <div className="absolute inset-0 w-full h-full backdrop-blur-[8px] bg-slate-950/15 z-[1] pointer-events-none" />
+        <div className="absolute inset-0 w-full h-full backdrop-blur-[6px] bg-white/[0.02] z-[1] pointer-events-none" />
 
         {/* Infinite Fluid Mesh Gradient Flow */}
         <div className="absolute inset-0 filter blur-[130px] opacity-50 z-[1]">
