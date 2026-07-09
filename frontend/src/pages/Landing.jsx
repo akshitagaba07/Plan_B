@@ -148,7 +148,7 @@ const Landing = () => {
       {/* Premium High-Definition Dynamic Background (Infinite Fluid Mesh & Grid Overlay) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#000000]">
         
-        {/* Background Video (Autoplay, Loop, Muted, Playsinline) */}
+        {/* Background Video - Slot 1 (Autoplay, Loop, Muted, Playsinline) */}
         <video 
           autoPlay 
           loop 
@@ -160,7 +160,7 @@ const Landing = () => {
           <source src="/background-video.webm" type="video/webm" />
         </video>
 
-        {/* Second Background Video (Autoplay, Loop, Muted, Playsinline) */}
+        {/* Background Video - Slot 2 (Autoplay, Loop, Muted, Playsinline) */}
         <video 
           autoPlay 
           loop 
@@ -170,6 +170,42 @@ const Landing = () => {
         >
           <source src="/background-video-2.mp4" type="video/mp4" />
           <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 3 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[200vh] left-0 w-full h-[100vh] object-cover opacity-[0.22] mix-blend-screen z-0"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/background-video.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 4 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[300vh] left-0 w-full h-[100vh] object-cover opacity-[0.22] mix-blend-screen z-0"
+        >
+          <source src="/background-video-2.mp4" type="video/mp4" />
+          <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 5 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[400vh] left-0 w-full h-[100vh] object-cover opacity-[0.22] mix-blend-screen z-0"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/background-video.webm" type="video/webm" />
         </video>
 
         {/* Infinite Fluid Mesh Gradient Flow */}
