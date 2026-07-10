@@ -4,8 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Database configuration: using a local SQLite file (or /tmp on Vercel)
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
+DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
+if DATABASE_URL:
+    # SQLAlchemy requires postgresql:// instead of postgres://
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+else:
     if os.getenv("VERCEL"):
         DATABASE_URL = "sqlite:////tmp/plan_b.db"
     else:
