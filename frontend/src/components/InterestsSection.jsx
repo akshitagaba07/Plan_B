@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const cardsData = [
@@ -92,15 +92,44 @@ const cardsData = [
 ];
 
 const InterestsSection = () => {
+  const containerRef = useRef(null);
+  
+  // Check if viewport is desktop width
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Calculate y translation offsets dynamically.
+  // When stacked: offset is only 45px per card (only corners/headers visible).
+  // When scrolled/revealed: offset increases to 270px per card (fully fanning out).
+  const y0 = useTransform(scrollYProgress, [0, 1], [0, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.45, 1], [45, 45, 270, 270]);
+  const y2 = useTransform(scrollYProgress, [0, 0.25, 0.45, 0.65, 1], [90, 90, 315, 540, 540]);
+  const y3 = useTransform(scrollYProgress, [0, 0.25, 0.45, 0.65, 0.85, 1], [135, 135, 360, 585, 810, 810]);
+
+  const yTransforms = [y0, y1, y2, y3];
+
   return (
-    <section className="relative w-full overflow-hidden py-24 z-10">
+    <section 
+      ref={containerRef}
+      className={`relative w-full overflow-hidden py-24 z-10 ${isDesktop ? 'h-[250vh]' : ''}`}
+    >
       {/* Background Soft Glow Effect */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-purple-900/10 filter blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-[#DFFE00]/5 filter blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start relative">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start relative h-full">
         
         {/* Left Column: Sticky Headers */}
         <div className="w-full lg:w-[35%] lg:sticky lg:top-36 h-fit text-left space-y-4">
@@ -112,42 +141,34 @@ const InterestsSection = () => {
             Your Interests
           </h2>
           <p className="text-slate-400 font-semibold text-sm leading-relaxed max-w-md">
-            Whether you're looking for teammates, travel companions, study partners, or simply someone to explore the city with, Plan B helps you connect with people who share your interests.
+            Whether you're looking for teammates, travel companions, study partners, or meet people with similar vibes, Plan B matches you based on your interests.
           </p>
         </div>
 
         {/* Right Column: Sticky Timeline Cards Stacking on Scroll */}
-        <div className="w-full lg:w-[60%] pl-12 lg:pl-16 relative">
-          {/* Vertical Path Line on the Left (Wero style) */}
-          <div className="absolute left-6 lg:left-0 top-4 bottom-4 w-[3px] bg-white/10" />
+        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[1100px]' : ''}`}>
+          
+          {/* Vertical Path Line (Mobile/Tablet only) */}
+          {!isDesktop && (
+            <div className="absolute left-6 top-4 bottom-4 w-[3px] bg-white/10" />
+          )}
 
           {/* Cards Stack */}
-          <div className="relative pb-20">
+          <div className="relative w-full h-full">
             {cardsData.map((card, idx) => {
               const isEven = idx % 2 === 0;
-              // Stack them all at the exact same top position so they stack like a deck of cards
-              const stickyTopOffset = 180;
               const isLast = idx === cardsData.length - 1;
+              const zIndexVal = (4 - idx) * 10; // First card has highest z-index so it sits on top
 
-              return (
-                <div 
-                  key={idx}
-                  className={`sticky w-full ${!isLast ? 'mb-[50vh]' : ''}`}
-                  style={{ 
-                    top: `${stickyTopOffset}px`, 
-                    zIndex: (idx + 1) * 10 
-                  }}
-                >
-                  {/* Left-Aligned Number Badge on the line */}
-                  <div className="absolute left-[-42px] lg:left-[-76px] top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border-[3px] border-black bg-white text-black font-black text-sm flex items-center justify-center z-20 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    {idx + 1}
-                  </div>
-
-                  <motion.div 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ type: 'spring', stiffness: 60, damping: 15 }}
+              if (isDesktop) {
+                return (
+                  <motion.div
+                    key={idx}
+                    className="absolute w-full top-0 left-0"
+                    style={{
+                      y: yTransforms[idx],
+                      zIndex: zIndexVal
+                    }}
                   >
                     <div
                       className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
@@ -188,8 +209,57 @@ const InterestsSection = () => {
                       </div>
                     </div>
                   </motion.div>
-                </div>
-              );
+                );
+              } else {
+                // Mobile list view
+                return (
+                  <div 
+                    key={idx}
+                    className={`w-full relative pl-12 ${!isLast ? 'mb-8' : ''}`}
+                  >
+                    {/* Left-Aligned Number Badge on the line */}
+                    <div className="absolute left-[-20px] top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border-[3px] border-black bg-white text-black font-black text-sm flex items-center justify-center z-20 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                      {idx + 1}
+                    </div>
+
+                    <div
+                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden flex flex-col gap-6 items-center`}
+                    >
+                      {/* Left Side: Large Vector Illustration */}
+                      <div className="w-full flex items-center justify-center">
+                        {card.illustration}
+                      </div>
+
+                      {/* Right Side: Copy & Actions */}
+                      <div className="w-full flex flex-col justify-between text-left">
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-syne font-black text-xl uppercase tracking-tighter text-black leading-tight">
+                              {card.title}
+                            </h3>
+                            <span className="text-2xl select-none">
+                              {card.emoji}
+                            </span>
+                          </div>
+                          <p className="text-slate-800 text-xs font-bold leading-relaxed">
+                            {card.desc}
+                          </p>
+                        </div>
+
+                        {/* Action Footer */}
+                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-black/10">
+                          <span className="text-xs font-black uppercase tracking-wider text-black">
+                            Find Sparks
+                          </span>
+                          <div className="h-8 w-8 rounded-full border-2 border-black bg-white flex items-center justify-center text-black">
+                            <ArrowRight className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
             })}
           </div>
         </div>
