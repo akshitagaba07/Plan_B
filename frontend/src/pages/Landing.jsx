@@ -248,30 +248,7 @@ const Landing = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-[1]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85 z-[1]" />
 
-        {/* Structural Grid Lines Overlay */}
-        <div className="absolute inset-0 z-[2] overflow-hidden opacity-25">
-          {/* Horizontal Lines */}
-          <div className="absolute h-px bg-white/10 top-[12.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[25%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[37.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[50%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[62.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[75%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[87.5%] left-0 right-0" />
-          
-          {/* Vertical Lines */}
-          <div className="absolute w-px bg-white/10 left-[8.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[16.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[25%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[33.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[41.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[50%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[58.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[66.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[75%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
-        </div>
+
 
 
       </div>
