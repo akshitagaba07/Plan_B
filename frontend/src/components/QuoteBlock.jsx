@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 /*
   Each entry in SCRIPT is a single "breath unit" — a word or phrase
@@ -181,21 +181,14 @@ export default function QuoteBlock() {
               );
             })}
 
-            {/* blinking cursor — vanishes after bloom */}
-            <AnimatePresence>
-              {!bloomDone && (
-                <motion.span
-                  aria-hidden
-                  key="cursor"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: cursorOn ? 1 : 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.12 }}
-                  className="inline-block w-[3px] h-[0.85em] rounded-sm bg-[#DFFE00] self-center ml-1"
-                  style={{ boxShadow: '0 0 8px rgba(223,254,0,0.8)' }}
-                />
-              )}
-            </AnimatePresence>
+            {/* blinking cursor — always in DOM, fades out after bloom */}
+            <motion.span
+              aria-hidden
+              animate={{ opacity: bloomDone ? 0 : (cursorOn ? 1 : 0) }}
+              transition={{ duration: 0.12 }}
+              className="inline-block w-[3px] h-[0.85em] rounded-sm bg-[#DFFE00] self-center ml-1"
+              style={{ boxShadow: '0 0 8px rgba(223,254,0,0.8)' }}
+            />
           </div>
         </blockquote>
 
@@ -227,12 +220,12 @@ export default function QuoteBlock() {
 }
 
 /* ───────────────────────────────────────────────────────────
-   Word — renders a single token with its soft "landing" entry
+   Word — ALWAYS in DOM (no mount/unmount = no layout shift).
+   Visibility is controlled purely via opacity/blur/y.
 ─────────────────────────────────────────────────────────── */
 function Word({ entry, visible, bloomDone }) {
   const isGold = entry.highlight;
 
-  /* gold words pulse gently with a slow glow once bloom fires */
   const goldGlow = bloomDone
     ? { textShadow: ['0 0 8px rgba(223,254,0,0.4)', '0 0 28px rgba(223,254,0,0.85)', '0 0 8px rgba(223,254,0,0.4)'] }
     : isGold
@@ -241,32 +234,23 @@ function Word({ entry, visible, bloomDone }) {
 
   const goldTransition = bloomDone
     ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
-    : {};
+    : WORD_TRANSITION;
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.span
-          key="word"
-          initial={{
-            opacity: 0,
-            y: 10,
-            filter: 'blur(5px)',
-            scale: 0.97,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            scale: 1,
-            ...goldGlow,
-          }}
-          transition={bloomDone ? goldTransition : WORD_TRANSITION}
-          className={isGold ? 'text-[#DFFE00]' : 'text-white'}
-        >
-          {entry.word}
-        </motion.span>
-      )}
-    </AnimatePresence>
+    /* Word stays in DOM always — only opacity/blur/y animate */
+    <motion.span
+      animate={{
+        opacity: visible ? 1 : 0,
+        y: visible ? 0 : 10,
+        filter: visible ? 'blur(0px)' : 'blur(5px)',
+        scale: visible ? 1 : 0.97,
+        ...( visible ? goldGlow : {} ),
+      }}
+      transition={goldTransition}
+      className={isGold ? 'text-[#DFFE00]' : 'text-white'}
+      style={{ display: 'inline-block' }}
+    >
+      {entry.word}
+    </motion.span>
   );
 }
