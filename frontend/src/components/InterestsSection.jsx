@@ -94,7 +94,7 @@ const cardsData = [
 const InterestsSection = () => {
   const containerRef = useRef(null);
   
-  // Check if viewport is desktop width
+  // Responsive layout check
   const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 1024);
@@ -108,15 +108,23 @@ const InterestsSection = () => {
     offset: ["start start", "end end"]
   });
 
-  // Calculate y translation offsets dynamically.
-  // When stacked: offset is only 45px per card (only corners/headers visible).
-  // When scrolled/revealed: offset increases to 270px per card (fully fanning out).
-  const y0 = useTransform(scrollYProgress, [0, 1], [0, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.45, 1], [45, 45, 270, 270]);
-  const y2 = useTransform(scrollYProgress, [0, 0.25, 0.45, 0.65, 1], [90, 90, 315, 540, 540]);
-  const y3 = useTransform(scrollYProgress, [0, 0.25, 0.45, 0.65, 0.85, 1], [135, 135, 360, 585, 810, 810]);
+  // Smooth scroll-driven vertical translations:
+  // Card 0 (Sports) is at the top of the stack and peels UP and OUT first.
+  // Card 1 (Social) peels next, Card 2 peels third, Card 3 remains fully visible.
+  const y0 = useTransform(scrollYProgress, [0, 0.25, 1], [60, -700, -700]);
+  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.50, 1], [105, 105, -700, -700]);
+  const y2 = useTransform(scrollYProgress, [0, 0.50, 0.75, 1], [150, 150, -700, -700]);
+  const y3 = useTransform(scrollYProgress, [0, 0.75, 1], [195, 195, 195]);
 
   const yTransforms = [y0, y1, y2, y3];
+
+  // Dynamic z-index mappings so the active peeling card slides UP and OUT *completely over the top* of the deck.
+  const z0 = useTransform(scrollYProgress, [0, 0.25, 0.26, 1], [100, 100, 10, 10]);
+  const z1 = useTransform(scrollYProgress, [0, 0.24, 0.25, 0.50, 0.51, 1], [20, 20, 100, 100, 10, 10]);
+  const z2 = useTransform(scrollYProgress, [0, 0.49, 0.50, 0.75, 0.76, 1], [30, 30, 100, 100, 10, 10]);
+  const z3 = useTransform(scrollYProgress, [0, 0.74, 0.75, 1], [40, 40, 100, 100]);
+
+  const zIndices = [z0, z1, z2, z3];
 
   return (
     <section 
@@ -146,7 +154,7 @@ const InterestsSection = () => {
         </div>
 
         {/* Right Column: Sticky Timeline Cards Stacking on Scroll */}
-        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[1100px]' : ''}`}>
+        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[650px]' : ''}`}>
           
           {/* Vertical Path Line (Mobile/Tablet only) */}
           {!isDesktop && (
@@ -158,7 +166,6 @@ const InterestsSection = () => {
             {cardsData.map((card, idx) => {
               const isEven = idx % 2 === 0;
               const isLast = idx === cardsData.length - 1;
-              const zIndexVal = (4 - idx) * 10; // First card has highest z-index so it sits on top
 
               if (isDesktop) {
                 return (
@@ -167,7 +174,7 @@ const InterestsSection = () => {
                     className="absolute w-full top-0 left-0"
                     style={{
                       y: yTransforms[idx],
-                      zIndex: zIndexVal
+                      zIndex: zIndices[idx]
                     }}
                   >
                     <div
