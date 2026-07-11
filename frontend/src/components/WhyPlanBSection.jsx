@@ -203,27 +203,7 @@ const WhyPlanBSection = () => {
   const activeStage = storyStages[activeIndex];
 
   return (
-    <section className="relative w-full overflow-hidden bg-black text-white py-24">
-      {/* Background Loop Video specifically fitted and styled for this section */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.45] mix-blend-screen z-0"
-        >
-          <source src="/background-video-2.mp4" type="video/mp4" />
-          <source src="/background-video-2.webm" type="video/webm" />
-        </video>
-        
-        {/* Edge Feathering Gradients to remove horizontal line cuts between sections */}
-        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-[2]" />
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent z-[2]" />
-        
-        {/* Blurring glass layer to blend text overlay */}
-        <div className="absolute inset-0 w-full h-full backdrop-blur-[6px] bg-black/65 z-[1]" />
-      </div>
+    <section className="relative w-full overflow-hidden bg-transparent text-white py-24">
 
       {/* Dynamic Ambient Spotlights */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
