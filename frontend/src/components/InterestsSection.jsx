@@ -108,23 +108,20 @@ const InterestsSection = () => {
     offset: ["start start", "end end"]
   });
 
-  // Smooth scroll-driven vertical translations:
-  // Card 0 (Sports) is at the top of the stack and peels UP and OUT first.
-  // Card 1 (Social) peels next, Card 2 peels third, Card 3 remains fully visible.
-  const y0 = useTransform(scrollYProgress, [0, 0.25, 1], [60, -700, -700]);
-  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.50, 1], [105, 105, -700, -700]);
-  const y2 = useTransform(scrollYProgress, [0, 0.50, 0.75, 1], [150, 150, -700, -700]);
-  const y3 = useTransform(scrollYProgress, [0, 0.75, 1], [195, 195, 195]);
+  // Slide up stacking animations:
+  // Cards start in a compact deck at the bottom.
+  // One by one, they slide UP to stack at the top, becoming fully visible and active during their scroll.
+  const y0 = useTransform(scrollYProgress, [0, 0.25, 1], [340, 0, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.50, 1], [380, 380, 40, 40]);
+  const y2 = useTransform(scrollYProgress, [0, 0.50, 0.75, 1], [420, 420, 80, 80]);
+  const y3 = useTransform(scrollYProgress, [0, 0.75, 1], [460, 460, 120, 120]);
 
   const yTransforms = [y0, y1, y2, y3];
 
-  // Dynamic z-index mappings so the active peeling card slides UP and OUT *completely over the top* of the deck.
-  const z0 = useTransform(scrollYProgress, [0, 0.25, 0.26, 1], [100, 100, 10, 10]);
-  const z1 = useTransform(scrollYProgress, [0, 0.24, 0.25, 0.50, 0.51, 1], [20, 20, 100, 100, 10, 10]);
-  const z2 = useTransform(scrollYProgress, [0, 0.49, 0.50, 0.75, 0.76, 1], [30, 30, 100, 100, 10, 10]);
-  const z3 = useTransform(scrollYProgress, [0, 0.74, 0.75, 1], [40, 40, 100, 100]);
-
-  const zIndices = [z0, z1, z2, z3];
+  // Static z-index stacking layers:
+  // Card 3 is at the very top of the pile, Card 0 at the bottom.
+  // This makes only the top 40px corners visible in both bottom and top piles.
+  const zIndices = [10, 20, 30, 40];
 
   return (
     <section 
@@ -154,7 +151,7 @@ const InterestsSection = () => {
         </div>
 
         {/* Right Column: Sticky Timeline Cards Stacking on Scroll */}
-        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[650px]' : ''}`}>
+        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[720px]' : ''}`}>
           
           {/* Vertical Path Line (Mobile/Tablet only) */}
           {!isDesktop && (
