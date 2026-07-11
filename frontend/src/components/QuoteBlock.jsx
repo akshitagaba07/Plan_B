@@ -15,8 +15,8 @@ const SCRIPT = [
   { word: 'your',        pauseAfter: 380 },
   { word: 'plans."',     pauseAfter: 1600 },   // ← long breath after the full stop
 
-  { word: 'Plan',        pauseAfter: 380, newLine: true },
-  { word: 'B',           pauseAfter: 380 },
+  { word: 'Plan',        pauseAfter: 380, newLine: true, planB: true },
+  { word: 'B',           pauseAfter: 380, planB: true },
   { word: 'helps',       pauseAfter: 380 },
   { word: 'you',         pauseAfter: 380 },
   { word: 'find',        pauseAfter: 380 },
@@ -224,8 +224,20 @@ export default function QuoteBlock() {
    Visibility is controlled purely via opacity/blur/y.
 ─────────────────────────────────────────────────────────── */
 function Word({ entry, visible, bloomDone }) {
-  const isGold = entry.highlight;
+  const isGold     = entry.highlight;
+  const isPlanB    = entry.planB;
 
+  /* Plan B words: large neon yellow with strong glow + scale punch */
+  const planBStyle = isPlanB ? {
+    color: '#DFFE00',
+    textShadow: visible
+      ? '0 0 20px rgba(223,254,0,0.9), 0 0 50px rgba(223,254,0,0.5)'
+      : 'none',
+    scale: visible ? 1.08 : 0.97,
+    letterSpacing: '-0.01em',
+  } : {};
+
+  /* gold highlight words (last line) */
   const goldGlow = bloomDone
     ? { textShadow: ['0 0 8px rgba(223,254,0,0.4)', '0 0 28px rgba(223,254,0,0.85)', '0 0 8px rgba(223,254,0,0.4)'] }
     : isGold
@@ -237,20 +249,42 @@ function Word({ entry, visible, bloomDone }) {
     : WORD_TRANSITION;
 
   return (
-    /* Word stays in DOM always — only opacity/blur/y animate */
-    <motion.span
-      animate={{
-        opacity: visible ? 1 : 0,
-        y: visible ? 0 : 10,
-        filter: visible ? 'blur(0px)' : 'blur(5px)',
-        scale: visible ? 1 : 0.97,
-        ...( visible ? goldGlow : {} ),
-      }}
-      transition={goldTransition}
-      className={isGold ? 'text-[#DFFE00]' : 'text-white'}
-      style={{ display: 'inline-block' }}
-    >
-      {entry.word}
-    </motion.span>
+    <span className="relative inline-block">
+      {/* Word stays in DOM always — only opacity/blur/y animate */}
+      <motion.span
+        animate={{
+          opacity: visible ? 1 : 0,
+          y: visible ? 0 : 10,
+          filter: visible ? 'blur(0px)' : 'blur(5px)',
+          ...(isPlanB ? planBStyle : {}),
+          ...( visible && !isPlanB ? goldGlow : {} ),
+        }}
+        transition={goldTransition}
+        className={isPlanB ? 'text-[#DFFE00] font-black' : isGold ? 'text-[#DFFE00]' : 'text-white'}
+        style={{ display: 'inline-block' }}
+      >
+        {entry.word}
+      </motion.span>
+
+      {/* Animated neon underline only for Plan B words */}
+      {isPlanB && (
+        <motion.span
+          animate={{ scaleX: visible ? 1 : 0, opacity: visible ? 1 : 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            display: 'block',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: 2,
+            borderRadius: 9999,
+            background: 'linear-gradient(90deg, #DFFE00, rgba(223,254,0,0.3))',
+            boxShadow: '0 0 8px rgba(223,254,0,0.8)',
+            transformOrigin: 'left',
+          }}
+        />
+      )}
+    </span>
   );
 }
