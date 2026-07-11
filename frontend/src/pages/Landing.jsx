@@ -258,14 +258,14 @@ const Landing = () => {
       </div>
 
       {/* Header (Sticky Navigation Top Bar inspired by Saarthi Techgen) */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md bg-black/70 border-b border-white/5 py-4 shadow-xl' : 'bg-transparent py-6 border-b border-transparent'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md bg-black/85 border-b border-white/5 py-2.5 shadow-xl' : 'backdrop-blur-sm bg-black/30 py-6 border-b border-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-4 group cursor-pointer">
-            <div className={`rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow ${isScrolled ? 'h-11 w-11' : 'h-14 w-14'}`}>
-              <span className={`text-black font-black tracking-tighter transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>B</span>
+            <div className={`rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow ${isScrolled ? 'h-10 w-10' : 'h-14 w-14'}`}>
+              <span className={`text-black font-black tracking-tighter transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-3xl'}`}>B</span>
             </div>
             <div className="flex flex-col text-left">
-              <span className={`font-syne font-black tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>Plan B</span>
+              <span className={`font-syne font-black tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5 ${isScrolled ? 'text-lg' : 'text-3xl'}`}>Plan B</span>
               <p className={`text-[9px] text-[#DFFE00] font-black tracking-[0.2em] uppercase mt-0.5 transition-all duration-300 group-hover:translate-x-1 ${isScrolled ? 'opacity-0 h-0 scale-y-0 overflow-hidden mt-0' : 'opacity-100'}`}>Social Wellness</p>
             </div>
           </div>
