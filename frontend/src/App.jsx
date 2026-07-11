@@ -52,12 +52,12 @@ const AppLayout = () => {
   const showChrome = isAuthenticated && !authRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-gradient-mesh dark:bg-slate-950 text-primary-900 dark:text-slate-100 flex transition-colors duration-300">
-      {/* Navigation Panels */}
+    <div className="min-h-screen bg-gradient-mesh dark:bg-slate-950 text-primary-900 dark:text-slate-100 flex flex-col transition-colors duration-300">
+      {/* Mobile-only Bottom Tab bar */}
       {showChrome && <Sidebar />}
 
       {/* Main Content Area */}
-      <main className={`flex-1 flex flex-col p-4 md:p-6 min-w-0 ${showChrome ? 'md:ml-72' : ''}`}>
+      <main className="flex-1 flex flex-col p-4 md:p-6 min-w-0 max-w-7xl mx-auto w-full">
         {showChrome && <Navbar />}
         <Routes>
           {/* Public Views */}
