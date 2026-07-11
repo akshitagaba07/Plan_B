@@ -85,10 +85,12 @@
 
 /* Hover Flashy Text Gradient Animation */
 .hover-flashy-gradient {
-  transition: color 0.2s ease;
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
 }
 
 .hover-flashy-gradient:hover {
+  transform: scale(1.5);
   background: linear-gradient(
     to right,
     #DFFE00 0%,
