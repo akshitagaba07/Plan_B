@@ -43,13 +43,19 @@ export default function QuoteBlock() {
   const [visibleUpTo, setVisibleUpTo]   = useState(-1);
   const [bloomDone,   setBloomDone]     = useState(false);
   const [cursorOn,    setCursorOn]      = useState(true);   // blinking cursor
+  const [cycle,       setCycle]         = useState(0);      // increments to restart loop
 
-  /* ── drive the sequential reveal ── */
+  /* ── drive the sequential reveal — loops forever ── */
   useEffect(() => {
     if (!inView) return;
 
     let cancelled = false;
     let currentIndex = 0;
+
+    // Reset state for this cycle
+    setVisibleUpTo(-1);
+    setBloomDone(false);
+    setCursorOn(true);
 
     const scheduleNext = () => {
       if (cancelled || currentIndex >= SCRIPT.length) return;
@@ -59,17 +65,29 @@ export default function QuoteBlock() {
       currentIndex++;
 
       if (currentIndex < SCRIPT.length) {
-        setTimeout(scheduleNext, entry.pauseAfter + 120); // 120 ms = render time for the word
+        setTimeout(scheduleNext, entry.pauseAfter + 120);
       } else {
-        // all words shown — trigger final bloom after a short rest
-        setTimeout(() => { if (!cancelled) setBloomDone(true); }, 800);
+        // All words shown — bloom, hold, then reset for next cycle
+        setTimeout(() => {
+          if (cancelled) return;
+          setBloomDone(true);
+          // Hold the final state for 2.5 s then restart
+          setTimeout(() => {
+            if (!cancelled) {
+              setVisibleUpTo(-1);
+              setBloomDone(false);
+              setCursorOn(true);
+              setCycle(c => c + 1); // triggers the effect again
+            }
+          }, 2500);
+        }, 800);
       }
     };
 
-    // Short delay before starting — let the user settle
+    // Short initial delay so the user can settle
     const start = setTimeout(scheduleNext, 400);
     return () => { cancelled = true; clearTimeout(start); };
-  }, [inView]);
+  }, [inView, cycle]);   // re-runs every cycle
 
   /* blinking cursor while words are being placed */
   useEffect(() => {
