@@ -94,25 +94,35 @@ const cardsData = [
 const InterestsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Auto-play slideshow timer (cycles every 4.5 seconds)
+  // Auto-play slideshow timer (cycles every 4.5 seconds).
+  // Including activeIndex in the dependency array clears the interval and resets the 4.5s countdown
+  // whenever the active slide is changed (e.g. on manual hover), preventing premature skips.
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % cardsData.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeIndex]);
 
   const activeCard = cardsData[activeIndex];
 
   return (
     <section className="relative w-full overflow-hidden py-24 z-10">
-      {/* Background Soft Glow Effect */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-purple-900/10 filter blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-[#DFFE00]/5 filter blur-[100px]" />
-      </div>
+      {/* Dynamic Ambient Spotlight Background */}
+      <motion.div 
+        animate={{
+          backgroundColor: activeIndex === 0 ? "rgba(131, 245, 130, 0.12)" : 
+                           activeIndex === 1 ? "rgba(253, 173, 112, 0.12)" :
+                           activeIndex === 2 ? "rgba(122, 247, 247, 0.12)" : 
+                           "rgba(253, 116, 253, 0.12)",
+          x: activeIndex % 2 === 0 ? -60 : 60,
+          y: activeIndex > 1 ? 60 : -60,
+        }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full filter blur-[110px] pointer-events-none z-0"
+      />
 
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center relative">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center relative z-10">
         
         {/* Left Column: Presentation Navigation */}
         <div className="w-full lg:w-[40%] text-left space-y-8">
@@ -129,31 +139,54 @@ const InterestsSection = () => {
             </p>
           </div>
 
-          {/* Navigation Items (Tabs) */}
-          <div className="flex flex-col gap-3 w-full">
+          {/* Navigation Items (Tabs) with spring highlight slider */}
+          <div className="flex flex-col gap-3.5 w-full relative">
             {cardsData.map((item, idx) => {
               const isActive = idx === activeIndex;
               return (
                 <button
                   key={idx}
                   onMouseEnter={() => setActiveIndex(idx)}
-                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between group ${
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between group relative overflow-hidden ${
                     isActive 
-                      ? 'bg-white/5 border-[#DFFE00]/30 text-white shadow-lg shadow-[#DFFE00]/5' 
-                      : 'bg-transparent border-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                      ? 'border-[#DFFE00] text-black' 
+                      : 'border-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/5'
                   }`}
                 >
-                  <div className="flex items-center gap-4">
-                    <span className={`text-sm font-black transition-colors ${isActive ? 'text-[#DFFE00]' : 'text-slate-600'}`}>
+                  {/* Sliding Spring Highlight Background */}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeInterestTab"
+                      className="absolute inset-0 bg-[#DFFE00] -z-10 shadow-lg shadow-[#DFFE00]/10"
+                      transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                    />
+                  )}
+
+                  <div className="flex items-center gap-4 relative z-10">
+                    <span className={`text-sm font-black transition-colors ${isActive ? 'text-black/60' : 'text-slate-600'}`}>
                       0{idx + 1}
                     </span>
                     <span className="font-syne font-bold text-lg md:text-xl uppercase tracking-tight">
                       {item.title}
                     </span>
                   </div>
-                  <span className="text-2xl select-none transform group-hover:scale-110 transition-transform duration-200">
+                  
+                  <span className="text-2xl select-none transform group-hover:scale-110 transition-transform duration-200 relative z-10">
                     {item.emoji}
                   </span>
+
+                  {/* Active Slide Timer Line */}
+                  {isActive && (
+                    <div className="absolute bottom-0 left-0 right-0 h-[4px] bg-black/10 overflow-hidden">
+                      <motion.div 
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        key={activeIndex}
+                        transition={{ duration: 4.5, ease: "linear" }}
+                        className="h-full bg-black/35"
+                      />
+                    </div>
+                  )}
                 </button>
               );
             })}
@@ -161,50 +194,78 @@ const InterestsSection = () => {
         </div>
 
         {/* Right Column: Large Slide Card View */}
-        <div className="w-full lg:w-[60%] flex items-center justify-center min-h-[480px]">
+        <div className="w-full lg:w-[60%] flex items-center justify-center min-h-[500px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, x: 20, rotate: 1 }}
-              animate={{ opacity: 1, x: 0, rotate: 0 }}
-              exit={{ opacity: 0, x: -20, rotate: -1 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -15 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} // smooth apple-like ease-out
               className="w-full"
             >
-              <div className={`group border-[4px] border-black bg-gradient-to-r ${activeCard.gradient} rounded-[32px] p-8 md:p-12 text-[#1d1c1c] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-[14px_14px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center`}>
+              {/* Card wrapper */}
+              <div className={`group border-[4px] border-black bg-gradient-to-br ${activeCard.gradient} rounded-[32px] p-8 md:p-12 text-[#1d1c1c] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-[14px_14px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center`}>
                 
-                {/* Left Side: Large Illustration */}
-                <div className="w-full md:w-[40%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                  <div className="scale-110 md:scale-125">
+                {/* Left Side: Parallax Spring Illustration */}
+                <div className="w-full md:w-[40%] flex items-center justify-center">
+                  <motion.div 
+                    initial={{ opacity: 0, x: -40, rotate: -12 }}
+                    animate={{ opacity: 1, x: 0, rotate: idx => idx % 2 === 0 ? -1.2 : 1.2 }}
+                    key={activeIndex}
+                    transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.1 }}
+                    className="scale-110 md:scale-125"
+                  >
                     {activeCard.illustration}
-                  </div>
+                  </motion.div>
                 </div>
 
-                {/* Right Side: Card Details */}
+                {/* Right Side: Staggered text details */}
                 <div className="w-full md:w-[60%] flex flex-col justify-between min-h-[220px] text-left">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3">
+                    {/* Title */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      key={`title-${activeIndex}`}
+                      transition={{ duration: 0.4, delay: 0.15 }}
+                      className="flex items-center gap-3"
+                    >
                       <h3 className="font-syne font-black text-2xl md:text-3xl uppercase tracking-tighter text-black leading-tight">
                         {activeCard.title}
                       </h3>
                       <span className="text-3xl select-none">
                         {activeCard.emoji}
                       </span>
-                    </div>
-                    <p className="text-slate-800 text-sm md:text-base font-bold leading-relaxed">
+                    </motion.div>
+
+                    {/* Description */}
+                    <motion.p 
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      key={`desc-${activeIndex}`}
+                      transition={{ duration: 0.4, delay: 0.25 }}
+                      className="text-slate-800 text-sm md:text-base font-bold leading-relaxed"
+                    >
                       {activeCard.desc}
-                    </p>
+                    </motion.p>
                   </div>
 
                   {/* Action Footer */}
-                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-black/10 group-hover:border-black/20">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    key={`footer-${activeIndex}`}
+                    transition={{ type: "spring", stiffness: 120, damping: 10, delay: 0.35 }}
+                    className="flex items-center justify-between pt-6 mt-6 border-t border-black/10 group-hover:border-black/20"
+                  >
                     <span className="text-sm font-black uppercase tracking-wider text-black">
                       Find Sparks
                     </span>
                     <div className="h-10 w-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
                       <ArrowRight className="h-5 w-5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
               </div>
