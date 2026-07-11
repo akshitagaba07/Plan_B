@@ -272,10 +272,10 @@ const Landing = () => {
 
           {/* Centered Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-[11px] font-extrabold tracking-widest uppercase text-slate-400">
-            <a href="#features" className="hover:text-white transition-colors duration-200">Features</a>
-            <Link to="/discover" className="hover:text-white transition-colors duration-200">Discover</Link>
-            <Link to="/community" className="hover:text-white transition-colors duration-200">Communities</Link>
-            <Link to="/wellness" className="hover:text-white transition-colors duration-200">Wellness</Link>
+            <a href="#features" className="hover-flashy-gradient">Features</a>
+            <Link to="/discover" className="hover-flashy-gradient">Discover</Link>
+            <Link to="/community" className="hover-flashy-gradient">Communities</Link>
+            <Link to="/wellness" className="hover-flashy-gradient">Wellness</Link>
           </nav>
           
           <div className="flex items-center gap-6">

@@ -45,7 +45,7 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.path}
-              className={`hover:text-white transition-colors duration-200 py-1.5 px-3 rounded-xl ${
+              className={`hover-flashy-gradient py-1.5 px-3 rounded-xl ${
                 isActive ? 'text-[#DFFE00] bg-white/5 border border-white/5' : ''
               }`}
             >
