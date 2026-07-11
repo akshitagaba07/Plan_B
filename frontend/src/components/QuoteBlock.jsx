@@ -1,256 +1,254 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Quote, Heart } from 'lucide-react';
 
-/* ─── floating particle seeds (deterministic so no hydration flicker) ─── */
-const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
-  id: i,
-  x: 10 + ((i * 37 + 13) % 80),   // 10–90 % horizontal
-  y: 5  + ((i * 53 + 7)  % 85),   // 5–90 % vertical
-  r: 1.5 + (i % 5) * 0.6,         // radius 1.5–4.5
-  dur: 3 + (i % 7) * 0.8,         // float duration 3–8.4 s
-  delay: (i * 0.31) % 4,
-  opacity: 0.25 + (i % 4) * 0.15,
-}));
+/*
+  Each entry in SCRIPT is a single "breath unit" — a word or phrase
+  that appears on screen with a soft fade. pauseAfter is milliseconds
+  of silence BEFORE the next word appears (like a human speaker pausing).
+  highlight = true renders the word in the neon gold colour.
+  newLine = true adds a line break before this word.
+*/
+const SCRIPT = [
+  { word: '"Sometimes',  pauseAfter: 420 },
+  { word: 'life',        pauseAfter: 380 },
+  { word: 'changes',     pauseAfter: 380 },
+  { word: 'your',        pauseAfter: 380 },
+  { word: 'plans."',     pauseAfter: 1600 },   // ← long breath after the full stop
 
-/* ─── split text into animatable words ─── */
-const line1Words = ['Sometimes', 'life', 'changes', 'your', 'plans.'];
-const line2Words = ['Plan', 'B', 'helps', 'you', 'find', 'the'];
-const line2Highlight = ['people', 'to', 'make', 'new', 'ones.'];
+  { word: 'Plan',        pauseAfter: 380, newLine: true },
+  { word: 'B',           pauseAfter: 380 },
+  { word: 'helps',       pauseAfter: 380 },
+  { word: 'you',         pauseAfter: 380 },
+  { word: 'find',        pauseAfter: 380 },
+  { word: 'the',         pauseAfter: 900 },   // ← a held breath before the climax
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 28, filter: 'blur(6px)' },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.55, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] },
-  }),
+  { word: 'people',      pauseAfter: 480, newLine: true, highlight: true },
+  { word: 'to',          pauseAfter: 420, highlight: true },
+  { word: 'make',        pauseAfter: 440, highlight: true },
+  { word: 'new',         pauseAfter: 460, highlight: true },
+  { word: 'ones."',      pauseAfter: 0,   highlight: true, last: true },
+];
+
+/* Soft "landing" animation for each word */
+const WORD_TRANSITION = {
+  duration: 1.05,
+  ease: [0.16, 1, 0.3, 1],   // expo-out — instant snap then very slow settle
 };
 
 export default function QuoteBlock() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [showHeartBurst, setShowHeartBurst] = useState(false);
+  const sectionRef     = useRef(null);
+  const inView         = useInView(sectionRef, { once: true, margin: '-80px' });
 
-  /* trigger heart-burst once words finish */
+  /* index of the last visible word (-1 = none shown yet) */
+  const [visibleUpTo, setVisibleUpTo]   = useState(-1);
+  const [bloomDone,   setBloomDone]     = useState(false);
+  const [cursorOn,    setCursorOn]      = useState(true);   // blinking cursor
+
+  /* ── drive the sequential reveal ── */
   useEffect(() => {
     if (!inView) return;
-    const totalWords = line1Words.length + line2Words.length + line2Highlight.length;
-    const ms = totalWords * 90 + 700;
-    const t = setTimeout(() => setShowHeartBurst(true), ms);
-    return () => clearTimeout(t);
+
+    let cancelled = false;
+    let currentIndex = 0;
+
+    const scheduleNext = () => {
+      if (cancelled || currentIndex >= SCRIPT.length) return;
+
+      const entry = SCRIPT[currentIndex];
+      setVisibleUpTo(currentIndex);
+      currentIndex++;
+
+      if (currentIndex < SCRIPT.length) {
+        setTimeout(scheduleNext, entry.pauseAfter + 120); // 120 ms = render time for the word
+      } else {
+        // all words shown — trigger final bloom after a short rest
+        setTimeout(() => { if (!cancelled) setBloomDone(true); }, 800);
+      }
+    };
+
+    // Short delay before starting — let the user settle
+    const start = setTimeout(scheduleNext, 400);
+    return () => { cancelled = true; clearTimeout(start); };
   }, [inView]);
 
-  const allWordCount = line1Words.length + line2Words.length + line2Highlight.length;
+  /* blinking cursor while words are being placed */
+  useEffect(() => {
+    if (bloomDone) { setCursorOn(false); return; }
+    const id = setInterval(() => setCursorOn(v => !v), 530);
+    return () => clearInterval(id);
+  }, [bloomDone]);
+
+  /* build line groups for layout */
+  const line1 = SCRIPT.slice(0, 5);
+  const line2 = SCRIPT.slice(5, 11);
+  const line3 = SCRIPT.slice(11);
 
   return (
     <section
-      ref={ref}
-      className="relative z-10 overflow-hidden py-24 md:py-32"
+      ref={sectionRef}
+      className="relative z-10 overflow-hidden py-28 md:py-40"
     >
-      {/* ── radial ambient glow ── */}
-      <div
+      {/* ── very subtle ambient glow — grows when bloom fires ── */}
+      <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        animate={bloomDone ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 2.4, ease: 'easeOut' }}
       >
-        <div
-          style={{
-            width: '700px',
-            height: '420px',
-            background:
-              'radial-gradient(ellipse at center, rgba(223,254,0,0.10) 0%, rgba(223,254,0,0.03) 45%, transparent 70%)',
-            filter: 'blur(24px)',
-          }}
-        />
-      </div>
+        <div style={{
+          width: '800px', height: '480px',
+          background: 'radial-gradient(ellipse at center, rgba(223,254,0,0.12) 0%, rgba(223,254,0,0.04) 40%, transparent 68%)',
+          filter: 'blur(32px)',
+        }} />
+      </motion.div>
 
-      {/* ── floating gold particles ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        {PARTICLES.map((p) => (
-          <motion.span
-            key={p.id}
-            style={{
-              position: 'absolute',
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.r * 2,
-              height: p.r * 2,
-              borderRadius: '50%',
-              background: '#DFFE00',
-              opacity: 0,
-              boxShadow: `0 0 ${p.r * 3}px rgba(223,254,0,0.8)`,
-            }}
-            animate={
-              inView
-                ? {
-                    opacity: [0, p.opacity, p.opacity * 0.6, p.opacity, 0],
-                    y: [0, -18, 8, -12, 0],
-                    scale: [1, 1.3, 0.9, 1.2, 1],
-                  }
-                : {}
-            }
-            transition={{
-              duration: p.dur,
-              delay: p.delay,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-        ))}
-      </div>
+      <div className="max-w-4xl mx-auto px-6 text-center">
 
-      {/* ── quote icon with pulsing heartbeat ring ── */}
-      <div className="relative flex flex-col items-center gap-8 max-w-5xl mx-auto px-6">
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex items-center justify-center"
+        {/* ── tiny section label ── */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: 0.1 }}
+          className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#DFFE00]/60 mb-10"
         >
-          {/* outer pulsing ring */}
-          <motion.div
-            className="absolute rounded-full border border-[#DFFE00]/40"
-            style={{ width: 72, height: 72 }}
-            animate={inView ? { scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] } : {}}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut' }}
-          />
-          {/* inner pulsing ring */}
-          <motion.div
-            className="absolute rounded-full border border-[#DFFE00]/25"
-            style={{ width: 56, height: 56 }}
-            animate={inView ? { scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] } : {}}
-            transition={{ duration: 2.4, delay: 0.5, repeat: Infinity, ease: 'easeOut' }}
-          />
-          {/* icon circle */}
-          <div className="relative h-12 w-12 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/30 flex items-center justify-center text-[#DFFE00] z-10">
-            <Quote className="h-5 w-5 rotate-180" />
-          </div>
-        </motion.div>
+          A message for you
+        </motion.p>
 
-        {/* ── word-by-word stagger blockquote ── */}
-        <blockquote className="text-center font-syne font-extrabold uppercase tracking-tight leading-tight text-2xl md:text-4xl lg:text-5xl">
+        {/* ── the quote ── */}
+        <blockquote
+          className="font-syne font-extrabold uppercase tracking-tight leading-snug
+                     text-3xl md:text-5xl lg:text-6xl text-center"
+          aria-label="Sometimes life changes your plans. Plan B helps you find the people to make new ones."
+        >
 
-          {/* line 1 */}
-          <div className="flex flex-wrap justify-center gap-x-[0.35em] gap-y-1 text-white">
-            {line1Words.map((word, i) => (
-              <motion.span
-                key={`l1-${i}`}
-                custom={i}
-                variants={wordVariants}
-                initial="hidden"
-                animate={inView ? 'visible' : 'hidden'}
-              >
-                {word}
-              </motion.span>
+          {/* Line 1 */}
+          <div className="flex flex-wrap justify-center gap-x-[0.3em] gap-y-2 mb-3">
+            {line1.map((entry, i) => (
+              <Word
+                key={i}
+                globalIndex={i}
+                entry={entry}
+                visible={visibleUpTo >= i}
+              />
             ))}
           </div>
 
-          {/* line 2 — normal words + highlighted words */}
-          <div className="flex flex-wrap justify-center gap-x-[0.35em] gap-y-1 mt-2">
-            {line2Words.map((word, i) => (
-              <motion.span
-                key={`l2-${i}`}
-                custom={line1Words.length + i}
-                variants={wordVariants}
-                initial="hidden"
-                animate={inView ? 'visible' : 'hidden'}
-                className="text-white"
-              >
-                {word}
-              </motion.span>
-            ))}
-            {line2Highlight.map((word, i) => (
-              <motion.span
-                key={`l2h-${i}`}
-                custom={line1Words.length + line2Words.length + i}
-                variants={wordVariants}
-                initial="hidden"
-                animate={inView ? 'visible' : 'hidden'}
-                className="relative text-[#DFFE00]"
-                style={{ textShadow: '0 0 18px rgba(223,254,0,0.7), 0 0 40px rgba(223,254,0,0.35)' }}
-              >
-                {/* shimmer sweep overlay */}
+          {/* Line 2 */}
+          <div className="flex flex-wrap justify-center gap-x-[0.3em] gap-y-2 mb-3">
+            {line2.map((entry, i) => {
+              const gi = 5 + i;
+              return (
+                <Word
+                  key={gi}
+                  globalIndex={gi}
+                  entry={entry}
+                  visible={visibleUpTo >= gi}
+                />
+              );
+            })}
+          </div>
+
+          {/* Line 3 — gold climax */}
+          <div className="flex flex-wrap justify-center gap-x-[0.3em] gap-y-2">
+            {line3.map((entry, i) => {
+              const gi = 11 + i;
+              return (
+                <Word
+                  key={gi}
+                  globalIndex={gi}
+                  entry={entry}
+                  visible={visibleUpTo >= gi}
+                  bloomDone={entry.last ? bloomDone : false}
+                />
+              );
+            })}
+
+            {/* blinking cursor — vanishes after bloom */}
+            <AnimatePresence>
+              {!bloomDone && (
                 <motion.span
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 rounded"
-                  style={{
-                    background:
-                      'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%)',
-                    backgroundSize: '200% 100%',
-                  }}
-                  animate={inView ? { backgroundPosition: ['-100% 0', '200% 0'] } : {}}
-                  transition={{
-                    duration: 1.4,
-                    delay: (line1Words.length + line2Words.length + i) * 0.09 + 0.7,
-                    ease: 'easeInOut',
-                    repeat: Infinity,
-                    repeatDelay: 3.5,
-                  }}
+                  key="cursor"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: cursorOn ? 1 : 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.12 }}
+                  className="inline-block w-[3px] h-[0.85em] rounded-sm bg-[#DFFE00] self-center ml-1"
+                  style={{ boxShadow: '0 0 8px rgba(223,254,0,0.8)' }}
                 />
-                {word}
-              </motion.span>
-            ))}
+              )}
+            </AnimatePresence>
           </div>
         </blockquote>
 
-        {/* ── animated neon underline ── */}
+        {/* ── neon underline — draws itself after bloom ── */}
         <motion.div
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={inView ? { scaleX: 1, opacity: 1 } : {}}
-          transition={{
-            duration: 0.9,
-            delay: allWordCount * 0.09 + 0.3,
-            ease: [0.22, 1, 0.36, 1],
+          className="mx-auto mt-10 h-[2px] rounded-full"
+          style={{
+            background: 'linear-gradient(90deg, transparent 0%, #DFFE00 50%, transparent 100%)',
+            boxShadow: '0 0 14px rgba(223,254,0,0.7)',
           }}
-          style={{ originX: 0.5 }}
-          className="w-20 h-[3px] rounded-full"
-          aria-hidden
-        >
-          <div
-            className="w-full h-full rounded-full"
-            style={{
-              background: 'linear-gradient(90deg, transparent, #DFFE00, transparent)',
-              boxShadow: '0 0 12px rgba(223,254,0,0.8)',
-            }}
-          />
-        </motion.div>
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={bloomDone ? { scaleX: 1, opacity: 1 } : {}}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        />
 
-        {/* ── heart-burst celebration (fires once after words finish) ── */}
-        <AnimatePresence>
-          {showHeartBurst &&
-            Array.from({ length: 7 }).map((_, i) => {
-              const angle = (i / 7) * 2 * Math.PI;
-              const dx = Math.cos(angle) * (55 + (i % 3) * 20);
-              const dy = Math.sin(angle) * (45 + (i % 3) * 18);
-              return (
-                <motion.span
-                  key={`hb-${i}`}
-                  aria-hidden
-                  initial={{ opacity: 1, x: 0, y: 0, scale: 0.4 }}
-                  animate={{ opacity: 0, x: dx, y: dy, scale: 1.2 }}
-                  transition={{ duration: 1.1, ease: 'easeOut' }}
-                  exit={{ opacity: 0 }}
-                  style={{
-                    position: 'absolute',
-                    pointerEvents: 'none',
-                    color: i % 2 === 0 ? '#DFFE00' : '#fff',
-                  }}
-                >
-                  <Heart
-                    style={{
-                      width: 12 + (i % 3) * 5,
-                      height: 12 + (i % 3) * 5,
-                      fill: 'currentColor',
-                    }}
-                  />
-                </motion.span>
-              );
-            })}
-        </AnimatePresence>
+        {/* ── closing line after bloom ── */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={bloomDone ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1.0, delay: 0.5, ease: 'easeOut' }}
+          className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
+        >
+          Because every great story needs the right people.
+        </motion.p>
 
       </div>
     </section>
+  );
+}
+
+/* ───────────────────────────────────────────────────────────
+   Word — renders a single token with its soft "landing" entry
+─────────────────────────────────────────────────────────── */
+function Word({ entry, visible, bloomDone }) {
+  const isGold = entry.highlight;
+
+  /* gold words pulse gently with a slow glow once bloom fires */
+  const goldGlow = bloomDone
+    ? { textShadow: ['0 0 8px rgba(223,254,0,0.4)', '0 0 28px rgba(223,254,0,0.85)', '0 0 8px rgba(223,254,0,0.4)'] }
+    : isGold
+      ? { textShadow: '0 0 14px rgba(223,254,0,0.55)' }
+      : {};
+
+  const goldTransition = bloomDone
+    ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
+    : {};
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.span
+          key="word"
+          initial={{
+            opacity: 0,
+            y: 10,
+            filter: 'blur(5px)',
+            scale: 0.97,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            scale: 1,
+            ...goldGlow,
+          }}
+          transition={bloomDone ? goldTransition : WORD_TRANSITION}
+          className={isGold ? 'text-[#DFFE00]' : 'text-white'}
+        >
+          {entry.word}
+        </motion.span>
+      )}
+    </AnimatePresence>
   );
 }
