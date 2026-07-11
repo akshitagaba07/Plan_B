@@ -216,6 +216,11 @@ const WhyPlanBSection = () => {
           <source src="/background-video-2.mp4" type="video/mp4" />
           <source src="/background-video-2.webm" type="video/webm" />
         </video>
+        
+        {/* Edge Feathering Gradients to remove horizontal line cuts between sections */}
+        <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-[2]" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent z-[2]" />
+        
         {/* Blurring glass layer to blend text overlay */}
         <div className="absolute inset-0 w-full h-full backdrop-blur-[6px] bg-black/65 z-[1]" />
       </div>
