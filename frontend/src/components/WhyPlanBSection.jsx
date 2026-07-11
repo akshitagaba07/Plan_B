@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Heart, Compass, Sparkles, MapPin, ChevronRight, Quote } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Compass, Sparkles, MapPin, Quote } from 'lucide-react';
 
 const storyStages = [
   {
     title: "Plan A",
     label: "Family & Friends",
-    icon: <Heart className="h-5 w-5 text-red-500 fill-red-500" />,
     badge: "THE FIRST CHOICE",
     gradient: "from-[#fff48d] to-[#fffbde]", // Soft gold
     color: "#fff48d",
-    paragraphs: [
-      "We all make our first plans with the people closest to us.",
-      "A cricket match with friends. A movie with siblings. A café visit with your best friend. A weekend trip with family.",
-      "Those are our first choice—our Plan A."
+    subtitle: "We all make our first plans with the people closest to us.",
+    bullets: [
+      { text: "A cricket match with friends", emoji: "🏏" },
+      { text: "A movie with siblings", emoji: "🍿" },
+      { text: "A café visit with your best friend", emoji: "☕" },
+      { text: "A weekend trip with family", emoji: "🚗" }
     ],
+    footer: "Those are our first choice—our Plan A.",
     // Warm vector scene showing group connection
     illustration: (
       <svg viewBox="0 0 200 200" className="w-full h-full select-none" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,15 +53,17 @@ const storyStages = [
   {
     title: "Life Changes",
     label: "The Unfamiliar Shift",
-    icon: <MapPin className="h-5 w-5 text-sky-400" />,
     badge: "THE TRANSITION",
     gradient: "from-[#7af7f7] to-[#8fe0ff]", // Cool ice/cyan
     color: "#7af7f7",
-    paragraphs: [
-      "But life moves forward.",
-      "College takes us to a new city. Work brings us somewhere unfamiliar. Friends become busy. Family lives far away.",
-      "Suddenly, the plans are still there... but the people aren't."
+    subtitle: "But life moves forward.",
+    bullets: [
+      { text: "College takes us to a new city", emoji: "🎓" },
+      { text: "Work brings us somewhere unfamiliar", emoji: "💼" },
+      { text: "Friends become busy", emoji: "⏳" },
+      { text: "Family lives far away", emoji: "📍" }
     ],
+    footer: "Suddenly, the plans are still there... but the people aren't.",
     // Isolated figure with location pins and clouds
     illustration: (
       <svg viewBox="0 0 200 200" className="w-full h-full select-none" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,15 +101,16 @@ const storyStages = [
   {
     title: "Plan B",
     label: "Find Your People",
-    icon: <Sparkles className="h-5 w-5 text-[#DFFE00]" />,
     badge: "THE SOLUTION",
     gradient: "from-[#83f582] to-[#7af7f7]", // Green to cyan
     color: "#83f582",
-    paragraphs: [
-      "That's where Plan B begins.",
-      "Plan B helps you find people who share your interests, so you never have to cancel an experience just because you don't have someone to share it with.",
-      "Because great memories shouldn't depend on whether your usual group is available."
+    subtitle: "That's where Plan B begins.",
+    bullets: [
+      { text: "Find people who share your interests", emoji: "🤝" },
+      { text: "Never cancel an experience", emoji: "✨" },
+      { text: "Make memories on your own terms", emoji: "⚡" }
     ],
+    footer: "Plan B helps you find people who share your interests, so you never have to cancel an experience just because your usual group is unavailable.",
     // Fully connected happy network scene
     illustration: (
       <svg viewBox="0 0 200 200" className="w-full h-full select-none" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,11 +174,15 @@ const storyStages = [
 ];
 
 const WhyPlanBSection = () => {
-  const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // Responsive boundary check
+  // Observer refs for high-performance scroll tracking
+  const p0Ref = useRef(null);
+  const p1Ref = useRef(null);
+  const p2Ref = useRef(null);
+
+  // Responsive layout check
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 1024);
     const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
@@ -181,171 +190,206 @@ const WhyPlanBSection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Set up scroll progress tracking across the section
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Automatically update the active illustration index based on scroll position on desktop
+  // Optimized Intersection Observer to handle stage changes on scroll without lag
   useEffect(() => {
     if (!isDesktop) return;
-    const unsubscribe = scrollYProgress.onChange((latest) => {
-      // Map scroll progress intervals to index 0, 1, 2
-      if (latest < 0.33) {
-        setActiveIndex(0);
-      } else if (latest >= 0.33 && latest < 0.68) {
-        setActiveIndex(1);
-      } else {
-        setActiveIndex(2);
-      }
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress, isDesktop]);
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -25% 0px", // Triggers when the panel is in the middle 50% of screen
+      threshold: 0.15
+    };
+
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.getAttribute('data-index'), 10);
+          setActiveIndex(index);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    if (p0Ref.current) observer.observe(p0Ref.current);
+    if (p1Ref.current) observer.observe(p1Ref.current);
+    if (p2Ref.current) observer.observe(p2Ref.current);
+
+    return () => observer.disconnect();
+  }, [isDesktop]);
 
   const activeStage = storyStages[activeIndex];
 
   return (
-    <section 
-      ref={sectionRef}
-      className={`relative w-full overflow-hidden bg-black text-white ${isDesktop ? 'h-[250vh]' : 'py-20'}`}
-    >
-      {/* Background Soft Ambient Spotlights */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <section className="relative w-full overflow-hidden bg-black text-white py-24">
+      {/* Background Loop Video specifically fitted and styled for this section */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.45] mix-blend-screen z-0"
+        >
+          <source src="/background-video-2.mp4" type="video/mp4" />
+          <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+        {/* Blurring glass layer to blend text overlay */}
+        <div className="absolute inset-0 w-full h-full backdrop-blur-[6px] bg-black/60 z-[1]" />
+      </div>
+
+      {/* Dynamic Ambient Spotlights */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[2]">
         <motion.div 
           animate={{
-            backgroundColor: activeIndex === 0 ? "rgba(253, 244, 141, 0.05)" : 
-                             activeIndex === 1 ? "rgba(122, 247, 247, 0.05)" : 
-                             "rgba(131, 245, 130, 0.06)",
-            x: activeIndex === 0 ? -100 : activeIndex === 1 ? 100 : 0,
-            y: activeIndex === 2 ? 100 : -100
+            backgroundColor: activeIndex === 0 ? "rgba(253, 244, 141, 0.08)" : 
+                             activeIndex === 1 ? "rgba(122, 247, 247, 0.08)" : 
+                             "rgba(131, 245, 130, 0.09)",
+            x: activeIndex === 0 ? -120 : activeIndex === 1 ? 120 : 0,
+            y: activeIndex === 2 ? 120 : -120
           }}
           transition={{ duration: 0.8 }}
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full filter blur-[150px]"
+          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full filter blur-[140px]"
         />
       </div>
 
-      {/* Sticky layout container for Desktop */}
-      <div className={`max-w-7xl mx-auto px-6 relative z-10 h-full flex flex-col justify-between ${isDesktop ? 'lg:flex-row' : ''}`}>
+      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start justify-between">
         
-        {/* Sticky wrapper: Holds left column content & right column illustration side by side */}
-        <div className={`w-full flex flex-col lg:flex-row gap-12 lg:gap-16 items-start justify-between ${isDesktop ? 'lg:sticky lg:top-28 lg:h-[75vh]' : ''}`}>
+        {/* LEFT COLUMN: Narrative story scroll-panels */}
+        <div className="w-full lg:w-[48%] flex flex-col justify-start text-left space-y-4">
           
-          {/* LEFT COLUMN: Story Copy */}
-          <div className="w-full lg:w-[48%] flex flex-col justify-center h-full text-left pt-6">
-            <div className="space-y-3 mb-6">
-              <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
-                OUR STORY
-              </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
-                Why Plan B?
-              </h2>
-            </div>
+          {/* Header Title block */}
+          <div className="space-y-3 mb-10 sticky top-28 bg-transparent z-20">
+            <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
+              OUR STORY
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
+              Why Plan B?
+            </h2>
+          </div>
 
-            {/* Split Story Text Blocks */}
-            <div className="space-y-10 mt-6 relative">
-              {/* Vertical timeline connecting line (grows with index) */}
-              <div className="absolute left-3.5 top-2 bottom-2 w-[2px] bg-white/10 hidden md:block">
-                <motion.div 
-                  animate={{ height: `${(activeIndex / (storyStages.length - 1)) * 100}%` }}
-                  transition={{ duration: 0.4 }}
-                  className="w-full bg-[#DFFE00]" 
-                />
+          {/* Narrative panels (observed on desktop for scroll transitions) */}
+          <div className="space-y-24 lg:space-y-44 relative">
+            {/* Stage 0 panel */}
+            <motion.div
+              ref={p0Ref}
+              data-index="0"
+              animate={{ opacity: isDesktop ? (activeIndex === 0 ? 1 : 0.25) : 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <span className={`inline-block text-[9px] font-black tracking-widest px-2.5 py-0.5 rounded border border-[#fff48d]/30 text-[#fff48d] bg-[#fff48d]/10`}>
+                  STAGE 01 — PLAN A
+                </span>
               </div>
+              <h3 className="text-2xl md:text-3xl font-syne font-extrabold uppercase tracking-tight text-white">
+                {storyStages[0].subtitle}
+              </h3>
+              <ul className="space-y-2.5 pl-1.5">
+                {storyStages[0].bullets.map((b, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-350 font-bold text-sm md:text-base">
+                    <span className="text-base select-none" role="img" aria-hidden="true">{b.emoji}</span>
+                    <span>{b.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-slate-400 font-semibold text-xs md:text-sm italic pt-2">
+                {storyStages[0].footer}
+              </p>
+            </motion.div>
 
-              {storyStages.map((stage, idx) => {
-                const isActive = idx === activeIndex;
-                return (
-                  <motion.div
-                    key={idx}
-                    onMouseEnter={() => {
-                      if (isDesktop) setActiveIndex(idx);
-                    }}
-                    onClick={() => setActiveIndex(idx)}
-                    animate={{ 
-                      opacity: isDesktop ? (isActive ? 1 : 0.25) : 1,
-                      x: isDesktop ? (isActive ? 12 : 0) : 0 
-                    }}
-                    transition={{ duration: 0.35 }}
-                    className={`flex gap-6 items-start cursor-pointer group relative pl-0 md:pl-10`}
-                  >
-                    {/* Node Badge on the vertical line */}
-                    <div className={`absolute left-0 top-1.5 h-8 w-8 rounded-full border-[2.5px] items-center justify-center hidden md:flex transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-black border-[#DFFE00] text-[#DFFE00] scale-110 shadow-lg shadow-[#DFFE00]/15' 
-                        : 'bg-black border-white/15 text-slate-500 hover:border-white/40'
-                    }`}>
-                      {stage.icon}
-                    </div>
+            {/* Stage 1 panel */}
+            <motion.div
+              ref={p1Ref}
+              data-index="1"
+              animate={{ opacity: isDesktop ? (activeIndex === 1 ? 1 : 0.25) : 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <span className={`inline-block text-[9px] font-black tracking-widest px-2.5 py-0.5 rounded border border-[#7af7f7]/30 text-[#7af7f7] bg-[#7af7f7]/10`}>
+                  STAGE 02 — LIFE CHANGES
+                </span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-syne font-extrabold uppercase tracking-tight text-white">
+                {storyStages[1].subtitle}
+              </h3>
+              <ul className="space-y-2.5 pl-1.5">
+                {storyStages[1].bullets.map((b, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-350 font-bold text-sm md:text-base">
+                    <span className="text-base select-none" role="img" aria-hidden="true">{b.emoji}</span>
+                    <span>{b.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-slate-400 font-semibold text-xs md:text-sm italic pt-2">
+                {storyStages[1].footer}
+              </p>
+            </motion.div>
 
-                    <div className="space-y-3 text-left">
-                      <div className="flex items-center gap-3">
-                        <span className={`inline-block text-[9px] font-black tracking-widest px-2 py-0.5 rounded border ${
-                          isActive 
-                            ? 'bg-[#DFFE00]/10 border-[#DFFE00]/30 text-[#DFFE00]' 
-                            : 'bg-white/5 border-white/10 text-slate-400'
-                        }`}>
-                          {stage.badge}
-                        </span>
-                        <h4 className={`font-syne font-extrabold uppercase tracking-tight transition-colors duration-200 ${
-                          isActive ? 'text-[#DFFE00]' : 'text-slate-400 group-hover:text-white'
-                        }`}>
-                          {stage.title} — {stage.label}
-                        </h4>
-                      </div>
-                      
-                      <div className="space-y-2 max-w-lg">
-                        {stage.paragraphs.map((p, pIdx) => (
-                          <p 
-                            key={pIdx} 
-                            className={`text-sm md:text-base font-bold leading-relaxed transition-colors duration-200 ${
-                              isActive ? 'text-slate-200' : 'text-slate-500'
-                            }`}
-                          >
-                            {p}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+            {/* Stage 2 panel */}
+            <motion.div
+              ref={p2Ref}
+              data-index="2"
+              animate={{ opacity: isDesktop ? (activeIndex === 2 ? 1 : 0.25) : 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-4 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <span className={`inline-block text-[9px] font-black tracking-widest px-2.5 py-0.5 rounded border border-[#83f582]/30 text-[#83f582] bg-[#83f582]/10`}>
+                  STAGE 03 — PLAN B
+                </span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-syne font-extrabold uppercase tracking-tight text-white">
+                {storyStages[2].subtitle}
+              </h3>
+              <ul className="space-y-2.5 pl-1.5">
+                {storyStages[2].bullets.map((b, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-350 font-bold text-sm md:text-base">
+                    <span className="text-base select-none" role="img" aria-hidden="true">{b.emoji}</span>
+                    <span>{b.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-slate-400 font-semibold text-sm md:text-base leading-relaxed pt-2">
+                {storyStages[2].footer}
+              </p>
+            </motion.div>
           </div>
-
-          {/* RIGHT COLUMN: Interactive 3D Vector Illustration */}
-          <div className="w-full lg:w-[45%] h-[320px] md:h-[400px] lg:h-full flex items-center justify-center relative mt-6 lg:mt-0">
-            {/* Visual Frame */}
-            <div className="w-full max-w-md aspect-square relative flex items-center justify-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, scale: 0.9, rotateY: 45 }}
-                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, rotateY: -45 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="w-full h-full relative"
-                  style={{ perspective: 1000 }}
-                >
-                  {/* Glowing halo behind illustration card */}
-                  <div className="absolute inset-0 bg-white/5 rounded-[40px] border border-white/10 flex items-center justify-center p-8 backdrop-blur-sm shadow-2xl overflow-hidden animate-float">
-                    <div className={`absolute top-0 right-0 w-32 h-32 rounded-full filter blur-[40px] opacity-10 bg-gradient-to-br ${activeStage.gradient}`} />
-                    
-                    {/* The Illustration SVG */}
-                    <div className="w-full h-full flex items-center justify-center scale-95 md:scale-105">
-                      {activeStage.illustration}
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-
         </div>
+
+        {/* RIGHT COLUMN: Sticky visual mockups */}
+        <div className={`w-full lg:w-[45%] h-[320px] md:h-[400px] lg:h-[480px] flex items-center justify-center relative ${isDesktop ? 'lg:sticky lg:top-40' : 'mt-12'}`}>
+          <div className="w-full max-w-sm md:max-w-md aspect-square relative flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, scale: 0.92, rotateY: 30 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                exit={{ opacity: 0, scale: 0.92, rotateY: -30 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="w-full h-full relative"
+                style={{ perspective: 1000 }}
+              >
+                {/* Clean glass box frame for custom SVGs */}
+                <div className="absolute inset-0 bg-white/5 rounded-[40px] border border-white/10 flex items-center justify-center p-8 backdrop-blur-sm shadow-2xl overflow-hidden animate-float">
+                  <div className={`absolute top-0 right-0 w-32 h-32 rounded-full filter blur-[45px] opacity-10 bg-gradient-to-br ${activeStage.gradient}`} />
+                  
+                  {/* The Vector Illustration */}
+                  <div className="w-full h-full flex items-center justify-center scale-95 md:scale-105">
+                    {activeStage.illustration}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
       </div>
 
-      {/* FOOTER: Large Centered Quote Takeaway */}
-      <div className={`max-w-6xl mx-auto px-6 relative z-10 text-center ${isDesktop ? 'mt-[100vh] py-24' : 'pt-24 pb-12'}`}>
+      {/* Large takeaway quote closing the story section */}
+      <div className="max-w-6xl mx-auto px-6 mt-20 md:mt-32 relative z-10 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
