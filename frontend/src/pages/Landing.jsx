@@ -301,8 +301,8 @@ const Landing = () => {
 
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-[80px] font-syne font-extrabold leading-[0.95] uppercase tracking-tighter text-white">
-            FIND YOUR <span className="text-neon-glow text-[#DFFE00]">CIRCLE.</span> <br />
-            BUILD YOUR <span className="text-flashy-gradient">PEOPLE.</span>
+            FIND YOUR <span className="text-neon-glow text-[#DFFE00] animate-pop-circle">CIRCLE.</span> <br />
+            BUILD YOUR <span className="text-flashy-gradient animate-pop-people">PEOPLE.</span>
           </h1>
 
           {/* Subtitle */}

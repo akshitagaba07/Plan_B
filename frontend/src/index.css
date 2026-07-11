@@ -235,3 +235,52 @@
   animation: float-fast 15s ease-in-out infinite alternate;
 }
 
+/* Popping animations for CIRCLE and PEOPLE */
+.animate-pop-circle {
+  display: inline-block;
+  transform-origin: center;
+  animation: pop-circle 5s ease-in-out infinite;
+}
+
+.animate-pop-people {
+  display: inline-block;
+  transform-origin: center;
+  animation: pop-people 5s ease-in-out infinite;
+}
+
+@keyframes pop-circle {
+  0%, 70%, 100% {
+    transform: scale(1);
+  }
+  78% {
+    transform: scale(1.8);
+  }
+  83% {
+    transform: scale(0.92);
+  }
+  88% {
+    transform: scale(1.05);
+  }
+  92% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pop-people {
+  0%, 20%, 90%, 100% {
+    transform: scale(1);
+  }
+  28% {
+    transform: scale(1.8);
+  }
+  33% {
+    transform: scale(0.92);
+  }
+  38% {
+    transform: scale(1.05);
+  }
+  42% {
+    transform: scale(1);
+  }
+}
+
