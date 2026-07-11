@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const cardsData = [
@@ -92,181 +92,126 @@ const cardsData = [
 ];
 
 const InterestsSection = () => {
-  const containerRef = useRef(null);
-  
-  // Responsive layout check
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Auto-play slideshow timer (cycles every 4.5 seconds)
   useEffect(() => {
-    setIsDesktop(window.innerWidth >= 1024);
-    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % cardsData.length);
+    }, 4500);
+    return () => clearInterval(timer);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  // Slide up stacking animations:
-  // Cards start in a compact deck at the bottom.
-  // One by one, they slide UP to stack at the top, becoming fully visible and active during their scroll.
-  const y0 = useTransform(scrollYProgress, [0, 0.25, 1], [340, 0, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.25, 0.50, 1], [380, 380, 40, 40]);
-  const y2 = useTransform(scrollYProgress, [0, 0.50, 0.75, 1], [420, 420, 80, 80]);
-  const y3 = useTransform(scrollYProgress, [0, 0.75, 1], [460, 460, 120, 120]);
-
-  const yTransforms = [y0, y1, y2, y3];
-
-  // Static z-index stacking layers:
-  // Card 3 is at the very top of the pile, Card 0 at the bottom.
-  // This makes only the top 40px corners visible in both bottom and top piles.
-  const zIndices = [10, 20, 30, 40];
+  const activeCard = cardsData[activeIndex];
 
   return (
-    <section 
-      ref={containerRef}
-      className={`relative w-full overflow-hidden py-24 z-10 ${isDesktop ? 'h-[250vh]' : ''}`}
-    >
+    <section className="relative w-full overflow-hidden py-24 z-10">
       {/* Background Soft Glow Effect */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-purple-900/10 filter blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-[#DFFE00]/5 filter blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start relative h-full">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center relative">
         
-        {/* Left Column: Sticky Headers */}
-        <div className="w-full lg:w-[35%] lg:sticky lg:top-36 h-fit text-left space-y-4">
-          <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
-            WHY PLAN B
-          </span>
-          <h2 className="text-4xl md:text-5xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
-            Built Around <br className="hidden lg:block" />
-            Your Interests
-          </h2>
-          <p className="text-slate-400 font-semibold text-sm leading-relaxed max-w-md">
-            Whether you're looking for teammates, travel companions, study partners, or meet people with similar vibes, Plan B matches you based on your interests.
-          </p>
-        </div>
+        {/* Left Column: Presentation Navigation */}
+        <div className="w-full lg:w-[40%] text-left space-y-8">
+          <div className="space-y-4">
+            <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
+              WHY PLAN B
+            </span>
+            <h2 className="text-4xl md:text-5xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
+              Built Around <br />
+              Your Interests
+            </h2>
+            <p className="text-slate-400 font-semibold text-sm leading-relaxed max-w-md">
+              Hover over the interests below to preview how Plan B matches you with people who share your vibe.
+            </p>
+          </div>
 
-        {/* Right Column: Sticky Timeline Cards Stacking on Scroll */}
-        <div className={`w-full lg:w-[60%] relative ${isDesktop ? 'lg:sticky lg:top-36 h-[720px]' : ''}`}>
-          
-          {/* Vertical Path Line (Mobile/Tablet only) */}
-          {!isDesktop && (
-            <div className="absolute left-6 top-4 bottom-4 w-[3px] bg-white/10" />
-          )}
-
-          {/* Cards Stack */}
-          <div className="relative w-full h-full">
-            {cardsData.map((card, idx) => {
-              const isEven = idx % 2 === 0;
-              const isLast = idx === cardsData.length - 1;
-
-              if (isDesktop) {
-                return (
-                  <motion.div
-                    key={idx}
-                    className="absolute w-full top-0 left-0"
-                    style={{
-                      y: yTransforms[idx],
-                      zIndex: zIndices[idx]
-                    }}
-                  >
-                    <div
-                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
-                    >
-                      {/* Left Side: Large Vector Illustration */}
-                      <div className="w-full md:w-[30%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                        {card.illustration}
-                      </div>
-
-                      {/* Right Side: Copy & Actions */}
-                      <div className="w-full md:w-[70%] flex flex-col justify-between h-full min-h-[130px] text-left">
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
-                              {card.title}
-                            </h3>
-                            <span className="text-2xl select-none" role="img" aria-hidden="true">
-                              {card.emoji}
-                            </span>
-                          </div>
-                          <p className="text-slate-800 text-xs md:text-sm font-bold leading-relaxed">
-                            {card.desc}
-                          </p>
-                        </div>
-
-                        {/* Action Footer */}
-                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
-                          <span className="text-xs font-black uppercase tracking-wider text-black">
-                            Find Sparks
-                          </span>
-                          <div className="h-8 w-8 rounded-full border-2 border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
-                            <ArrowRight className="h-4 w-4 transform group-hover:translate-x-0.5 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              } else {
-                // Mobile list view
-                return (
-                  <div 
-                    key={idx}
-                    className={`w-full relative pl-12 ${!isLast ? 'mb-8' : ''}`}
-                  >
-                    {/* Left-Aligned Number Badge on the line */}
-                    <div className="absolute left-[-20px] top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border-[3px] border-black bg-white text-black font-black text-sm flex items-center justify-center z-20 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      {idx + 1}
-                    </div>
-
-                    <div
-                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden flex flex-col gap-6 items-center`}
-                    >
-                      {/* Left Side: Large Vector Illustration */}
-                      <div className="w-full flex items-center justify-center">
-                        {card.illustration}
-                      </div>
-
-                      {/* Right Side: Copy & Actions */}
-                      <div className="w-full flex flex-col justify-between text-left">
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-syne font-black text-xl uppercase tracking-tighter text-black leading-tight">
-                              {card.title}
-                            </h3>
-                            <span className="text-2xl select-none">
-                              {card.emoji}
-                            </span>
-                          </div>
-                          <p className="text-slate-800 text-xs font-bold leading-relaxed">
-                            {card.desc}
-                          </p>
-                        </div>
-
-                        {/* Action Footer */}
-                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-black/10">
-                          <span className="text-xs font-black uppercase tracking-wider text-black">
-                            Find Sparks
-                          </span>
-                          <div className="h-8 w-8 rounded-full border-2 border-black bg-white flex items-center justify-center text-black">
-                            <ArrowRight className="h-4 w-4" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+          {/* Navigation Items (Tabs) */}
+          <div className="flex flex-col gap-3 w-full">
+            {cardsData.map((item, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <button
+                  key={idx}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between group ${
+                    isActive 
+                      ? 'bg-white/5 border-[#DFFE00]/30 text-white shadow-lg shadow-[#DFFE00]/5' 
+                      : 'bg-transparent border-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <span className={`text-sm font-black transition-colors ${isActive ? 'text-[#DFFE00]' : 'text-slate-600'}`}>
+                      0{idx + 1}
+                    </span>
+                    <span className="font-syne font-bold text-lg md:text-xl uppercase tracking-tight">
+                      {item.title}
+                    </span>
                   </div>
-                );
-              }
+                  <span className="text-2xl select-none transform group-hover:scale-110 transition-transform duration-200">
+                    {item.emoji}
+                  </span>
+                </button>
+              );
             })}
           </div>
         </div>
+
+        {/* Right Column: Large Slide Card View */}
+        <div className="w-full lg:w-[60%] flex items-center justify-center min-h-[480px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, x: 20, rotate: 1 }}
+              animate={{ opacity: 1, x: 0, rotate: 0 }}
+              exit={{ opacity: 0, x: -20, rotate: -1 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="w-full"
+            >
+              <div className={`group border-[4px] border-black bg-gradient-to-r ${activeCard.gradient} rounded-[32px] p-8 md:p-12 text-[#1d1c1c] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-[14px_14px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center`}>
+                
+                {/* Left Side: Large Illustration */}
+                <div className="w-full md:w-[40%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+                  <div className="scale-110 md:scale-125">
+                    {activeCard.illustration}
+                  </div>
+                </div>
+
+                {/* Right Side: Card Details */}
+                <div className="w-full md:w-[60%] flex flex-col justify-between min-h-[220px] text-left">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <h3 className="font-syne font-black text-2xl md:text-3xl uppercase tracking-tighter text-black leading-tight">
+                        {activeCard.title}
+                      </h3>
+                      <span className="text-3xl select-none">
+                        {activeCard.emoji}
+                      </span>
+                    </div>
+                    <p className="text-slate-800 text-sm md:text-base font-bold leading-relaxed">
+                      {activeCard.desc}
+                    </p>
+                  </div>
+
+                  {/* Action Footer */}
+                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-black/10 group-hover:border-black/20">
+                    <span className="text-sm font-black uppercase tracking-wider text-black">
+                      Find Sparks
+                    </span>
+                    <div className="h-10 w-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
+                      <ArrowRight className="h-5 w-5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </div>
     </section>
   );
