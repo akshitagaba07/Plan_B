@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
 import InterestsSection from '../components/InterestsSection';
+import WhyPlanBSection from '../components/WhyPlanBSection';
 
 const Landing = () => {
   const [activeRole, setActiveRole] = useState('seeker'); // 'seeker' or 'host'
@@ -513,6 +514,9 @@ const Landing = () => {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Why Plan B Section */}
+      <WhyPlanBSection />
 
       {/* Interests Section */}
       <InterestsSection />
