@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
+import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle, Quote } from 'lucide-react';
 import InterestsSection from '../components/InterestsSection';
 import WhyPlanBSection from '../components/WhyPlanBSection';
 
@@ -491,6 +491,26 @@ const Landing = () => {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* Emotional Quote Block — placed just below Hero for immediate impact */}
+      <div className="relative z-10 py-16 md:py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-4xl mx-auto px-6 text-center space-y-6 flex flex-col items-center"
+        >
+          <div className="h-12 w-12 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/25 flex items-center justify-center text-[#DFFE00]">
+            <Quote className="h-5 w-5 rotate-180" />
+          </div>
+          <blockquote className="text-2xl md:text-4xl lg:text-5xl font-syne font-extrabold uppercase tracking-tight text-white leading-tight">
+            "Sometimes life changes your plans. <br />
+            Plan B helps you find the <span className="text-[#DFFE00] text-neon-glow">people to make new ones.</span>"
+          </blockquote>
+          <div className="w-16 h-[3px] bg-[#DFFE00] rounded-full" />
+        </motion.div>
+      </div>
 
       {/* Why Plan B Section */}
       <WhyPlanBSection />

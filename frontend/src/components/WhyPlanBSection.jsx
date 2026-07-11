@@ -353,25 +353,6 @@ const WhyPlanBSection = () => {
         </div>
       </div>
 
-      {/* closing emotional quote block */}
-      <div className="max-w-6xl mx-auto px-6 mt-24 md:mt-36 relative z-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-6 max-w-4xl mx-auto border-t border-white/10 pt-16 flex flex-col items-center"
-        >
-          <div className="h-12 w-12 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/25 flex items-center justify-center text-[#DFFE00]">
-            <Quote className="h-5 w-5 rotate-180" />
-          </div>
-          <blockquote className="text-2xl md:text-4xl font-syne font-extrabold uppercase tracking-tight text-white leading-tight">
-            "Sometimes life changes your plans. <br />
-            Plan B helps you find the <span className="text-[#DFFE00] text-neon-glow">people to make new ones.</span>"
-          </blockquote>
-          <div className="w-16 h-[3px] bg-[#DFFE00] rounded-full mt-4" />
-        </motion.div>
-      </div>
     </section>
   );
 };
