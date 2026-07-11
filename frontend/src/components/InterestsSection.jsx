@@ -125,13 +125,14 @@ const InterestsSection = () => {
           <div className="relative pb-20">
             {cardsData.map((card, idx) => {
               const isEven = idx % 2 === 0;
-              // Calculate progressive sticky top coordinates so the cards stack neatly and overlap
-              const stickyTopOffset = 130 + idx * 32;
+              // Stack them all at the exact same top position so they stack like a deck of cards
+              const stickyTopOffset = 180;
+              const isLast = idx === cardsData.length - 1;
 
               return (
                 <div 
                   key={idx}
-                  className={`sticky w-full ${idx > 0 ? 'mt-[-25px] lg:mt-[-40px]' : ''}`}
+                  className={`sticky w-full ${!isLast ? 'mb-[50vh]' : ''}`}
                   style={{ 
                     top: `${stickyTopOffset}px`, 
                     zIndex: (idx + 1) * 10 
