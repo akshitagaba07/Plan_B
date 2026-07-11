@@ -104,7 +104,7 @@ export default function QuoteBlock() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-10 overflow-hidden py-28 md:py-40"
+      className="relative z-10 overflow-hidden pt-36 md:pt-44 pb-20 md:pb-28"
     >
       {/* ── very subtle ambient glow — grows when bloom fires ── */}
       <motion.div

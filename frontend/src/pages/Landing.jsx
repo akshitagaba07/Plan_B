@@ -286,8 +286,11 @@ const Landing = () => {
         </div>
       </header>
 
+      {/* ── Cinematic Emotional Quote Block — first thing users see ── */}
+      <QuoteBlock />
+
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-36 md:pt-48 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
+      <section className="max-w-7xl mx-auto px-6 pt-12 md:pt-16 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
         <motion.div 
           className="flex-1 text-left space-y-8 max-w-2xl"
           initial={{ opacity: 0, y: 30 }}
@@ -492,9 +495,6 @@ const Landing = () => {
           </motion.div>
         </motion.div>
       </section>
-
-      {/* ── Cinematic Emotional Quote Block ── */}
-      <QuoteBlock />
 
       {/* Why Plan B Section */}
       <WhyPlanBSection />
