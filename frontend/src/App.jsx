@@ -57,7 +57,7 @@ const AppLayout = () => {
       {showChrome && <Sidebar />}
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col p-4 md:p-6 min-w-0 w-full">
+      <main className={`flex-1 flex flex-col min-w-0 w-full ${showChrome ? 'p-4 md:p-6' : 'p-0'}`}>
         {showChrome && <Navbar />}
         <Routes>
           {/* Public Views */}
