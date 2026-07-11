@@ -75,6 +75,10 @@ const Discover = () => {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-150, 0, 150], [0.6, 1, 0.6]);
+  
+  // Swipe badge opacities based on drag direction
+  const connectOpacity = useTransform(x, [0, 100], [0, 1]);
+  const skipOpacity = useTransform(x, [-100, 0], [1, 0]);
 
   const handleDragEnd = (event, info) => {
     if (info.offset.x > 120) {
@@ -123,12 +127,26 @@ const Discover = () => {
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={handleDragEnd}
-              className="absolute inset-0 glass-card p-6 border-white/5 bg-black/45 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing select-none"
+              className="absolute inset-0 glass-card p-6 border-white/5 bg-black/45 flex flex-col justify-between shadow-2xl cursor-grab active:cursor-grabbing select-none overflow-hidden"
               initial={{ scale: 0.95, y: 10, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: -10, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
+              {/* Swipe badges */}
+              <motion.div 
+                style={{ opacity: connectOpacity }}
+                className="absolute top-8 left-8 border-4 border-[#00D47C] text-[#00D47C] font-black text-2xl uppercase px-4 py-1.5 rounded-xl rotate-[-12deg] tracking-widest z-10 pointer-events-none"
+              >
+                CONNECT
+              </motion.div>
+              <motion.div 
+                style={{ opacity: skipOpacity }}
+                className="absolute top-8 right-8 border-4 border-red-500 text-red-500 font-black text-2xl uppercase px-4 py-1.5 rounded-xl rotate-[12deg] tracking-widest z-10 pointer-events-none"
+              >
+                SKIP
+              </motion.div>
+
               {/* Header Info */}
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-3">
