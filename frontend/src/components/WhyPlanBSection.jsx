@@ -204,7 +204,7 @@ const WhyPlanBSection = () => {
             OUR STORY
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
-            Why Plan B?
+            Why <span className="text-[#DFFE00]">Plan B?</span>
           </h2>
         </div>
 
