@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const cardsData = [
@@ -92,106 +92,187 @@ const cardsData = [
 ];
 
 const InterestsSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Auto-play slideshow timer (cycles every 4.5 seconds).
+  // Including activeIndex in the dependency array clears the interval and resets the 4.5s countdown
+  // whenever the active slide is changed (e.g. on manual hover), preventing premature skips.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % cardsData.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [activeIndex]);
+
+  const activeCard = cardsData[activeIndex];
+
   return (
     <section className="relative w-full overflow-hidden py-24 z-10">
-      {/* Background Soft Glow Effect */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-purple-900/10 filter blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-[#DFFE00]/5 filter blur-[100px]" />
-      </div>
+      {/* Dynamic Ambient Spotlight Background */}
+      <motion.div 
+        animate={{
+          backgroundColor: activeIndex === 0 ? "rgba(131, 245, 130, 0.12)" : 
+                           activeIndex === 1 ? "rgba(253, 173, 112, 0.12)" :
+                           activeIndex === 2 ? "rgba(122, 247, 247, 0.12)" : 
+                           "rgba(253, 116, 253, 0.12)",
+          x: activeIndex % 2 === 0 ? -60 : 60,
+          y: activeIndex > 1 ? 60 : -60,
+        }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full filter blur-[110px] pointer-events-none z-0"
+      />
 
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-start relative">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center relative z-10">
         
-        {/* Left Column: Sticky Headers */}
-        <div className="w-full lg:w-[35%] lg:sticky lg:top-36 h-fit text-left space-y-4">
-          <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
-            WHY PLAN B
-          </span>
-          <h2 className="text-4xl md:text-5xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
-            Built Around <br className="hidden lg:block" />
-            Your Interests
-          </h2>
-          <p className="text-slate-400 font-semibold text-sm leading-relaxed max-w-md">
-            Whether you're looking for teammates, travel companions, study partners, or simply someone to explore the city with, Plan B helps you connect with people who share your interests.
-          </p>
-        </div>
+        {/* Left Column: Presentation Navigation */}
+        <div className="w-full lg:w-[40%] text-left space-y-8">
+          <div className="space-y-4">
+            <span className="inline-block bg-[#DFFE00]/10 border border-[#DFFE00]/25 rounded-lg p-1.5 px-3.5 font-extrabold text-[10px] text-[#DFFE00] uppercase tracking-widest">
+              WHY PLAN B
+            </span>
+            <h2 className="text-4xl md:text-5xl font-syne font-black uppercase tracking-tight text-white leading-[0.95]">
+              Built Around <br />
+              Your Interests
+            </h2>
+            <p className="text-slate-400 font-semibold text-sm leading-relaxed max-w-md">
+              Hover over the interests below to preview how Plan B matches you with people who share your vibe.
+            </p>
+          </div>
 
-        {/* Right Column: Sticky Timeline Cards Stacking on Scroll */}
-        <div className="w-full lg:w-[60%] pl-12 lg:pl-16 relative">
-          {/* Vertical Path Line on the Left (Wero style) */}
-          <div className="absolute left-6 lg:left-0 top-4 bottom-4 w-[3px] bg-white/10" />
-
-          {/* Cards Stack */}
-          <div className="relative pb-20">
-            {cardsData.map((card, idx) => {
-              const isEven = idx % 2 === 0;
-              // Calculate progressive sticky top coordinates so the cards stack neatly and overlap
-              const stickyTopOffset = 130 + idx * 32;
-
+          {/* Navigation Items (Tabs) with spring highlight slider */}
+          <div className="flex flex-col gap-3.5 w-full relative">
+            {cardsData.map((item, idx) => {
+              const isActive = idx === activeIndex;
               return (
-                <div 
+                <button
                   key={idx}
-                  className={`sticky w-full ${idx > 0 ? 'mt-[-25px] lg:mt-[-40px]' : ''}`}
-                  style={{ 
-                    top: `${stickyTopOffset}px`, 
-                    zIndex: (idx + 1) * 10 
-                  }}
+                  onMouseEnter={() => setActiveIndex(idx)}
+                  className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between group relative overflow-hidden ${
+                    isActive 
+                      ? 'border-[#DFFE00] text-black' 
+                      : 'border-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  }`}
                 >
-                  {/* Left-Aligned Number Badge on the line */}
-                  <div className="absolute left-[-42px] lg:left-[-76px] top-1/2 -translate-y-1/2 h-10 w-10 rounded-full border-[3px] border-black bg-white text-black font-black text-sm flex items-center justify-center z-20 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                    {idx + 1}
+                  {/* Sliding Spring Highlight Background */}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeInterestTab"
+                      className="absolute inset-0 bg-[#DFFE00] -z-10 shadow-lg shadow-[#DFFE00]/10"
+                      transition={{ type: "spring", stiffness: 220, damping: 22 }}
+                    />
+                  )}
+
+                  <div className="flex items-center gap-4 relative z-10">
+                    <span className={`text-sm font-black transition-colors ${isActive ? 'text-black/60' : 'text-slate-600'}`}>
+                      0{idx + 1}
+                    </span>
+                    <span className="font-syne font-bold text-lg md:text-xl uppercase tracking-tight">
+                      {item.title}
+                    </span>
                   </div>
+                  
+                  <span className="text-2xl select-none transform group-hover:scale-110 transition-transform duration-200 relative z-10">
+                    {item.emoji}
+                  </span>
 
-                  <motion.div 
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ type: 'spring', stiffness: 60, damping: 15 }}
-                  >
-                    <div
-                      className={`group border-[3px] border-black bg-gradient-to-r ${card.gradient} rounded-[24px] p-6 md:p-8 text-[#1d1c1c] shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-center ${isEven ? '-rotate-[1.2deg] hover:-rotate-0' : 'rotate-[1.2deg] hover:rotate-0'}`}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Interest group ${idx + 1}: ${card.title}. ${card.desc}`}
-                    >
-                      {/* Left Side: Large Vector Illustration */}
-                      <div className="w-full md:w-[30%] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                        {card.illustration}
-                      </div>
-
-                      {/* Right Side: Copy & Actions */}
-                      <div className="w-full md:w-[70%] flex flex-col justify-between h-full min-h-[130px] text-left">
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-syne font-black text-xl md:text-2xl uppercase tracking-tighter text-black leading-tight">
-                              {card.title}
-                            </h3>
-                            <span className="text-2xl select-none" role="img" aria-hidden="true">
-                              {card.emoji}
-                            </span>
-                          </div>
-                          <p className="text-slate-800 text-xs md:text-sm font-bold leading-relaxed">
-                            {card.desc}
-                          </p>
-                        </div>
-
-                        {/* Action Footer */}
-                        <div className="flex items-center justify-between pt-4 mt-4 border-t border-black/10 group-hover:border-black/25 transition-colors duration-300">
-                          <span className="text-xs font-black uppercase tracking-wider text-black">
-                            Find Sparks
-                          </span>
-                          <div className="h-8 w-8 rounded-full border-2 border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
-                            <ArrowRight className="h-4 w-4 transform group-hover:translate-x-0.5 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </div>
+                  {/* Active Slide Timer Line */}
+                  {isActive && (
+                    <div className="absolute bottom-0 left-0 right-0 h-[4px] bg-black/10 overflow-hidden">
+                      <motion.div 
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        key={activeIndex}
+                        transition={{ duration: 4.5, ease: "linear" }}
+                        className="h-full bg-black/35"
+                      />
                     </div>
-                  </motion.div>
-                </div>
+                  )}
+                </button>
               );
             })}
           </div>
         </div>
+
+        {/* Right Column: Large Slide Card View */}
+        <div className="w-full lg:w-[60%] flex items-center justify-center min-h-[500px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -15 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} // smooth apple-like ease-out
+              className="w-full"
+            >
+              {/* Card wrapper */}
+              <div className={`group border-[4px] border-black bg-gradient-to-br ${activeCard.gradient} rounded-[32px] p-8 md:p-12 text-[#1d1c1c] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:shadow-[14px_14px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 ease-out cursor-pointer relative overflow-hidden flex flex-col md:flex-row gap-8 md:gap-12 items-center`}>
+                
+                {/* Left Side: Parallax Spring Illustration */}
+                <div className="w-full md:w-[40%] flex items-center justify-center">
+                  <motion.div 
+                    initial={{ opacity: 0, x: -40, rotate: -12 }}
+                    animate={{ opacity: 1, x: 0, rotate: idx => idx % 2 === 0 ? -1.2 : 1.2 }}
+                    key={activeIndex}
+                    transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.1 }}
+                    className="scale-110 md:scale-125"
+                  >
+                    {activeCard.illustration}
+                  </motion.div>
+                </div>
+
+                {/* Right Side: Staggered text details */}
+                <div className="w-full md:w-[60%] flex flex-col justify-between min-h-[220px] text-left">
+                  <div className="space-y-4">
+                    {/* Title */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      key={`title-${activeIndex}`}
+                      transition={{ duration: 0.4, delay: 0.15 }}
+                      className="flex items-center gap-3"
+                    >
+                      <h3 className="font-syne font-black text-2xl md:text-3xl uppercase tracking-tighter text-black leading-tight">
+                        {activeCard.title}
+                      </h3>
+                      <span className="text-3xl select-none">
+                        {activeCard.emoji}
+                      </span>
+                    </motion.div>
+
+                    {/* Description */}
+                    <motion.p 
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      key={`desc-${activeIndex}`}
+                      transition={{ duration: 0.4, delay: 0.25 }}
+                      className="text-slate-800 text-sm md:text-base font-bold leading-relaxed"
+                    >
+                      {activeCard.desc}
+                    </motion.p>
+                  </div>
+
+                  {/* Action Footer */}
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    key={`footer-${activeIndex}`}
+                    transition={{ type: "spring", stiffness: 120, damping: 10, delay: 0.35 }}
+                    className="flex items-center justify-between pt-6 mt-6 border-t border-black/10 group-hover:border-black/20"
+                  >
+                    <span className="text-sm font-black uppercase tracking-wider text-black">
+                      Find Sparks
+                    </span>
+                    <div className="h-10 w-10 rounded-full border-2 border-black bg-white flex items-center justify-center text-black group-hover:bg-black group-hover:text-white transition-all duration-300 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-none">
+                      <ArrowRight className="h-5 w-5 transform group-hover:translate-x-0.5 transition-transform duration-300" />
+                    </div>
+                  </motion.div>
+                </div>
+
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </div>
     </section>
   );

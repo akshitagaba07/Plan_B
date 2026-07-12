@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle } from 'lucide-react';
+import { Sparkles, HeartPulse, Compass, CalendarCheck, ShieldCheck, Heart, ArrowRight, CheckCircle2, MessageSquare, Globe, Users, PlusCircle, Quote } from 'lucide-react';
 import InterestsSection from '../components/InterestsSection';
+import WhyPlanBSection from '../components/WhyPlanBSection';
+import QuoteBlock from '../components/QuoteBlock';
 
 const Landing = () => {
   const [activeRole, setActiveRole] = useState('seeker'); // 'seeker' or 'host'
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Real-time 3D mouse rotation vectors for hero match card mockup
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left - box.width / 2;
+    const y = e.clientY - box.top - box.height / 2;
+    setRotateX(-y / (box.height / 15)); // divisor of 15 gives a highly responsive, heavy tilt!
+    setRotateY(x / (box.width / 15));
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -148,17 +168,68 @@ const Landing = () => {
       {/* Premium High-Definition Dynamic Background (Infinite Fluid Mesh & Grid Overlay) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#000000]">
         
-        {/* Background Video (Autoplay, Loop, Muted, Playsinline) */}
+        {/* Background Video - Slot 1 (Autoplay, Loop, Muted, Playsinline) */}
         <video 
           autoPlay 
           loop 
           muted 
           playsInline 
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.22] mix-blend-screen z-0"
+          className="absolute top-0 left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
         >
           <source src="/background-video.mp4" type="video/mp4" />
           <source src="/background-video.webm" type="video/webm" />
         </video>
+
+        {/* Background Video - Slot 2 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[100vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
+        >
+          <source src="/background-video-2.mp4" type="video/mp4" />
+          <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 3 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[200vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/background-video.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 4 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[300vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
+        >
+          <source src="/background-video-2.mp4" type="video/mp4" />
+          <source src="/background-video-2.webm" type="video/webm" />
+        </video>
+
+        {/* Background Video - Slot 5 (Autoplay, Loop, Muted, Playsinline) */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute top-[400vh] left-0 w-full h-[100vh] object-cover opacity-[0.55] mix-blend-screen z-0"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          <source src="/background-video.webm" type="video/webm" />
+        </video>
+
+        {/* Frosted Glass Overlay Pane (Blurs background videos for glassmorphic effect) */}
+        <div className="absolute inset-0 w-full h-full backdrop-blur-[6px] bg-white/[0.02] z-[1] pointer-events-none" />
 
         {/* Infinite Fluid Mesh Gradient Flow */}
         <div className="absolute inset-0 filter blur-[130px] opacity-50 z-[1]">
@@ -178,60 +249,30 @@ const Landing = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent z-[1]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85 z-[1]" />
 
-        {/* Structural Grid Lines Overlay */}
-        <div className="absolute inset-0 z-[2] overflow-hidden opacity-25">
-          {/* Horizontal Lines */}
-          <div className="absolute h-px bg-white/10 top-[12.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[25%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[37.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[50%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[62.5%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[75%] left-0 right-0" />
-          <div className="absolute h-px bg-white/10 top-[87.5%] left-0 right-0" />
-          
-          {/* Vertical Lines */}
-          <div className="absolute w-px bg-white/10 left-[8.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[16.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[25%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[33.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[41.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[50%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[58.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[66.66%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[75%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[83.33%] top-0 bottom-0" />
-          <div className="absolute w-px bg-white/10 left-[91.66%] top-0 bottom-0" />
-        </div>
 
-        {/* Glowing Organic Connection Tree (Saarthi Inspired, Vibe Aligned) */}
-        <div className="absolute right-[-10%] top-[8%] w-[65vw] h-[80vh] opacity-25 md:opacity-35 z-[2] mix-blend-screen animate-float pointer-events-none">
-          <img 
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tree-uAia6REvB137CQyHFCf0za3O6h2zKO.png" 
-            alt="Glowing Wellness Connection Tree" 
-            className="w-full h-full object-contain object-right-top filter hue-rotate-[130deg] brightness-[1.4] saturate-[1.4] drop-shadow-[0_0_40px_rgba(223,254,0,0.35)]" 
-          />
-        </div>
+
+
       </div>
 
       {/* Header (Sticky Navigation Top Bar inspired by Saarthi Techgen) */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md bg-black/70 border-b border-white/5 py-4 shadow-xl' : 'bg-transparent py-6 border-b border-transparent'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md bg-black/85 border-b border-white/5 py-2.5 shadow-xl' : 'backdrop-blur-sm bg-black/30 py-6 border-b border-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-4 group cursor-pointer">
-            <div className={`rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow ${isScrolled ? 'h-11 w-11' : 'h-14 w-14'}`}>
-              <span className={`text-black font-black tracking-tighter transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>B</span>
+            <div className={`rounded-2xl bg-[#DFFE00] flex items-center justify-center shadow-lg transition-all duration-300 ease-out group-hover:rotate-6 group-hover:scale-115 animate-pulse-glow ${isScrolled ? 'h-10 w-10' : 'h-14 w-14'}`}>
+              <span className={`text-black font-black tracking-tighter transition-all duration-300 ${isScrolled ? 'text-lg' : 'text-3xl'}`}>B</span>
             </div>
             <div className="flex flex-col text-left">
-              <span className={`font-syne font-black tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5 ${isScrolled ? 'text-xl' : 'text-3xl'}`}>Plan B</span>
+              <span className={`font-syne font-black tracking-tight text-white uppercase transition-all duration-300 group-hover:text-[#DFFE00] group-hover:translate-x-1.5 ${isScrolled ? 'text-lg' : 'text-3xl'}`}>Plan B</span>
               <p className={`text-[9px] text-[#DFFE00] font-black tracking-[0.2em] uppercase mt-0.5 transition-all duration-300 group-hover:translate-x-1 ${isScrolled ? 'opacity-0 h-0 scale-y-0 overflow-hidden mt-0' : 'opacity-100'}`}>Social Wellness</p>
             </div>
           </div>
 
           {/* Centered Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-[11px] font-extrabold tracking-widest uppercase text-slate-400">
-            <a href="#features" className="hover:text-white transition-colors duration-200">Features</a>
-            <Link to="/discover" className="hover:text-white transition-colors duration-200">Discover</Link>
-            <Link to="/community" className="hover:text-white transition-colors duration-200">Communities</Link>
-            <Link to="/wellness" className="hover:text-white transition-colors duration-200">Wellness</Link>
+            <a href="#features" className="hover-flashy-gradient">Features</a>
+            <Link to="/discover" className="hover-flashy-gradient">Discover</Link>
+            <Link to="/community" className="hover-flashy-gradient">Communities</Link>
+            <Link to="/wellness" className="hover-flashy-gradient">Wellness</Link>
           </nav>
           
           <div className="flex items-center gap-6">
@@ -245,8 +286,11 @@ const Landing = () => {
         </div>
       </header>
 
+      {/* ── Cinematic Emotional Quote Block — first thing users see ── */}
+      <QuoteBlock />
+
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-36 md:pt-48 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
+      <section className="max-w-7xl mx-auto px-6 pt-12 md:pt-16 flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
         <motion.div 
           className="flex-1 text-left space-y-8 max-w-2xl"
           initial={{ opacity: 0, y: 30 }}
@@ -257,8 +301,8 @@ const Landing = () => {
 
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-[80px] font-syne font-extrabold leading-[0.95] uppercase tracking-tighter text-white">
-            FIND YOUR <span className="text-neon-glow text-[#DFFE00]">CIRCLE.</span> <br />
-            BUILD YOUR <span className="text-flashy-gradient">PEOPLE.</span>
+            FIND YOUR <span className="text-neon-glow text-[#DFFE00] animate-pop-circle">CIRCLE.</span> <br />
+            BUILD YOUR <span className="text-flashy-gradient animate-pop-people">PEOPLE.</span>
           </h1>
 
           {/* Subtitle */}
@@ -321,50 +365,80 @@ const Landing = () => {
 
         {/* Hero Interactive Floating Visuals */}
         <motion.div 
-          className="flex-1 relative w-full h-[400px] md:h-[480px] flex items-center justify-center"
+          className="flex-1 relative w-full h-[480px] md:h-[560px] flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          style={{ perspective: 1200 }}
         >
-          {/* Central matching card */}
-          <div className="glass-card w-[310px] h-[380px] p-6 relative flex flex-col justify-between shadow-2xl animate-float border-white/10">
+          {/* Central matching card with 3D Mouse Tilt & Floating Effects */}
+          <motion.div
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            animate={{
+              rotateX: rotateX,
+              rotateY: rotateY,
+              y: rotateX === 0 && rotateY === 0 ? [0, -15, 0] : 0,
+              rotateZ: rotateX === 0 && rotateY === 0 ? [0.6, -0.6, 0.6] : 0
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 150,
+              damping: 18,
+              y: {
+                repeat: Infinity,
+                duration: 6,
+                ease: "easeInOut"
+              },
+              rotateZ: {
+                repeat: Infinity,
+                duration: 6,
+                ease: "easeInOut"
+              }
+            }}
+            style={{
+              transformStyle: "preserve-3d",
+              backfaceVisibility: "hidden"
+            }}
+            className="glass-card w-[350px] md:w-[370px] h-[430px] p-8 relative flex flex-col justify-between shadow-2xl border-white/10 z-10 cursor-pointer"
+          >
             <div className="flex justify-between items-start">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3.5">
                 <img 
                   src="https://api.dicebear.com/7.x/adventurer/svg?seed=Rohan" 
                   alt="Rohan" 
-                  className="h-12 w-12 rounded-xl bg-slate-900 border-2 border-white/20 object-cover"
+                  className="h-14 w-14 rounded-xl bg-slate-900 border-2 border-white/20 object-cover"
                 />
                 <div>
-                  <h4 className="font-bold text-sm text-white">Rohan, 23</h4>
-                  <p className="text-[10px] text-slate-400 font-bold flex items-center gap-0.5 mt-0.5">
-                    <Compass className="h-3 w-3 text-[#DFFE00]" /> San Francisco
+                  <h4 className="font-bold text-base text-white">Rohan, 23</h4>
+                  <p className="text-[11px] text-slate-400 font-bold flex items-center gap-0.5 mt-0.5">
+                    <Compass className="h-3.5 w-3.5 text-[#DFFE00]" /> San Francisco
                   </p>
                 </div>
               </div>
-              <span className="bg-[#DFFE00] text-black font-extrabold text-[10px] py-1 px-3 rounded-full border border-[#DFFE00]/20 tracking-wider">
+              <span className="bg-[#DFFE00] text-black font-extrabold text-xs py-1.5 px-4 rounded-full border border-[#DFFE00]/20 tracking-wider">
                 92% MATCH
               </span>
             </div>
 
             <div className="my-4">
-              <p className="text-xs text-slate-300 leading-relaxed font-semibold italic">
+              <p className="text-sm text-slate-350 leading-relaxed font-semibold italic">
                 "Always up for a Fifa session, programming, or casual weekend football matches!"
               </p>
             </div>
 
             <div className="space-y-4">
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {["Gaming", "Coding", "Football"].map(tag => (
-                  <span key={tag} className="text-[9px] bg-white/5 text-slate-300 font-extrabold py-1 px-2.5 rounded-lg border border-white/10 uppercase tracking-wider">
+                  <span key={tag} className="text-[10px] bg-white/5 text-slate-300 font-extrabold py-1.5 px-3 rounded-lg border border-white/10 uppercase tracking-wider">
                     {tag}
                   </span>
                 ))}
               </div>
               
-              <div className="p-3 bg-black/40 border border-white/5 rounded-xl">
-                <p className="text-[9px] text-[#DFFE00] uppercase font-extrabold tracking-widest">AI Icebreaker</p>
-                <p className="text-xs font-semibold text-slate-300 mt-1">
+              <div className="p-4 bg-black/40 border border-white/5 rounded-xl">
+                <p className="text-[10px] text-[#DFFE00] uppercase font-extrabold tracking-widest">AI Icebreaker</p>
+                <p className="text-sm font-semibold text-slate-300 mt-1">
                   "I saw you play football. What team do you support?"
                 </p>
               </div>
@@ -374,31 +448,56 @@ const Landing = () => {
             <div className="absolute top-1/2 -left-3 h-6 w-6 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/30 flex items-center justify-center">
               <div className="h-2 w-2 rounded-full bg-[#DFFE00] animate-ping" />
             </div>
-          </div>
+          </motion.div>
 
           {/* Floating mini wellness card */}
-          <div className="absolute top-8 left-4 glass-card p-4 flex items-center gap-3 animate-float-delayed shadow-xl z-20 border-white/10">
-            <div className="h-8 w-8 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
-              <HeartPulse className="h-4 w-4 stroke-[2px]" />
+          <motion.div 
+            animate={{ 
+              y: [0, 12, 0],
+              rotateZ: [-2, 2, -2]
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 5,
+              ease: "easeInOut"
+            }}
+            className="absolute top-6 left-[-10px] md:left-2 glass-card p-4 flex items-center gap-3 shadow-xl z-20 border-white/10 cursor-pointer"
+          >
+            <div className="h-9 w-9 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
+              <HeartPulse className="h-5 w-5 stroke-[2px]" />
             </div>
             <div>
-              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">DAILY CHECK</p>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">DAILY CHECK</p>
               <p className="text-xs font-extrabold text-white">Logged: Energetic ⚡</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Floating mini assistant card */}
-          <div className="absolute bottom-10 right-4 glass-card p-4 flex items-center gap-3 animate-float shadow-xl z-20 border-white/10" style={{ animationDelay: '3.5s' }}>
-            <div className="h-8 w-8 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
-              <Sparkles className="h-4 w-4" />
+          <motion.div 
+            animate={{ 
+              y: [0, -12, 0],
+              rotateZ: [2, -2, 2]
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 5.5,
+              ease: "easeInOut"
+            }}
+            className="absolute bottom-4 right-[-10px] md:right-2 glass-card p-4 flex items-center gap-3 shadow-xl z-20 border-white/10 cursor-pointer"
+          >
+            <div className="h-9 w-9 rounded-full bg-[#DFFE00]/10 border border-[#DFFE00]/20 flex items-center justify-center text-[#DFFE00]">
+              <Sparkles className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">AI SOCIAL PILOT</p>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">AI SOCIAL PILOT</p>
               <p className="text-xs font-semibold text-white max-w-[150px] line-clamp-1">"Found 3 local gaming clubs"</p>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
+
+      {/* Why Plan B Section */}
+      <WhyPlanBSection />
 
       {/* Interests Section */}
       <InterestsSection />

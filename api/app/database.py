@@ -3,16 +3,18 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Database configuration: check if cloud PostgreSQL URL is provided
-DATABASE_URL = os.getenv("DATABASE_URL")
+# Database configuration: using a local SQLite file (or /tmp on Vercel)
+DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
+if DATABASE_URL:
+    # SQLAlchemy requires postgresql:// instead of postgres://
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+else:
+    if os.getenv("VERCEL"):
+        DATABASE_URL = "sqlite:////tmp/plan_b.db"
+    else:
+        DATABASE_URL = "sqlite:///./plan_b.db"
 
-# Resolve compatibility for 'postgres://' schema prefix if returned by cloud providers
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-
-# Fallback to local SQLite file if no database URL is set in environment
-if not DATABASE_URL:
-    DATABASE_URL = "sqlite:///./plan_b.db"
 
 # SQLite needs 'check_same_thread: False' for multi-threaded access
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}

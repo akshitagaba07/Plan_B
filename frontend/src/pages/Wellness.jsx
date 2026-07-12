@@ -20,6 +20,15 @@ const WellnessPage = () => {
   const [saveLoading, setSaveLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
 
+  const moodThemes = {
+    Happy: { glowColor: 'rgba(223, 254, 0, 0.15)', accentColor: '#DFFE00' },
+    Okay: { glowColor: 'rgba(255, 255, 255, 0.05)', accentColor: 'rgba(255, 255, 255, 0.7)' },
+    Lonely: { glowColor: 'rgba(59, 130, 246, 0.15)', accentColor: '#3b82f6' },
+    Stressed: { glowColor: 'rgba(239, 68, 68, 0.15)', accentColor: '#ef4444' },
+    Tired: { glowColor: 'rgba(139, 92, 246, 0.15)', accentColor: '#8b5cf6' },
+    Excited: { glowColor: 'rgba(236, 72, 153, 0.15)', accentColor: '#ec4899' }
+  };
+
   const moodOptions = [
     { emoji: '😊', label: 'Happy', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
     { emoji: '😐', label: 'Okay', color: 'border-white/10 bg-white/5 text-slate-400 hover:text-white' },
@@ -122,7 +131,13 @@ const WellnessPage = () => {
   const advice = getCopingAdvice();
 
   return (
-    <div className="space-y-6 pb-24 font-outfit text-left text-white relative">
+    <div className="space-y-6 pb-24 font-outfit text-left text-white relative overflow-hidden">
+      
+      {/* Ambient Mood Glow */}
+      <div 
+        className="absolute -top-12 -left-12 w-80 h-80 rounded-full blur-[100px] pointer-events-none transition-all duration-1000 opacity-25" 
+        style={{ backgroundColor: moodThemes[mood]?.accentColor || '#DFFE00' }}
+      />
       
       {/* Toast Alert */}
       <AnimatePresence>
@@ -157,9 +172,10 @@ const WellnessPage = () => {
                     key={opt.label}
                     type="button"
                     onClick={() => setMood(opt.label)}
+                    style={isSelected ? { backgroundColor: moodThemes[opt.label].accentColor, color: '#000000', boxShadow: `0 4px 20px ${moodThemes[opt.label].glowColor}` } : {}}
                     className={`flex flex-col items-center p-3 rounded-2xl border text-center transition-all ${
                       isSelected
-                        ? 'bg-[#DFFE00] text-black border-transparent shadow-sm shadow-[#DFFE00]/10 font-bold scale-105'
+                        ? 'border-transparent font-bold scale-105'
                         : `${opt.color} hover:scale-[1.02]`
                     }`}
                   >

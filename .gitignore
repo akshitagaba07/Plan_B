@@ -40,3 +40,7 @@ Thumbs.db
 .env.local
 .env.*.local
 .gemini/
+.vercel
+plan_b.db
+plan_b.db-journal
+plan_b.db-wal

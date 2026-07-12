@@ -10,7 +10,10 @@ from ..auth import get_current_user
 router = APIRouter(prefix="/api/profile", tags=["Profiles"])
 
 # Upload directory setup
-UPLOAD_DIR = "static/profile_pics"
+if os.getenv("VERCEL"):
+    UPLOAD_DIR = "/tmp/static/profile_pics"
+else:
+    UPLOAD_DIR = "static/profile_pics"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.get("", response_model=ProfileResponse)
