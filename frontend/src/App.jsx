@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ChatProvider } from './context/ChatContext';
+import { MatchProvider } from './context/MatchContext';
 
 // Import Pages
 import Landing from './pages/Landing';
@@ -91,11 +92,13 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ChatProvider>
-          <Router>
-            <AppLayout />
-          </Router>
-        </ChatProvider>
+        <MatchProvider>
+          <ChatProvider>
+            <Router>
+              <AppLayout />
+            </Router>
+          </ChatProvider>
+        </MatchProvider>
       </AuthProvider>
     </ThemeProvider>
   );

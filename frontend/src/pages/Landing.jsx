@@ -299,6 +299,19 @@ const Landing = () => {
         >
 
 
+          {/* Badge — subtle context setter */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#DFFE00] animate-pulse" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
+              For when your usual people aren't around
+            </span>
+          </motion.div>
+
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl lg:text-[80px] font-syne font-extrabold leading-[0.95] uppercase tracking-tighter text-white">
             FIND YOUR <span className="text-neon-glow text-[#DFFE00] animate-pop-circle">CIRCLE.</span> <br />
@@ -307,7 +320,7 @@ const Landing = () => {
 
           {/* Subtitle */}
           <p className="text-slate-400 text-base md:text-lg font-medium leading-relaxed max-w-lg">
-            Combat isolation and find real-world wellness circles. Plan B matches you based on your vibes, location, interests, and emotional daily check-ins.
+            Away from family or friends? Plan B finds you the perfect partner for <em>anything</em> — a football match, coffee run, study session, or weekend adventure — based on your vibe, location, and interests.
           </p>
 
           {/* Gatekeeper / Path Selector (Wero-style Choice) */}
@@ -347,7 +360,7 @@ const Landing = () => {
             <CheckCircle2 className="h-4 w-4 text-[#DFFE00]" />
             <span>
               {activeRole === 'seeker' 
-                ? "Gain access to 200+ active communities, daily match cards, and direct AI icebreakers."
+                ? "Find a partner for anything — a workout, film, café, hike — even when your usual crew isn't around."
                 : "Host events, coordinate check-ins, build group channels, and grow your local network."}
             </span>
           </motion.div>
@@ -567,7 +580,7 @@ const Landing = () => {
             Ready to find your <span className="text-[#DFFE00]">circle?</span>
           </h2>
           <p className="text-slate-300 max-w-lg font-medium text-sm md:text-base leading-relaxed">
-            Create your account today, complete your profile details, check in your daily mood, and let our recommendation engine find your connections.
+            New city. Busy friends. Family far away. Whatever the reason — Plan B connects you with the right person to share any experience, anytime.
           </p>
           <Link to="/signup" className="btn-primary text-sm font-extrabold py-4 px-10 rounded-2xl shadow-xl uppercase tracking-wider">
             GET STARTED NOW

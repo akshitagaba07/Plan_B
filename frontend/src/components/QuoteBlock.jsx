@@ -211,7 +211,7 @@ export default function QuoteBlock() {
           transition={{ duration: 1.0, delay: 0.5, ease: 'easeOut' }}
           className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
         >
-          Because every great story needs the right people.
+          Because distance from family or friends shouldn't mean doing things alone.
         </motion.p>
 
       </div>
